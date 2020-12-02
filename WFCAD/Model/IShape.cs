@@ -23,6 +23,11 @@ namespace WFCAD {
         /// </summary>
         bool IsSelected { get; set; }
 
+        /// <summary>
+        /// 描画オプション
+        /// </summary>
+        Pen Option { get; set; }
+
         #endregion プロパティ
 
         #region メソッド
@@ -33,9 +38,13 @@ namespace WFCAD {
         void Draw(Graphics vGraphics);
 
         /// <summary>
+        /// 指定した座標が図形内に存在するか
+        /// </summary>
+        bool IsHit(Point vMouseLocation);
+
+        /// <summary>
         /// 複製します
         /// </summary>
-        /// <returns></returns>
         IShape DeepClone();
 
         #endregion メソッド

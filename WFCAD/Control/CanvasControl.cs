@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WFCAD {
@@ -39,6 +40,11 @@ namespace WFCAD {
         /// </summary>
         public IShape CurrentShape { get; set; }
 
+        /// <summary>
+        /// 描画色
+        /// </summary>
+        public Color Color { get; set; } = Color.Black;
+
         #endregion プロパティ
 
         #region メソッド
@@ -56,14 +62,52 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 図形を選択します
+        /// </summary>
+        public void SelectShape(Point vMouseLocation, bool vIsMultiple) {
+            bool wHasSelected = false;
+            foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
+                if (wHasSelected) {
+                    wShape.IsSelected = false;
+                } else {
+                    bool wIsHit = wShape.IsHit(vMouseLocation);
+                    if (vIsMultiple) {
+                        wShape.IsSelected = wShape.IsSelected || wIsHit;
+                    } else {
+                        wShape.IsSelected = wIsHit;
+                        if (wShape.IsSelected) {
+                            wHasSelected = true;
+                        }
+                    }
+                }
+                wShape.Option.Color = wShape.IsSelected ? Color.Blue : Color.Black;
+            }
+            this.Refresh();
+        }
+
+        /// <summary>
         /// 図形を追加します
         /// </summary>
         public void AddShape() {
             if (this.CurrentShape == null) return;
+
+            // 二点間の距離が10以下の図形は意図していないとみなして追加しない。
+            double wDistance = Utilities.GetDistance(this.MouseDownLocation, this.MouseUpLocation);
+            if (wDistance < 10) return;
+
             IShape wShape = this.CurrentShape.DeepClone();
             wShape.StartPoint = this.MouseDownLocation;
             wShape.EndPoint = this.MouseUpLocation;
+            wShape.Option = new Pen(this.Color);
             FShapes.Add(wShape);
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// 選択中の図形を削除します
+        /// </summary>
+        public void RemoveShopes() {
+            FShapes.RemoveAll(x => x.IsSelected);
             this.Refresh();
         }
 
@@ -71,13 +115,8 @@ namespace WFCAD {
         /// キャンバスをクリアします
         /// </summary>
         public void Clear() {
-            Image wOldImage = FPictureBox.Image;
-            FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
-            wOldImage?.Dispose();
-            using (var wGraphics = Graphics.FromImage(FPictureBox.Image)) {
-                wGraphics.FillRectangle(Brushes.White, new System.Drawing.Rectangle(0, 0, FPictureBox.Width, FPictureBox.Height));
-            }
-            this.FShapes.Clear();
+            FShapes.Clear();
+            this.Refresh();
         }
 
         #endregion メソッド

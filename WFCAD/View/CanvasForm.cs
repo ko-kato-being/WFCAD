@@ -15,6 +15,7 @@ namespace WFCAD {
             FCanvasControl = new CanvasControl(FPictureBox);
             this.buttonEllipse.Click += (sender, e) => FCanvasControl.CurrentShape = new Ellipse();
             this.buttonRectangle.Click += (sender, e) => FCanvasControl.CurrentShape = new Rectangle();
+            this.buttonLine.Click += (sender, e) => FCanvasControl.CurrentShape = new Line();
             this.buttonReset.Click += (sender, e) => FCanvasControl.Clear();
         }
 
@@ -25,7 +26,10 @@ namespace WFCAD {
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
             FCanvasControl.MouseUpLocation = e.Location;
             FCanvasControl.AddShape();
+            FCanvasControl.SelectShape(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
         }
-
+        private void buttonRemove_Click(object sender, System.EventArgs e) {
+            FCanvasControl.RemoveShopes();
+        }
     }
 }

@@ -34,6 +34,11 @@ namespace WFCAD {
         /// </summary>
         public bool IsSelected { get; set; }
 
+        /// <summary>
+        /// 描画オプション
+        /// </summary>
+        public Pen Option { get; set; }
+
         #endregion プロパティ
 
         #region メソッド
@@ -42,6 +47,11 @@ namespace WFCAD {
         /// 描画します
         /// </summary>
         public abstract void Draw(Graphics vGraphics);
+
+        /// <summary>
+        /// 指定した座標が図形内に存在するか
+        /// </summary>
+        public abstract bool IsHit(Point vMouseLocation);
 
         /// <summary>
         /// 複製します

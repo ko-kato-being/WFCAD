@@ -25,9 +25,11 @@
         private void InitializeComponent() {
             this.FPictureBox = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonRemove = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
             this.buttonRectangle = new System.Windows.Forms.Button();
             this.buttonEllipse = new System.Windows.Forms.Button();
+            this.buttonLine = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -46,6 +48,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonLine);
+            this.panel1.Controls.Add(this.buttonRemove);
             this.panel1.Controls.Add(this.buttonReset);
             this.panel1.Controls.Add(this.buttonRectangle);
             this.panel1.Controls.Add(this.buttonEllipse);
@@ -55,13 +59,24 @@
             this.panel1.Size = new System.Drawing.Size(548, 50);
             this.panel1.TabIndex = 1;
             // 
+            // buttonRemove
+            // 
+            this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonRemove.Location = new System.Drawing.Point(380, 12);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemove.TabIndex = 0;
+            this.buttonRemove.Text = "削除";
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+            // 
             // buttonReset
             // 
             this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonReset.Location = new System.Drawing.Point(461, 12);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 23);
-            this.buttonReset.TabIndex = 2;
+            this.buttonReset.TabIndex = 1;
             this.buttonReset.Text = "リセット";
             this.buttonReset.UseVisualStyleBackColor = true;
             // 
@@ -70,7 +85,7 @@
             this.buttonRectangle.Location = new System.Drawing.Point(93, 12);
             this.buttonRectangle.Name = "buttonRectangle";
             this.buttonRectangle.Size = new System.Drawing.Size(75, 23);
-            this.buttonRectangle.TabIndex = 1;
+            this.buttonRectangle.TabIndex = 2;
             this.buttonRectangle.Text = "矩形";
             this.buttonRectangle.UseVisualStyleBackColor = true;
             // 
@@ -79,9 +94,18 @@
             this.buttonEllipse.Location = new System.Drawing.Point(12, 12);
             this.buttonEllipse.Name = "buttonEllipse";
             this.buttonEllipse.Size = new System.Drawing.Size(75, 23);
-            this.buttonEllipse.TabIndex = 0;
+            this.buttonEllipse.TabIndex = 3;
             this.buttonEllipse.Text = "円";
             this.buttonEllipse.UseVisualStyleBackColor = true;
+            // 
+            // buttonLine
+            // 
+            this.buttonLine.Location = new System.Drawing.Point(174, 12);
+            this.buttonLine.Name = "buttonLine";
+            this.buttonLine.Size = new System.Drawing.Size(75, 23);
+            this.buttonLine.TabIndex = 4;
+            this.buttonLine.Text = "線";
+            this.buttonLine.UseVisualStyleBackColor = true;
             // 
             // CanvasForm
             // 
@@ -105,6 +129,8 @@
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.Button buttonRectangle;
         private System.Windows.Forms.Button buttonEllipse;
+        private System.Windows.Forms.Button buttonRemove;
+        private System.Windows.Forms.Button buttonLine;
     }
 }
 
