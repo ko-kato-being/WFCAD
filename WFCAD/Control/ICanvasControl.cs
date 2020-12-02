@@ -19,11 +19,6 @@ namespace WFCAD {
         Point MouseUpLocation { get; set; }
 
         /// <summary>
-        /// 現在の図形
-        /// </summary>
-        IShape CurrentShape { get; set; }
-
-        /// <summary>
         /// 描画色
         /// </summary>
         Color Color { get; set; }
@@ -45,7 +40,7 @@ namespace WFCAD {
         /// <summary>
         /// 図形を追加します
         /// </summary>
-        void AddShape();
+        void AddShape(IShape vShape);
 
         /// <summary>
         /// 選択中の図形を削除します

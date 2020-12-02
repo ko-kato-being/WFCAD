@@ -36,11 +36,6 @@ namespace WFCAD {
         public Point MouseUpLocation { get; set; }
 
         /// <summary>
-        /// 現在の図形
-        /// </summary>
-        public IShape CurrentShape { get; set; }
-
-        /// <summary>
         /// 描画色
         /// </summary>
         public Color Color { get; set; } = Color.Black;
@@ -88,14 +83,12 @@ namespace WFCAD {
         /// <summary>
         /// 図形を追加します
         /// </summary>
-        public void AddShape() {
-            if (this.CurrentShape == null) return;
-
+        public void AddShape(IShape vShape) {
             // 二点間の距離が10以下の図形は意図していないとみなして追加しない。
             double wDistance = Utilities.GetDistance(this.MouseDownLocation, this.MouseUpLocation);
             if (wDistance < 10) return;
 
-            IShape wShape = this.CurrentShape.DeepClone();
+            IShape wShape = vShape.DeepClone();
             wShape.StartPoint = this.MouseDownLocation;
             wShape.EndPoint = this.MouseUpLocation;
             wShape.Option = new Pen(this.Color);

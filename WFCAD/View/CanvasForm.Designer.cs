@@ -25,11 +25,12 @@
         private void InitializeComponent() {
             this.FPictureBox = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonLine = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.buttonReset = new System.Windows.Forms.Button();
             this.buttonRectangle = new System.Windows.Forms.Button();
             this.buttonEllipse = new System.Windows.Forms.Button();
-            this.buttonLine = new System.Windows.Forms.Button();
+            this.buttonSelect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -38,9 +39,10 @@
             // 
             this.FPictureBox.BackColor = System.Drawing.Color.White;
             this.FPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FPictureBox.Location = new System.Drawing.Point(0, 50);
+            this.FPictureBox.Location = new System.Drawing.Point(0, 75);
+            this.FPictureBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.FPictureBox.Name = "FPictureBox";
-            this.FPictureBox.Size = new System.Drawing.Size(548, 372);
+            this.FPictureBox.Size = new System.Drawing.Size(913, 558);
             this.FPictureBox.TabIndex = 0;
             this.FPictureBox.TabStop = false;
             this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
@@ -48,6 +50,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonSelect);
             this.panel1.Controls.Add(this.buttonLine);
             this.panel1.Controls.Add(this.buttonRemove);
             this.panel1.Controls.Add(this.buttonReset);
@@ -55,65 +58,81 @@
             this.panel1.Controls.Add(this.buttonEllipse);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(548, 50);
+            this.panel1.Size = new System.Drawing.Size(913, 75);
             this.panel1.TabIndex = 1;
+            // 
+            // buttonLine
+            // 
+            this.buttonLine.Location = new System.Drawing.Point(290, 18);
+            this.buttonLine.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.buttonLine.Name = "buttonLine";
+            this.buttonLine.Size = new System.Drawing.Size(125, 34);
+            this.buttonLine.TabIndex = 4;
+            this.buttonLine.Text = "線";
+            this.buttonLine.UseVisualStyleBackColor = true;
             // 
             // buttonRemove
             // 
             this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRemove.Location = new System.Drawing.Point(380, 12);
+            this.buttonRemove.Location = new System.Drawing.Point(633, 18);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemove.Size = new System.Drawing.Size(125, 34);
             this.buttonRemove.TabIndex = 0;
             this.buttonRemove.Text = "削除";
             this.buttonRemove.UseVisualStyleBackColor = true;
-            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
             // buttonReset
             // 
             this.buttonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonReset.Location = new System.Drawing.Point(461, 12);
+            this.buttonReset.Location = new System.Drawing.Point(768, 18);
+            this.buttonReset.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonReset.Name = "buttonReset";
-            this.buttonReset.Size = new System.Drawing.Size(75, 23);
+            this.buttonReset.Size = new System.Drawing.Size(125, 34);
             this.buttonReset.TabIndex = 1;
             this.buttonReset.Text = "リセット";
             this.buttonReset.UseVisualStyleBackColor = true;
             // 
             // buttonRectangle
             // 
-            this.buttonRectangle.Location = new System.Drawing.Point(93, 12);
+            this.buttonRectangle.Location = new System.Drawing.Point(155, 18);
+            this.buttonRectangle.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonRectangle.Name = "buttonRectangle";
-            this.buttonRectangle.Size = new System.Drawing.Size(75, 23);
+            this.buttonRectangle.Size = new System.Drawing.Size(125, 34);
             this.buttonRectangle.TabIndex = 2;
             this.buttonRectangle.Text = "矩形";
             this.buttonRectangle.UseVisualStyleBackColor = true;
             // 
             // buttonEllipse
             // 
-            this.buttonEllipse.Location = new System.Drawing.Point(12, 12);
+            this.buttonEllipse.Location = new System.Drawing.Point(20, 18);
+            this.buttonEllipse.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonEllipse.Name = "buttonEllipse";
-            this.buttonEllipse.Size = new System.Drawing.Size(75, 23);
+            this.buttonEllipse.Size = new System.Drawing.Size(125, 34);
             this.buttonEllipse.TabIndex = 3;
             this.buttonEllipse.Text = "円";
             this.buttonEllipse.UseVisualStyleBackColor = true;
             // 
-            // buttonLine
+            // buttonSelect
             // 
-            this.buttonLine.Location = new System.Drawing.Point(174, 12);
-            this.buttonLine.Name = "buttonLine";
-            this.buttonLine.Size = new System.Drawing.Size(75, 23);
-            this.buttonLine.TabIndex = 4;
-            this.buttonLine.Text = "線";
-            this.buttonLine.UseVisualStyleBackColor = true;
+            this.buttonSelect.Location = new System.Drawing.Point(425, 18);
+            this.buttonSelect.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.buttonSelect.Name = "buttonSelect";
+            this.buttonSelect.Size = new System.Drawing.Size(125, 34);
+            this.buttonSelect.TabIndex = 5;
+            this.buttonSelect.Text = "選択";
+            this.buttonSelect.UseVisualStyleBackColor = true;
             // 
             // CanvasForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 422);
+            this.ClientSize = new System.Drawing.Size(913, 633);
             this.Controls.Add(this.FPictureBox);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).EndInit();
@@ -131,6 +150,7 @@
         private System.Windows.Forms.Button buttonEllipse;
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.Button buttonLine;
+        private System.Windows.Forms.Button buttonSelect;
     }
 }
 
