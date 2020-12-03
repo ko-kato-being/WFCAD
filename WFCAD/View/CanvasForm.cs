@@ -15,12 +15,12 @@ namespace WFCAD {
         public CanvasForm() {
             InitializeComponent();
             FCanvasControl = new CanvasControl(FPictureBox);
-            this.buttonEllipse.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
-            this.buttonRectangle.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
-            this.buttonLine.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
-            this.buttonSelect.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShape(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
-            this.buttonRemove.Click += (sender, e) => FCanvasControl.RemoveShopes();
-            this.buttonReset.Click += (sender, e) => FCanvasControl.Clear();
+            this.FButtonEllipse.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
+            this.FButtonRectangle.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
+            this.FButtonLine.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
+            this.FButtonSelect.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShape(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
+            this.FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShopes();
+            this.FButtonReset.Click += (sender, e) => FCanvasControl.Clear();
         }
 
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
