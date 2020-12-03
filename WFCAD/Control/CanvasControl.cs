@@ -80,7 +80,6 @@ namespace WFCAD {
                         }
                     }
                 }
-                wShape.Option.Color = wShape.IsSelected ? Color.Blue : Color.Black;
             }
             this.Refresh();
         }
@@ -123,9 +122,7 @@ namespace WFCAD {
 
                 // 選択状態をスイッチします
                 wShape.IsSelected = false;
-                wShape.Option.Color = Color.Black;
                 wClone.IsSelected = true;
-                wClone.Option.Color = Color.Blue;
 
                 // 右下方向
                 var wMovingSize = new Size(10, 10);

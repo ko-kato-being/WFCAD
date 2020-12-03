@@ -6,6 +6,8 @@ namespace WFCAD {
     /// 図形クラス
     /// </summary>
     public abstract class Shape : IShape {
+        private bool FIsSelected;
+
 
         #region プロパティ
 
@@ -32,7 +34,14 @@ namespace WFCAD {
         /// <summary>
         /// 選択されているか
         /// </summary>
-        public bool IsSelected { get; set; }
+        public bool IsSelected {
+            get => FIsSelected;
+            set {
+                FIsSelected = value;
+                if (FIsSelected) this.Select();
+                else this.UnSelect();
+            }
+        }
 
         /// <summary>
         /// 描画オプション
@@ -52,6 +61,22 @@ namespace WFCAD {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public abstract bool IsHit(Point vMouseLocation);
+
+        /// <summary>
+        /// 選択状態にします
+        /// </summary>
+        protected void Select() {
+            if (this.Option == null) return;
+            this.Option.Color = Color.Blue;
+        }
+
+        /// <summary>
+        /// 選択状態を解除します
+        /// </summary>
+        protected void UnSelect() {
+            if (this.Option == null) return;
+            this.Option.Color = Color.Black;
+        }
 
         /// <summary>
         /// 複製します
