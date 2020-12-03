@@ -31,23 +31,27 @@
             this.FButtonUndo = new System.Windows.Forms.Button();
             this.FButtonRotate = new System.Windows.Forms.Button();
             this.FButtonClone = new System.Windows.Forms.Button();
-            this.FButtonSelect = new System.Windows.Forms.Button();
-            this.FButtonLine = new System.Windows.Forms.Button();
+            this.FButtonSelect = new System.Windows.Forms.RadioButton();
+            this.FButtonLine = new System.Windows.Forms.RadioButton();
             this.FButtonRemove = new System.Windows.Forms.Button();
             this.FButtonReset = new System.Windows.Forms.Button();
-            this.FButtonRectangle = new System.Windows.Forms.Button();
-            this.FButtonEllipse = new System.Windows.Forms.Button();
+            this.FButtonRectangle = new System.Windows.Forms.RadioButton();
+            this.FButtonEllipse = new System.Windows.Forms.RadioButton();
+            this.FGroupBoxMode = new System.Windows.Forms.GroupBox();
+            this.FGroupBoxAction = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
             this.FTopPanel.SuspendLayout();
+            this.FGroupBoxMode.SuspendLayout();
+            this.FGroupBoxAction.SuspendLayout();
             this.SuspendLayout();
             // 
             // FPictureBox
             // 
             this.FPictureBox.BackColor = System.Drawing.Color.White;
             this.FPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FPictureBox.Location = new System.Drawing.Point(0, 107);
+            this.FPictureBox.Location = new System.Drawing.Point(0, 177);
             this.FPictureBox.Name = "FPictureBox";
-            this.FPictureBox.Size = new System.Drawing.Size(548, 315);
+            this.FPictureBox.Size = new System.Drawing.Size(556, 319);
             this.FPictureBox.TabIndex = 0;
             this.FPictureBox.TabStop = false;
             this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
@@ -56,28 +60,18 @@
             // FTopPanel
             // 
             this.FTopPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FTopPanel.Controls.Add(this.FButtonForeground);
-            this.FTopPanel.Controls.Add(this.FButtonBackground);
-            this.FTopPanel.Controls.Add(this.FButtonRedo);
-            this.FTopPanel.Controls.Add(this.FButtonUndo);
-            this.FTopPanel.Controls.Add(this.FButtonRotate);
-            this.FTopPanel.Controls.Add(this.FButtonClone);
-            this.FTopPanel.Controls.Add(this.FButtonSelect);
-            this.FTopPanel.Controls.Add(this.FButtonLine);
-            this.FTopPanel.Controls.Add(this.FButtonRemove);
-            this.FTopPanel.Controls.Add(this.FButtonReset);
-            this.FTopPanel.Controls.Add(this.FButtonRectangle);
-            this.FTopPanel.Controls.Add(this.FButtonEllipse);
+            this.FTopPanel.Controls.Add(this.FGroupBoxAction);
+            this.FTopPanel.Controls.Add(this.FGroupBoxMode);
             this.FTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.FTopPanel.Location = new System.Drawing.Point(0, 0);
             this.FTopPanel.Name = "FTopPanel";
-            this.FTopPanel.Size = new System.Drawing.Size(548, 107);
+            this.FTopPanel.Size = new System.Drawing.Size(556, 177);
             this.FTopPanel.TabIndex = 0;
             // 
             // FButtonForeground
             // 
             this.FButtonForeground.Enabled = false;
-            this.FButtonForeground.Location = new System.Drawing.Point(174, 41);
+            this.FButtonForeground.Location = new System.Drawing.Point(168, 18);
             this.FButtonForeground.Name = "FButtonForeground";
             this.FButtonForeground.Size = new System.Drawing.Size(75, 23);
             this.FButtonForeground.TabIndex = 6;
@@ -87,7 +81,7 @@
             // FButtonBackground
             // 
             this.FButtonBackground.Enabled = false;
-            this.FButtonBackground.Location = new System.Drawing.Point(255, 41);
+            this.FButtonBackground.Location = new System.Drawing.Point(249, 18);
             this.FButtonBackground.Name = "FButtonBackground";
             this.FButtonBackground.Size = new System.Drawing.Size(75, 23);
             this.FButtonBackground.TabIndex = 7;
@@ -97,7 +91,7 @@
             // FButtonRedo
             // 
             this.FButtonRedo.Enabled = false;
-            this.FButtonRedo.Location = new System.Drawing.Point(93, 70);
+            this.FButtonRedo.Location = new System.Drawing.Point(87, 47);
             this.FButtonRedo.Name = "FButtonRedo";
             this.FButtonRedo.Size = new System.Drawing.Size(75, 23);
             this.FButtonRedo.TabIndex = 9;
@@ -107,7 +101,7 @@
             // FButtonUndo
             // 
             this.FButtonUndo.Enabled = false;
-            this.FButtonUndo.Location = new System.Drawing.Point(12, 70);
+            this.FButtonUndo.Location = new System.Drawing.Point(6, 47);
             this.FButtonUndo.Name = "FButtonUndo";
             this.FButtonUndo.Size = new System.Drawing.Size(75, 23);
             this.FButtonUndo.TabIndex = 8;
@@ -117,7 +111,7 @@
             // FButtonRotate
             // 
             this.FButtonRotate.Enabled = false;
-            this.FButtonRotate.Location = new System.Drawing.Point(93, 41);
+            this.FButtonRotate.Location = new System.Drawing.Point(87, 18);
             this.FButtonRotate.Name = "FButtonRotate";
             this.FButtonRotate.Size = new System.Drawing.Size(75, 23);
             this.FButtonRotate.TabIndex = 5;
@@ -127,7 +121,7 @@
             // FButtonClone
             // 
             this.FButtonClone.Enabled = false;
-            this.FButtonClone.Location = new System.Drawing.Point(12, 41);
+            this.FButtonClone.Location = new System.Drawing.Point(6, 18);
             this.FButtonClone.Name = "FButtonClone";
             this.FButtonClone.Size = new System.Drawing.Size(75, 23);
             this.FButtonClone.TabIndex = 4;
@@ -136,26 +130,29 @@
             // 
             // FButtonSelect
             // 
-            this.FButtonSelect.Location = new System.Drawing.Point(255, 12);
+            this.FButtonSelect.Appearance = System.Windows.Forms.Appearance.Button;
+            this.FButtonSelect.Location = new System.Drawing.Point(6, 18);
             this.FButtonSelect.Name = "FButtonSelect";
             this.FButtonSelect.Size = new System.Drawing.Size(75, 23);
             this.FButtonSelect.TabIndex = 3;
             this.FButtonSelect.Text = "選択";
+            this.FButtonSelect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonSelect.UseVisualStyleBackColor = true;
             // 
             // FButtonLine
             // 
-            this.FButtonLine.Location = new System.Drawing.Point(174, 12);
+            this.FButtonLine.Appearance = System.Windows.Forms.Appearance.Button;
+            this.FButtonLine.Location = new System.Drawing.Point(249, 18);
             this.FButtonLine.Name = "FButtonLine";
             this.FButtonLine.Size = new System.Drawing.Size(75, 23);
             this.FButtonLine.TabIndex = 2;
             this.FButtonLine.Text = "線";
+            this.FButtonLine.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonLine.UseVisualStyleBackColor = true;
             // 
             // FButtonRemove
             // 
-            this.FButtonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.FButtonRemove.Location = new System.Drawing.Point(172, 70);
+            this.FButtonRemove.Location = new System.Drawing.Point(168, 47);
             this.FButtonRemove.Name = "FButtonRemove";
             this.FButtonRemove.Size = new System.Drawing.Size(75, 23);
             this.FButtonRemove.TabIndex = 10;
@@ -164,8 +161,7 @@
             // 
             // FButtonReset
             // 
-            this.FButtonReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.FButtonReset.Location = new System.Drawing.Point(253, 70);
+            this.FButtonReset.Location = new System.Drawing.Point(249, 47);
             this.FButtonReset.Name = "FButtonReset";
             this.FButtonReset.Size = new System.Drawing.Size(75, 23);
             this.FButtonReset.TabIndex = 11;
@@ -174,33 +170,71 @@
             // 
             // FButtonRectangle
             // 
-            this.FButtonRectangle.Location = new System.Drawing.Point(93, 12);
+            this.FButtonRectangle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.FButtonRectangle.Location = new System.Drawing.Point(87, 18);
             this.FButtonRectangle.Name = "FButtonRectangle";
             this.FButtonRectangle.Size = new System.Drawing.Size(75, 23);
             this.FButtonRectangle.TabIndex = 1;
             this.FButtonRectangle.Text = "矩形";
+            this.FButtonRectangle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonRectangle.UseVisualStyleBackColor = true;
             // 
             // FButtonEllipse
             // 
-            this.FButtonEllipse.Location = new System.Drawing.Point(12, 12);
+            this.FButtonEllipse.Appearance = System.Windows.Forms.Appearance.Button;
+            this.FButtonEllipse.Location = new System.Drawing.Point(168, 18);
             this.FButtonEllipse.Name = "FButtonEllipse";
             this.FButtonEllipse.Size = new System.Drawing.Size(75, 23);
             this.FButtonEllipse.TabIndex = 0;
             this.FButtonEllipse.Text = "円";
+            this.FButtonEllipse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonEllipse.UseVisualStyleBackColor = true;
+            // 
+            // FGroupBoxMode
+            // 
+            this.FGroupBoxMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FGroupBoxMode.Controls.Add(this.FButtonEllipse);
+            this.FGroupBoxMode.Controls.Add(this.FButtonRectangle);
+            this.FGroupBoxMode.Controls.Add(this.FButtonLine);
+            this.FGroupBoxMode.Controls.Add(this.FButtonSelect);
+            this.FGroupBoxMode.Location = new System.Drawing.Point(11, 11);
+            this.FGroupBoxMode.Name = "FGroupBoxMode";
+            this.FGroupBoxMode.Size = new System.Drawing.Size(532, 56);
+            this.FGroupBoxMode.TabIndex = 12;
+            this.FGroupBoxMode.TabStop = false;
+            // 
+            // FGroupBoxAction
+            // 
+            this.FGroupBoxAction.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FGroupBoxAction.Controls.Add(this.FButtonClone);
+            this.FGroupBoxAction.Controls.Add(this.FButtonRotate);
+            this.FGroupBoxAction.Controls.Add(this.FButtonReset);
+            this.FGroupBoxAction.Controls.Add(this.FButtonRemove);
+            this.FGroupBoxAction.Controls.Add(this.FButtonRedo);
+            this.FGroupBoxAction.Controls.Add(this.FButtonBackground);
+            this.FGroupBoxAction.Controls.Add(this.FButtonUndo);
+            this.FGroupBoxAction.Controls.Add(this.FButtonForeground);
+            this.FGroupBoxAction.Location = new System.Drawing.Point(11, 74);
+            this.FGroupBoxAction.Name = "FGroupBoxAction";
+            this.FGroupBoxAction.Size = new System.Drawing.Size(532, 84);
+            this.FGroupBoxAction.TabIndex = 13;
+            this.FGroupBoxAction.TabStop = false;
             // 
             // CanvasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 422);
+            this.ClientSize = new System.Drawing.Size(556, 496);
             this.Controls.Add(this.FPictureBox);
             this.Controls.Add(this.FTopPanel);
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).EndInit();
             this.FTopPanel.ResumeLayout(false);
+            this.FGroupBoxMode.ResumeLayout(false);
+            this.FGroupBoxAction.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -210,17 +244,19 @@
         private System.Windows.Forms.PictureBox FPictureBox;
         private System.Windows.Forms.Panel FTopPanel;
         private System.Windows.Forms.Button FButtonReset;
-        private System.Windows.Forms.Button FButtonRectangle;
-        private System.Windows.Forms.Button FButtonEllipse;
+        private System.Windows.Forms.RadioButton FButtonRectangle;
+        private System.Windows.Forms.RadioButton FButtonEllipse;
         private System.Windows.Forms.Button FButtonRemove;
-        private System.Windows.Forms.Button FButtonLine;
-        private System.Windows.Forms.Button FButtonSelect;
+        private System.Windows.Forms.RadioButton FButtonLine;
+        private System.Windows.Forms.RadioButton FButtonSelect;
         private System.Windows.Forms.Button FButtonForeground;
         private System.Windows.Forms.Button FButtonBackground;
         private System.Windows.Forms.Button FButtonRedo;
         private System.Windows.Forms.Button FButtonUndo;
         private System.Windows.Forms.Button FButtonRotate;
         private System.Windows.Forms.Button FButtonClone;
+        private System.Windows.Forms.GroupBox FGroupBoxAction;
+        private System.Windows.Forms.GroupBox FGroupBoxMode;
     }
 }
 
