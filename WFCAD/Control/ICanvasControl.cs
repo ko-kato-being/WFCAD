@@ -19,6 +19,11 @@ namespace WFCAD {
         Point MouseUpLocation { get; set; }
 
         /// <summary>
+        /// 現在のマウスカーソル位置
+        /// </summary>
+        Point CurrentMouseLocation { get; set; }
+
+        /// <summary>
         /// 描画色
         /// </summary>
         Color Color { get; set; }
@@ -43,9 +48,14 @@ namespace WFCAD {
         void AddShape(IShape vShape);
 
         /// <summary>
+        /// 図形を移動します
+        /// </summary>
+        void MoveShapes(Point vMouseLocation);
+
+        /// <summary>
         /// 選択中の図形を削除します
         /// </summary>
-        void RemoveShopes();
+        void RemoveShapes();
 
         /// <summary>
         /// キャンバスをクリアします

@@ -36,6 +36,11 @@ namespace WFCAD {
         public Point MouseUpLocation { get; set; }
 
         /// <summary>
+        /// 現在のマウスカーソル位置
+        /// </summary>
+        public Point CurrentMouseLocation { get; set; }
+
+        /// <summary>
         /// 描画色
         /// </summary>
         public Color Color { get; set; } = Color.Black;
@@ -97,9 +102,22 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 図形を移動します
+        /// </summary>
+        public void MoveShapes(Point vMouseLocation) {
+            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                var wMovingSize = new Size(vMouseLocation.X - this.CurrentMouseLocation.X, vMouseLocation.Y - this.CurrentMouseLocation.Y);
+                wShape.StartPoint += wMovingSize;
+                wShape.EndPoint += wMovingSize;
+            }
+            this.CurrentMouseLocation = vMouseLocation;
+            this.Refresh();
+        }
+
+        /// <summary>
         /// 選択中の図形を削除します
         /// </summary>
-        public void RemoveShopes() {
+        public void RemoveShapes() {
             FShapes.RemoveAll(x => x.IsSelected);
             this.Refresh();
         }

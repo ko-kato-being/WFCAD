@@ -55,6 +55,7 @@
             this.FPictureBox.TabIndex = 0;
             this.FPictureBox.TabStop = false;
             this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
+            this.FPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
             this.FPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
             // 
             // FTopPanel
