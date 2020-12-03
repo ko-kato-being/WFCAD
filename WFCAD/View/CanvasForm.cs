@@ -25,7 +25,6 @@ namespace WFCAD {
 
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
             FCanvasControl.MouseDownLocation = e.Location;
-            FCanvasControl.CurrentMouseLocation = e.Location;
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
@@ -34,8 +33,10 @@ namespace WFCAD {
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
-            if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-            FCanvasControl.MoveShapes(e.Location);
+            if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) {
+                FCanvasControl.MoveShapes(e.Location);
+            }
+            FCanvasControl.CurrentMouseLocation = e.Location;
         }
     }
 }

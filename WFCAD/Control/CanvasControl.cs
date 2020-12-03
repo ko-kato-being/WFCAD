@@ -110,7 +110,6 @@ namespace WFCAD {
                 wShape.StartPoint += wMovingSize;
                 wShape.EndPoint += wMovingSize;
             }
-            this.CurrentMouseLocation = vMouseLocation;
             this.Refresh();
         }
 
