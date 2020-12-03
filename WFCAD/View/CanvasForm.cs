@@ -15,12 +15,13 @@ namespace WFCAD {
         public CanvasForm() {
             InitializeComponent();
             FCanvasControl = new CanvasControl(FPictureBox);
-            this.FButtonEllipse.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
-            this.FButtonRectangle.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
-            this.FButtonLine.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
-            this.FButtonSelect.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShape(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
-            this.FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
-            this.FButtonReset.Click += (sender, e) => FCanvasControl.Clear();
+            FButtonEllipse.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
+            FButtonRectangle.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
+            FButtonLine.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
+            FButtonSelect.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
+            FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
+            FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
+            FButtonReset.Click += (sender, e) => FCanvasControl.Clear();
         }
 
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
@@ -34,6 +35,7 @@ namespace WFCAD {
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) {
+                // マウスの左ボタンクリック時は図形を移動する
                 FCanvasControl.MoveShapes(e.Location);
             }
             FCanvasControl.CurrentMouseLocation = e.Location;

@@ -64,7 +64,7 @@ namespace WFCAD {
         /// <summary>
         /// 図形を選択します
         /// </summary>
-        public void SelectShape(Point vMouseLocation, bool vIsMultiple) {
+        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
             bool wHasSelected = false;
             foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
                 if (wHasSelected) {
@@ -110,6 +110,30 @@ namespace WFCAD {
                 wShape.StartPoint += wMovingSize;
                 wShape.EndPoint += wMovingSize;
             }
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// 図形を複製します
+        /// </summary>
+        public void CloneShapes() {
+            var wClonedShapes = new List<IShape>();
+            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                IShape wClone = wShape.DeepClone();
+
+                // 選択状態をスイッチします
+                wShape.IsSelected = false;
+                wShape.Option.Color = Color.Black;
+                wClone.IsSelected = true;
+                wClone.Option.Color = Color.Blue;
+
+                // 右下方向
+                var wMovingSize = new Size(10, 10);
+                wClone.StartPoint += wMovingSize;
+                wClone.EndPoint += wMovingSize;
+                wClonedShapes.Add(wClone);
+            }
+            FShapes.AddRange(wClonedShapes);
             this.Refresh();
         }
 

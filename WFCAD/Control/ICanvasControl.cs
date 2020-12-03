@@ -40,7 +40,7 @@ namespace WFCAD {
         /// <summary>
         /// 図形を選択します
         /// </summary>
-        void SelectShape(Point vMouseLocation, bool vIsMultiple);
+        void SelectShapes(Point vMouseLocation, bool vIsMultiple);
 
         /// <summary>
         /// 図形を追加します
@@ -51,6 +51,11 @@ namespace WFCAD {
         /// 図形を移動します
         /// </summary>
         void MoveShapes(Point vMouseLocation);
+
+        /// <summary>
+        /// 図形を複製します
+        /// </summary>
+        void CloneShapes();
 
         /// <summary>
         /// 選択中の図形を削除します

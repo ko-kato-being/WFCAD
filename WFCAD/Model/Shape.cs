@@ -61,6 +61,7 @@ namespace WFCAD {
             wShape.StartPoint = this.StartPoint;
             wShape.EndPoint = this.EndPoint;
             wShape.IsSelected = this.IsSelected;
+            wShape.Option = (Pen)this.Option?.Clone();
             return wShape;
         }
 
