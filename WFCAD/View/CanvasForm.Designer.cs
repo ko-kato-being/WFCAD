@@ -23,7 +23,7 @@
         /// コード エディターで変更しないでください。
         /// </summary>
         private void InitializeComponent() {
-            this.FPictureBox = new System.Windows.Forms.PictureBox();
+            this.FMainPictureBox = new System.Windows.Forms.PictureBox();
             this.FTopPanel = new System.Windows.Forms.Panel();
             this.FGroupBoxAction = new System.Windows.Forms.GroupBox();
             this.FButtonClone = new System.Windows.Forms.Button();
@@ -39,24 +39,24 @@
             this.FButtonRectangle = new System.Windows.Forms.RadioButton();
             this.FButtonLine = new System.Windows.Forms.RadioButton();
             this.FButtonSelect = new System.Windows.Forms.RadioButton();
-            ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
             this.FTopPanel.SuspendLayout();
             this.FGroupBoxAction.SuspendLayout();
             this.FGroupBoxMode.SuspendLayout();
             this.SuspendLayout();
             // 
-            // FPictureBox
+            // FMainPictureBox
             // 
-            this.FPictureBox.BackColor = System.Drawing.Color.White;
-            this.FPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FPictureBox.Location = new System.Drawing.Point(0, 177);
-            this.FPictureBox.Name = "FPictureBox";
-            this.FPictureBox.Size = new System.Drawing.Size(556, 319);
-            this.FPictureBox.TabIndex = 0;
-            this.FPictureBox.TabStop = false;
-            this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
-            this.FPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
-            this.FPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
+            this.FMainPictureBox.BackColor = System.Drawing.Color.White;
+            this.FMainPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FMainPictureBox.Location = new System.Drawing.Point(0, 177);
+            this.FMainPictureBox.Name = "FMainPictureBox";
+            this.FMainPictureBox.Size = new System.Drawing.Size(556, 319);
+            this.FMainPictureBox.TabIndex = 0;
+            this.FMainPictureBox.TabStop = false;
+            this.FMainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
+            this.FMainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
+            this.FMainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
             // 
             // FTopPanel
             // 
@@ -227,11 +227,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(556, 496);
-            this.Controls.Add(this.FPictureBox);
+            this.Controls.Add(this.FMainPictureBox);
             this.Controls.Add(this.FTopPanel);
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
-            ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).EndInit();
             this.FTopPanel.ResumeLayout(false);
             this.FGroupBoxAction.ResumeLayout(false);
             this.FGroupBoxMode.ResumeLayout(false);
@@ -241,7 +241,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox FPictureBox;
+        private System.Windows.Forms.PictureBox FMainPictureBox;
         private System.Windows.Forms.Panel FTopPanel;
         private System.Windows.Forms.Button FButtonReset;
         private System.Windows.Forms.RadioButton FButtonRectangle;

@@ -8,7 +8,8 @@ namespace WFCAD {
     /// キャンバスコントロール
     /// </summary>
     public class CanvasControl : ICanvasControl {
-        private readonly PictureBox FPictureBox;
+        private readonly PictureBox FMainPictureBox;
+        private readonly PictureBox FSubPictureBox;
         private List<IShape> FShapes;
 
         #region コンストラクタ
@@ -16,9 +17,13 @@ namespace WFCAD {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CanvasControl(PictureBox vPictureBox) {
+        public CanvasControl(PictureBox vMainPictureBox) {
             FShapes = new List<IShape>();
-            FPictureBox = vPictureBox;
+            FMainPictureBox = vMainPictureBox;
+            FSubPictureBox = new PictureBox();
+            FSubPictureBox.BackColor = Color.Transparent;
+            FSubPictureBox.Dock = DockStyle.Fill;
+            FMainPictureBox.Controls.Add(FSubPictureBox);
         }
 
         #endregion コンストラクタ
@@ -53,10 +58,10 @@ namespace WFCAD {
         /// 再描画します
         /// </summary>
         public void Refresh() {
-            Image wOldImage = FPictureBox.Image;
-            FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
+            Image wOldImage = FMainPictureBox.Image;
+            FMainPictureBox.Image = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height);
             wOldImage?.Dispose();
-            using (var wGraphics = Graphics.FromImage(FPictureBox.Image)) {
+            using (var wGraphics = Graphics.FromImage(FMainPictureBox.Image)) {
                 this.FShapes.ForEach(x => x.Draw(wGraphics));
             }
         }
@@ -80,6 +85,26 @@ namespace WFCAD {
                         }
                     }
                 }
+            }
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// 図形のプレビューを表示します
+        /// </summary>
+        public void ShowPreview(IShape vShape, Point vMouseLocation) {
+            return;
+            IShape wShape = vShape.DeepClone();
+            wShape.StartPoint = this.MouseDownLocation;
+            wShape.EndPoint = vMouseLocation;
+            wShape.Option = new Pen(this.Color);
+            Image wOldImage = FSubPictureBox.Image;
+            var wBitmap = new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height);
+            wBitmap.MakeTransparent();
+            FSubPictureBox.Image = wBitmap;
+            wOldImage?.Dispose();
+            using (var wGraphics = Graphics.FromImage(FSubPictureBox.Image)) {
+                wShape.Draw(wGraphics);
             }
             this.Refresh();
         }

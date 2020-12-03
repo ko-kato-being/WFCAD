@@ -43,6 +43,11 @@ namespace WFCAD {
         void SelectShapes(Point vMouseLocation, bool vIsMultiple);
 
         /// <summary>
+        /// 図形のプレビューを表示します
+        /// </summary>
+        void ShowPreview(IShape vShape, Point vMouseLocation);
+
+        /// <summary>
         /// 図形を追加します
         /// </summary>
         void AddShape(IShape vShape);

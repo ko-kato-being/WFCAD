@@ -8,17 +8,43 @@ namespace WFCAD {
     public partial class CanvasForm : Form {
         private readonly ICanvasControl FCanvasControl;
         private Action<MouseEventArgs> FMouseUpAction;
+        private Action<MouseEventArgs> FMouseMoveAction;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvasControl = new CanvasControl(FPictureBox);
-            FButtonEllipse.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
-            FButtonRectangle.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
-            FButtonLine.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
-            FButtonSelect.Click += (sender, e) => FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
+            FCanvasControl = new CanvasControl(FMainPictureBox);
+            FButtonEllipse.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.ShowPreview(new Ellipse(), vMouseEventArgs.Location);
+                };
+            };
+            FButtonRectangle.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.ShowPreview(new Rectangle(), vMouseEventArgs.Location);
+                };
+            };
+            FButtonLine.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.ShowPreview(new Line(), vMouseEventArgs.Location);
+                };
+            };
+            FButtonSelect.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.MoveShapes(vMouseEventArgs.Location);
+                };
+            };
+
             FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
             FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
             FButtonReset.Click += (sender, e) => FCanvasControl.Clear();
@@ -34,10 +60,7 @@ namespace WFCAD {
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
-            if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) {
-                // マウスの左ボタンクリック時は図形を移動する
-                FCanvasControl.MoveShapes(e.Location);
-            }
+            FMouseMoveAction?.Invoke(e);
             FCanvasControl.CurrentMouseLocation = e.Location;
         }
     }
