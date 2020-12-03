@@ -74,7 +74,7 @@
             this.FButtonForeground.Location = new System.Drawing.Point(168, 18);
             this.FButtonForeground.Name = "FButtonForeground";
             this.FButtonForeground.Size = new System.Drawing.Size(75, 23);
-            this.FButtonForeground.TabIndex = 6;
+            this.FButtonForeground.TabIndex = 2;
             this.FButtonForeground.Text = "最前面";
             this.FButtonForeground.UseVisualStyleBackColor = true;
             // 
@@ -84,7 +84,7 @@
             this.FButtonBackground.Location = new System.Drawing.Point(249, 18);
             this.FButtonBackground.Name = "FButtonBackground";
             this.FButtonBackground.Size = new System.Drawing.Size(75, 23);
-            this.FButtonBackground.TabIndex = 7;
+            this.FButtonBackground.TabIndex = 3;
             this.FButtonBackground.Text = "最背面";
             this.FButtonBackground.UseVisualStyleBackColor = true;
             // 
@@ -94,7 +94,7 @@
             this.FButtonRedo.Location = new System.Drawing.Point(87, 47);
             this.FButtonRedo.Name = "FButtonRedo";
             this.FButtonRedo.Size = new System.Drawing.Size(75, 23);
-            this.FButtonRedo.TabIndex = 9;
+            this.FButtonRedo.TabIndex = 5;
             this.FButtonRedo.Text = "Redo";
             this.FButtonRedo.UseVisualStyleBackColor = true;
             // 
@@ -104,7 +104,7 @@
             this.FButtonUndo.Location = new System.Drawing.Point(6, 47);
             this.FButtonUndo.Name = "FButtonUndo";
             this.FButtonUndo.Size = new System.Drawing.Size(75, 23);
-            this.FButtonUndo.TabIndex = 8;
+            this.FButtonUndo.TabIndex = 4;
             this.FButtonUndo.Text = "Undo";
             this.FButtonUndo.UseVisualStyleBackColor = true;
             // 
@@ -114,7 +114,7 @@
             this.FButtonRotate.Location = new System.Drawing.Point(87, 18);
             this.FButtonRotate.Name = "FButtonRotate";
             this.FButtonRotate.Size = new System.Drawing.Size(75, 23);
-            this.FButtonRotate.TabIndex = 5;
+            this.FButtonRotate.TabIndex = 1;
             this.FButtonRotate.Text = "回転";
             this.FButtonRotate.UseVisualStyleBackColor = true;
             // 
@@ -124,7 +124,7 @@
             this.FButtonClone.Location = new System.Drawing.Point(6, 18);
             this.FButtonClone.Name = "FButtonClone";
             this.FButtonClone.Size = new System.Drawing.Size(75, 23);
-            this.FButtonClone.TabIndex = 4;
+            this.FButtonClone.TabIndex = 0;
             this.FButtonClone.Text = "複製";
             this.FButtonClone.UseVisualStyleBackColor = true;
             // 
@@ -134,7 +134,7 @@
             this.FButtonSelect.Location = new System.Drawing.Point(6, 18);
             this.FButtonSelect.Name = "FButtonSelect";
             this.FButtonSelect.Size = new System.Drawing.Size(75, 23);
-            this.FButtonSelect.TabIndex = 3;
+            this.FButtonSelect.TabIndex = 0;
             this.FButtonSelect.Text = "選択";
             this.FButtonSelect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonSelect.UseVisualStyleBackColor = true;
@@ -145,7 +145,7 @@
             this.FButtonLine.Location = new System.Drawing.Point(249, 18);
             this.FButtonLine.Name = "FButtonLine";
             this.FButtonLine.Size = new System.Drawing.Size(75, 23);
-            this.FButtonLine.TabIndex = 2;
+            this.FButtonLine.TabIndex = 3;
             this.FButtonLine.Text = "線";
             this.FButtonLine.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonLine.UseVisualStyleBackColor = true;
@@ -155,7 +155,7 @@
             this.FButtonRemove.Location = new System.Drawing.Point(168, 47);
             this.FButtonRemove.Name = "FButtonRemove";
             this.FButtonRemove.Size = new System.Drawing.Size(75, 23);
-            this.FButtonRemove.TabIndex = 10;
+            this.FButtonRemove.TabIndex = 6;
             this.FButtonRemove.Text = "削除";
             this.FButtonRemove.UseVisualStyleBackColor = true;
             // 
@@ -164,7 +164,7 @@
             this.FButtonReset.Location = new System.Drawing.Point(249, 47);
             this.FButtonReset.Name = "FButtonReset";
             this.FButtonReset.Size = new System.Drawing.Size(75, 23);
-            this.FButtonReset.TabIndex = 11;
+            this.FButtonReset.TabIndex = 7;
             this.FButtonReset.Text = "リセット";
             this.FButtonReset.UseVisualStyleBackColor = true;
             // 
@@ -185,7 +185,7 @@
             this.FButtonEllipse.Location = new System.Drawing.Point(168, 18);
             this.FButtonEllipse.Name = "FButtonEllipse";
             this.FButtonEllipse.Size = new System.Drawing.Size(75, 23);
-            this.FButtonEllipse.TabIndex = 0;
+            this.FButtonEllipse.TabIndex = 2;
             this.FButtonEllipse.Text = "円";
             this.FButtonEllipse.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.FButtonEllipse.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@
             this.FGroupBoxMode.Location = new System.Drawing.Point(11, 11);
             this.FGroupBoxMode.Name = "FGroupBoxMode";
             this.FGroupBoxMode.Size = new System.Drawing.Size(532, 56);
-            this.FGroupBoxMode.TabIndex = 12;
+            this.FGroupBoxMode.TabIndex = 0;
             this.FGroupBoxMode.TabStop = false;
             // 
             // FGroupBoxAction
@@ -219,7 +219,7 @@
             this.FGroupBoxAction.Location = new System.Drawing.Point(11, 74);
             this.FGroupBoxAction.Name = "FGroupBoxAction";
             this.FGroupBoxAction.Size = new System.Drawing.Size(532, 84);
-            this.FGroupBoxAction.TabIndex = 13;
+            this.FGroupBoxAction.TabIndex = 1;
             this.FGroupBoxAction.TabStop = false;
             // 
             // CanvasForm
