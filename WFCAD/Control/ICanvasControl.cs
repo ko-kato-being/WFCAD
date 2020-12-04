@@ -58,6 +58,16 @@ namespace WFCAD {
         void MoveShapes(Point vMouseLocation);
 
         /// <summary>
+        /// 図形を最前面に移動します
+        /// </summary>
+        void MoveToFrontShapes();
+
+        /// <summary>
+        /// 図形を最背面に移動します
+        /// </summary>
+        void MoveToBackShapes();
+
+        /// <summary>
         /// 図形を複製します
         /// </summary>
         void CloneShapes();

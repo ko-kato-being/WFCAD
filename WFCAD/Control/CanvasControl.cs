@@ -139,6 +139,22 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 図形を最前面に移動します
+        /// </summary>
+        public void MoveToFrontShapes() {
+            FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// 図形を最背面に移動します
+        /// </summary>
+        public void MoveToBackShapes() {
+            FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
+            this.Refresh();
+        }
+
+        /// <summary>
         /// 図形を複製します
         /// </summary>
         public void CloneShapes() {

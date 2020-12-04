@@ -51,6 +51,10 @@ namespace WFCAD {
                     FCanvasControl.ShowPreview(new Line(), vMouseEventArgs.Location);
                 };
             };
+            // 最前面に移動
+            FButtonForeground.Click += (sender, e) => FCanvasControl.MoveToFrontShapes();
+            // 最背面に移動
+            FButtonBackground.Click += (sender, e) => FCanvasControl.MoveToBackShapes();
             // 複製ボタン
             FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
             // 削除ボタン

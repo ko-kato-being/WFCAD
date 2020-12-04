@@ -148,7 +148,6 @@
             // 
             // FButtonBackground
             // 
-            this.FButtonBackground.Enabled = false;
             this.FButtonBackground.Location = new System.Drawing.Point(249, 18);
             this.FButtonBackground.Name = "FButtonBackground";
             this.FButtonBackground.Size = new System.Drawing.Size(75, 23);
@@ -168,7 +167,6 @@
             // 
             // FButtonForeground
             // 
-            this.FButtonForeground.Enabled = false;
             this.FButtonForeground.Location = new System.Drawing.Point(168, 18);
             this.FButtonForeground.Name = "FButtonForeground";
             this.FButtonForeground.Size = new System.Drawing.Size(75, 23);
