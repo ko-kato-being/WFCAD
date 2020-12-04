@@ -16,27 +16,10 @@ namespace WFCAD {
         public CanvasForm() {
             InitializeComponent();
             FCanvasControl = new CanvasControl(FMainPictureBox, FSubPictureBox);
-            FButtonEllipse.Click += (sender, e) => {
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Ellipse(), vMouseEventArgs.Location);
-                };
-            };
-            FButtonRectangle.Click += (sender, e) => {
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Rectangle(), vMouseEventArgs.Location);
-                };
-            };
-            FButtonLine.Click += (sender, e) => {
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Line(), vMouseEventArgs.Location);
-                };
-            };
+
+            #region イベントハンドラの設定
+
+            // 選択ボタン
             FButtonSelect.Click += (sender, e) => {
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
@@ -44,9 +27,35 @@ namespace WFCAD {
                     FCanvasControl.MoveShapes(vMouseEventArgs.Location);
                 };
             };
-
+            // 矩形ボタン
+            FButtonRectangle.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.ShowPreview(new Rectangle(), vMouseEventArgs.Location);
+                };
+            };
+            // 円ボタン
+            FButtonEllipse.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.ShowPreview(new Ellipse(), vMouseEventArgs.Location);
+                };
+            };
+            // 線ボタン
+            FButtonLine.Click += (sender, e) => {
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
+                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
+                    FCanvasControl.ShowPreview(new Line(), vMouseEventArgs.Location);
+                };
+            };
+            // 複製ボタン
             FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
+            // 削除ボタン
             FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
+            // リセットボタン
             FButtonReset.Click += (sender, e) => FCanvasControl.Clear();
 
             // マウスイベントは前面に配置している FSubPictureBox で処理する
@@ -59,6 +68,9 @@ namespace WFCAD {
                 FMouseMoveAction?.Invoke(e);
                 FCanvasControl.CurrentMouseLocation = e.Location;
             };
+
+            #endregion イベントハンドラの設定
+
         }
     }
 }
