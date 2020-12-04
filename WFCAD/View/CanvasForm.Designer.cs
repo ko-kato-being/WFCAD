@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.FMainPictureBox = new System.Windows.Forms.PictureBox();
+            this.FSubPictureBox = new System.Windows.Forms.PictureBox();
             this.FTopPanel = new System.Windows.Forms.Panel();
             this.FGroupBoxAction = new System.Windows.Forms.GroupBox();
             this.FButtonClone = new System.Windows.Forms.Button();
@@ -40,6 +41,8 @@
             this.FButtonLine = new System.Windows.Forms.RadioButton();
             this.FButtonSelect = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
+            this.FMainPictureBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FSubPictureBox)).BeginInit();
             this.FTopPanel.SuspendLayout();
             this.FGroupBoxAction.SuspendLayout();
             this.FGroupBoxMode.SuspendLayout();
@@ -48,15 +51,24 @@
             // FMainPictureBox
             // 
             this.FMainPictureBox.BackColor = System.Drawing.Color.White;
+            this.FMainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FMainPictureBox.Controls.Add(this.FSubPictureBox);
             this.FMainPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FMainPictureBox.Location = new System.Drawing.Point(0, 177);
             this.FMainPictureBox.Name = "FMainPictureBox";
             this.FMainPictureBox.Size = new System.Drawing.Size(556, 319);
             this.FMainPictureBox.TabIndex = 0;
             this.FMainPictureBox.TabStop = false;
-            this.FMainPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
-            this.FMainPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
-            this.FMainPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
+            // 
+            // FSubPictureBox
+            // 
+            this.FSubPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.FSubPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FSubPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.FSubPictureBox.Name = "FSubPictureBox";
+            this.FSubPictureBox.Size = new System.Drawing.Size(554, 317);
+            this.FSubPictureBox.TabIndex = 1;
+            this.FSubPictureBox.TabStop = false;
             // 
             // FTopPanel
             // 
@@ -232,6 +244,8 @@
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).EndInit();
+            this.FMainPictureBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.FSubPictureBox)).EndInit();
             this.FTopPanel.ResumeLayout(false);
             this.FGroupBoxAction.ResumeLayout(false);
             this.FGroupBoxMode.ResumeLayout(false);
@@ -242,6 +256,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox FMainPictureBox;
+        private System.Windows.Forms.PictureBox FSubPictureBox;
         private System.Windows.Forms.Panel FTopPanel;
         private System.Windows.Forms.Button FButtonReset;
         private System.Windows.Forms.RadioButton FButtonRectangle;

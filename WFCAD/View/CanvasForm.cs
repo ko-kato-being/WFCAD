@@ -15,7 +15,7 @@ namespace WFCAD {
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvasControl = new CanvasControl(FMainPictureBox);
+            FCanvasControl = new CanvasControl(FMainPictureBox, FSubPictureBox);
             FButtonEllipse.Click += (sender, e) => {
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
@@ -48,20 +48,17 @@ namespace WFCAD {
             FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
             FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
             FButtonReset.Click += (sender, e) => FCanvasControl.Clear();
-        }
 
-        private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
-            FCanvasControl.MouseDownLocation = e.Location;
-        }
-
-        private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
-            FCanvasControl.MouseUpLocation = e.Location;
-            FMouseUpAction?.Invoke(e);
-        }
-
-        private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
-            FMouseMoveAction?.Invoke(e);
-            FCanvasControl.CurrentMouseLocation = e.Location;
+            // マウスイベントは前面に配置している FSubPictureBox で処理する
+            FSubPictureBox.MouseDown += (sender, e) => FCanvasControl.MouseDownLocation = e.Location;
+            FSubPictureBox.MouseUp += (sender, e) => {
+                FCanvasControl.MouseUpLocation = e.Location;
+                FMouseUpAction?.Invoke(e);
+            };
+            FSubPictureBox.MouseMove += (sender, e) => {
+                FMouseMoveAction?.Invoke(e);
+                FCanvasControl.CurrentMouseLocation = e.Location;
+            };
         }
     }
 }
