@@ -11,7 +11,12 @@ namespace WFCAD {
         /// <summary>
         /// 描画します
         /// </summary>
-        public override void Draw(Graphics vGraphics) => vGraphics.DrawLine(this.Option, this.StartPoint, this.EndPoint);
+        public override Bitmap Draw(Bitmap vBitmap) {
+            using (var wGraphics = Graphics.FromImage(vBitmap)) {
+                wGraphics.DrawLine(this.Option, this.StartPoint, this.EndPoint);
+            }
+            return vBitmap;
+        }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか

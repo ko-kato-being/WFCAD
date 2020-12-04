@@ -15,9 +15,7 @@ namespace WFCAD {
         /// 描画します
         /// </summary>
         public Bitmap Draw(Bitmap vBitmap) {
-            using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                FShapes.ForEach(x => x.Draw(wGraphics));
-            }
+            FShapes.ForEach(x => x.Draw(vBitmap));
             return vBitmap;
         }
 

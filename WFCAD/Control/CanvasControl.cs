@@ -57,10 +57,8 @@ namespace WFCAD {
             FMainPictureBox.Image = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
 
             // プレビューをクリアする
-            // Image を直接 Dispose すると例外が発生する
-            // そのため Dispose した後に null を設定しておく必要がある
-            Image wOldImage = FSubPictureBox.Image;
-            wOldImage?.Dispose();
+            // Image を Dispose されたままだと例外が発生するため null を設定しておく必要がある
+            FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = null;
 
         }
@@ -73,12 +71,8 @@ namespace WFCAD {
             wShape.StartPoint = this.MouseDownLocation;
             wShape.EndPoint = vMouseLocation;
             wShape.Option = new Pen(this.Color);
-            Image wOldImage = FSubPictureBox.Image;
-            FSubPictureBox.Image = new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height);
-            wOldImage?.Dispose();
-            using (var wGraphics = Graphics.FromImage(FSubPictureBox.Image)) {
-                wShape.Draw(wGraphics);
-            }
+            FSubPictureBox.Image?.Dispose();
+            FSubPictureBox.Image = wShape.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
         }
 
         /// <summary>

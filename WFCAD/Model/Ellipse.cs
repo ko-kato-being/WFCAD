@@ -14,9 +14,12 @@ namespace WFCAD {
         /// <summary>
         /// 描画します
         /// </summary>
-        public override void Draw(Graphics vGraphics) {
-            FFrameRectangle = new System.Drawing.Rectangle(Math.Min(this.StartPoint.X, this.EndPoint.X), Math.Min(this.StartPoint.Y, this.EndPoint.Y), this.Width, this.Height);
-            vGraphics.DrawEllipse(this.Option, FFrameRectangle);
+        public override Bitmap Draw(Bitmap vBitmap) {
+            using (var wGraphics = Graphics.FromImage(vBitmap)) {
+                FFrameRectangle = new System.Drawing.Rectangle(Math.Min(this.StartPoint.X, this.EndPoint.X), Math.Min(this.StartPoint.Y, this.EndPoint.Y), this.Width, this.Height);
+                wGraphics.DrawEllipse(this.Option, FFrameRectangle);
+            }
+            return vBitmap;
         }
 
         /// <summary>

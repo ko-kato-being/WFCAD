@@ -55,7 +55,7 @@ namespace WFCAD {
         /// <summary>
         /// 描画します
         /// </summary>
-        public abstract void Draw(Graphics vGraphics);
+        public abstract Bitmap Draw(Bitmap vBitmap);
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
