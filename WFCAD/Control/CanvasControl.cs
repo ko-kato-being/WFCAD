@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace WFCAD {
@@ -10,7 +8,7 @@ namespace WFCAD {
     public class CanvasControl : ICanvasControl {
         private readonly PictureBox FMainPictureBox;
         private readonly PictureBox FSubPictureBox;
-        private List<IShape> FShapes;
+        private readonly IShapes FShapes;
 
         #region コンストラクタ
 
@@ -18,7 +16,7 @@ namespace WFCAD {
         /// コンストラクタ
         /// </summary>
         public CanvasControl(PictureBox vMainPictureBox, PictureBox vSubPictureBox) {
-            FShapes = new List<IShape>();
+            FShapes = new Shapes();
             FMainPictureBox = vMainPictureBox;
             FSubPictureBox = vSubPictureBox;
         }
@@ -55,43 +53,16 @@ namespace WFCAD {
         /// 再描画します
         /// </summary>
         public void Refresh() {
-            Image wOldImage = FMainPictureBox.Image;
-            FMainPictureBox.Image = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height);
-            wOldImage?.Dispose();
-            using (var wGraphics = Graphics.FromImage(FMainPictureBox.Image)) {
-                FShapes.ForEach(x => x.Draw(wGraphics));
-            }
+            FMainPictureBox.Image?.Dispose();
+            FMainPictureBox.Image = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
 
             // プレビューをクリアする
             // Image を直接 Dispose すると例外が発生する
             // そのため Dispose した後に null を設定しておく必要がある
-            wOldImage = FSubPictureBox.Image;
+            Image wOldImage = FSubPictureBox.Image;
             wOldImage?.Dispose();
             FSubPictureBox.Image = null;
 
-        }
-
-        /// <summary>
-        /// 図形を選択します
-        /// </summary>
-        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
-            bool wHasSelected = false;
-            foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
-                if (wHasSelected) {
-                    wShape.IsSelected = false;
-                } else {
-                    bool wIsHit = wShape.IsHit(vMouseLocation);
-                    if (vIsMultiple) {
-                        wShape.IsSelected = wShape.IsSelected || wIsHit;
-                    } else {
-                        wShape.IsSelected = wIsHit;
-                        if (wShape.IsSelected) {
-                            wHasSelected = true;
-                        }
-                    }
-                }
-            }
-            this.Refresh();
         }
 
         /// <summary>
@@ -127,14 +98,18 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 図形を選択します
+        /// </summary>
+        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
+            FShapes.Select(vMouseLocation, vIsMultiple);
+            this.Refresh();
+        }
+
+        /// <summary>
         /// 図形を移動します
         /// </summary>
         public void MoveShapes(Point vMouseLocation) {
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                var wMovingSize = new Size(vMouseLocation.X - this.CurrentMouseLocation.X, vMouseLocation.Y - this.CurrentMouseLocation.Y);
-                wShape.StartPoint += wMovingSize;
-                wShape.EndPoint += wMovingSize;
-            }
+            FShapes.Move(new Size(vMouseLocation.X - this.CurrentMouseLocation.X, vMouseLocation.Y - this.CurrentMouseLocation.Y));
             this.Refresh();
         }
 
@@ -142,7 +117,7 @@ namespace WFCAD {
         /// 図形を最前面に移動します
         /// </summary>
         public void MoveToFrontShapes() {
-            FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
+            FShapes.MoveToFront();
             this.Refresh();
         }
 
@@ -150,7 +125,7 @@ namespace WFCAD {
         /// 図形を最背面に移動します
         /// </summary>
         public void MoveToBackShapes() {
-            FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
+            FShapes.MoveToBack();
             this.Refresh();
         }
 
@@ -158,21 +133,7 @@ namespace WFCAD {
         /// 図形を複製します
         /// </summary>
         public void CloneShapes() {
-            var wClonedShapes = new List<IShape>();
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                IShape wClone = wShape.DeepClone();
-
-                // 選択状態をスイッチします
-                wShape.IsSelected = false;
-                wClone.IsSelected = true;
-
-                // 右下方向
-                var wMovingSize = new Size(10, 10);
-                wClone.StartPoint += wMovingSize;
-                wClone.EndPoint += wMovingSize;
-                wClonedShapes.Add(wClone);
-            }
-            FShapes.AddRange(wClonedShapes);
+            FShapes.Clone();
             this.Refresh();
         }
 
@@ -180,7 +141,7 @@ namespace WFCAD {
         /// 選択中の図形を削除します
         /// </summary>
         public void RemoveShapes() {
-            FShapes.RemoveAll(x => x.IsSelected);
+            FShapes.Remove();
             this.Refresh();
         }
 

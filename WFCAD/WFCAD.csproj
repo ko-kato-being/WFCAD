@@ -55,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Control\CanvasControl.cs" />
+    <Compile Include="Model\IShapes.cs" />
     <Compile Include="Model\Line.cs" />
+    <Compile Include="Model\Shapes.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="View\CanvasForm.cs">
       <SubType>Form</SubType>
