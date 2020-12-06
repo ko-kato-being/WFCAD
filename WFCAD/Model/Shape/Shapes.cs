@@ -97,6 +97,17 @@ namespace WFCAD {
         /// </summary>
         public void Clear() => FShapes.Clear();
 
+        /// <summary>
+        /// 自身のインスタンスを複製します
+        /// </summary>
+        public IShapes DeepClone() {
+            var wClone = new Shapes();
+            foreach (IShape wShape in FShapes.Select(x => x.DeepClone())) {
+                wClone.Add(wShape);
+            }
+            return wClone;
+        }
+
         #endregion メソッド
 
     }

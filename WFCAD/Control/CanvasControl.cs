@@ -8,7 +8,8 @@ namespace WFCAD {
     public class CanvasControl : ICanvasControl {
         private readonly PictureBox FMainPictureBox;
         private readonly PictureBox FSubPictureBox;
-        private readonly IShapes FShapes;
+        private IShapes FShapes;
+        private readonly ISnapshots FSnapshots;
 
         #region コンストラクタ
 
@@ -16,9 +17,10 @@ namespace WFCAD {
         /// コンストラクタ
         /// </summary>
         public CanvasControl(PictureBox vMainPictureBox, PictureBox vSubPictureBox) {
-            FShapes = new Shapes();
             FMainPictureBox = vMainPictureBox;
             FSubPictureBox = vSubPictureBox;
+            FShapes = new Shapes();
+            FSnapshots = new Snapshots();
         }
 
         #endregion コンストラクタ
@@ -52,12 +54,13 @@ namespace WFCAD {
         /// <summary>
         /// 再描画します
         /// </summary>
-        public void Refresh() {
-            FMainPictureBox.Image?.Dispose();
-            FMainPictureBox.Image = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
+        public void Refresh(bool vTakeSnapshot = true) {
+            Bitmap wSnapshot = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
+            if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wSnapshot, FShapes.DeepClone()));
+            FMainPictureBox.Image = wSnapshot;
 
             // プレビューをクリアする
-            // Image を Dispose されたままだと例外が発生するため null を設定しておく必要がある
+            // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = null;
 
@@ -96,7 +99,7 @@ namespace WFCAD {
         /// </summary>
         public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
             FShapes.Select(vMouseLocation, vIsMultiple);
-            this.Refresh();
+            this.Refresh(false);
         }
 
         /// <summary>
@@ -129,6 +132,26 @@ namespace WFCAD {
         public void CloneShapes() {
             FShapes.Clone();
             this.Refresh();
+        }
+
+        /// <summary>
+        /// 元に戻します
+        /// </summary>
+        public void Undo() {
+            ISnapshot wSnapshot = FSnapshots.GetBefore();
+            if (wSnapshot == null) return;
+            FMainPictureBox.Image = wSnapshot.Bitmap;
+            FShapes = wSnapshot.Shapes;
+        }
+
+        /// <summary>
+        /// やり直します
+        /// </summary>
+        public void Redo() {
+            ISnapshot wSnapshot = FSnapshots.GetAfter();
+            if (wSnapshot == null) return;
+            FMainPictureBox.Image = wSnapshot.Bitmap;
+            FShapes = wSnapshot.Shapes;
         }
 
         /// <summary>

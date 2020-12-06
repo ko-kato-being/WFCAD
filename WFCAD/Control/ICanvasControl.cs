@@ -33,11 +33,6 @@ namespace WFCAD {
         #region メソッド
 
         /// <summary>
-        /// 再描画します
-        /// </summary>
-        void Refresh();
-
-        /// <summary>
         /// 図形を選択します
         /// </summary>
         void SelectShapes(Point vMouseLocation, bool vIsMultiple);
@@ -71,6 +66,16 @@ namespace WFCAD {
         /// 図形を複製します
         /// </summary>
         void CloneShapes();
+
+        /// <summary>
+        /// 元に戻します
+        /// </summary>
+        void Undo();
+
+        /// <summary>
+        /// やり直します
+        /// </summary>
+        void Redo();
 
         /// <summary>
         /// 選択中の図形を削除します

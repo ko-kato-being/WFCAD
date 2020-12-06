@@ -55,9 +55,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Control\CanvasControl.cs" />
-    <Compile Include="Model\IShapes.cs" />
-    <Compile Include="Model\Line.cs" />
-    <Compile Include="Model\Shapes.cs" />
+    <Compile Include="Model\Shape\IShapes.cs" />
+    <Compile Include="Model\Snapshot\ISnapshot.cs" />
+    <Compile Include="Model\Snapshot\ISnapshots.cs" />
+    <Compile Include="Model\Shape\Line.cs" />
+    <Compile Include="Model\Shape\Shapes.cs" />
+    <Compile Include="Model\Snapshot\Snapshot.cs" />
+    <Compile Include="Model\Snapshot\Snapshots.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="View\CanvasForm.cs">
       <SubType>Form</SubType>
@@ -65,13 +69,13 @@
     <Compile Include="View\CanvasForm.Designer.cs">
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Ellipse.cs" />
+    <Compile Include="Model\Shape\Ellipse.cs" />
     <Compile Include="Control\ICanvasControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\IShape.cs" />
-    <Compile Include="Model\Rectangle.cs" />
-    <Compile Include="Model\Shape.cs" />
+    <Compile Include="Model\Shape\IShape.cs" />
+    <Compile Include="Model\Shape\Rectangle.cs" />
+    <Compile Include="Model\Shape\Shape.cs" />
     <EmbeddedResource Include="View\CanvasForm.resx">
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </EmbeddedResource>

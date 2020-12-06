@@ -57,6 +57,10 @@ namespace WFCAD {
             FButtonBackground.Click += (sender, e) => FCanvasControl.MoveToBackShapes();
             // 複製ボタン
             FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
+            // Undo
+            FButtonUndo.Click += (sender, e) => FCanvasControl.Undo();
+            // Redo
+            FButtonRedo.Click += (sender, e) => FCanvasControl.Redo();
             // 削除ボタン
             FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
             // リセットボタン

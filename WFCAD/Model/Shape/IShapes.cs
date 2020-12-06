@@ -54,6 +54,11 @@ namespace WFCAD {
         /// </summary>
         void Clear();
 
+        /// <summary>
+        /// 自身のインスタンスを複製します
+        /// </summary>
+        IShapes DeepClone();
+
         #endregion　メソッド
 
     }

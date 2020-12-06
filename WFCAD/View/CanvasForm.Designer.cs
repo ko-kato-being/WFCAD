@@ -138,7 +138,6 @@
             // 
             // FButtonRedo
             // 
-            this.FButtonRedo.Enabled = false;
             this.FButtonRedo.Location = new System.Drawing.Point(87, 47);
             this.FButtonRedo.Name = "FButtonRedo";
             this.FButtonRedo.Size = new System.Drawing.Size(75, 23);
@@ -157,7 +156,6 @@
             // 
             // FButtonUndo
             // 
-            this.FButtonUndo.Enabled = false;
             this.FButtonUndo.Location = new System.Drawing.Point(6, 47);
             this.FButtonUndo.Name = "FButtonUndo";
             this.FButtonUndo.Size = new System.Drawing.Size(75, 23);
