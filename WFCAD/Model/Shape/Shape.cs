@@ -8,7 +8,6 @@ namespace WFCAD {
     public abstract class Shape : IShape {
         private bool FIsSelected;
 
-
         #region プロパティ
 
         /// <summary>
@@ -44,6 +43,11 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 表示状態
+        /// </summary>
+        public bool Visible { get; set; } = true;
+
+        /// <summary>
         /// 描画オプション
         /// </summary>
         public Pen Option { get; set; }
@@ -55,12 +59,33 @@ namespace WFCAD {
         /// <summary>
         /// 描画します
         /// </summary>
-        public abstract Bitmap Draw(Bitmap vBitmap);
+        public Bitmap Draw(Bitmap vBitmap) {
+            if (this.Visible) {
+                using (var wGraphics = Graphics.FromImage(vBitmap)) {
+                    this.DrawCore(wGraphics);
+                }
+            }
+            return vBitmap;
+        }
+
+        /// <summary>
+        /// 派生クラスごとの描画処理
+        /// </summary>
+        protected abstract void DrawCore(Graphics vGraphics);
+
+        /// <summary>
+        /// 移動します
+        /// </summary>
+        public void Move(Point vCoordinate) {
+            var wMovingSize = new Size(vCoordinate.X - this.StartPoint.X, vCoordinate.Y - this.StartPoint.Y);
+            this.StartPoint += wMovingSize;
+            this.EndPoint += wMovingSize;
+        }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        public abstract bool IsHit(Point vMouseLocation);
+        public abstract bool IsHit(Point vCoordinate);
 
         /// <summary>
         /// 選択状態にします

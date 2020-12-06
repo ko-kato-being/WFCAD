@@ -24,6 +24,11 @@ namespace WFCAD {
         bool IsSelected { get; set; }
 
         /// <summary>
+        /// 表示状態
+        /// </summary>
+        bool Visible { get; set; }
+
+        /// <summary>
         /// 描画オプション
         /// </summary>
         Pen Option { get; set; }
@@ -38,9 +43,14 @@ namespace WFCAD {
         Bitmap Draw(Bitmap vBitmap);
 
         /// <summary>
+        /// 移動します
+        /// </summary>
+        void Move(Point vCoordinate);
+
+        /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        bool IsHit(Point vMouseLocation);
+        bool IsHit(Point vCoordinate);
 
         /// <summary>
         /// 複製します

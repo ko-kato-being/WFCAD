@@ -40,6 +40,11 @@ namespace WFCAD {
         /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
+        void ShowPreview(Point vMouseLocation);
+
+        /// <summary>
+        /// 図形のプレビューを表示します
+        /// </summary>
         void ShowPreview(IShape vShape, Point vMouseLocation);
 
         /// <summary>

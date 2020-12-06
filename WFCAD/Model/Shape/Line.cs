@@ -11,20 +11,15 @@ namespace WFCAD {
         /// <summary>
         /// 描画します
         /// </summary>
-        public override Bitmap Draw(Bitmap vBitmap) {
-            using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                wGraphics.DrawLine(this.Option, this.StartPoint, this.EndPoint);
-            }
-            return vBitmap;
-        }
+        protected override void DrawCore(Graphics vGraphics) => vGraphics.DrawLine(this.Option, this.StartPoint, this.EndPoint);
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        public override bool IsHit(Point vMouseLocation) {
+        public override bool IsHit(Point vCoordinate) {
             // 三角不等式を使用して判定しています。
-            double wAC = Utilities.GetDistance(this.StartPoint, vMouseLocation);
-            double wCB = Utilities.GetDistance(vMouseLocation, this.EndPoint);
+            double wAC = Utilities.GetDistance(this.StartPoint, vCoordinate);
+            double wCB = Utilities.GetDistance(vCoordinate, this.EndPoint);
             double wAB = Utilities.GetDistance(this.StartPoint, this.EndPoint);
             // 誤差以内の値なら線分上にあるとする。
             return (wAC + wCB - wAB < 0.1d);

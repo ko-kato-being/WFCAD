@@ -6,6 +6,15 @@ namespace WFCAD {
     /// </summary>
     public interface IShapes {
 
+        #region プロパティ
+
+        /// <summary>
+        /// 表示状態
+        /// </summary>
+        bool Visible { get; set; }
+
+        #endregion プロパティ
+
         #region　メソッド
 
         /// <summary>
@@ -16,7 +25,7 @@ namespace WFCAD {
         /// <summary>
         /// 選択します
         /// </summary>
-        void Select(Point vMouseLocation, bool vIsMultiple);
+        void Select(Point vCoordinate, bool vIsMultiple);
 
         /// <summary>
         /// 追加します
@@ -27,7 +36,7 @@ namespace WFCAD {
         /// <summary>
         /// 移動します
         /// </summary>
-        void Move(Size vSize);
+        void Move(Point vCoordinate);
 
         /// <summary>
         /// 最前面に移動します

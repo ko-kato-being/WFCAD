@@ -8,6 +8,24 @@ namespace WFCAD {
     /// </summary>
     public class Shapes : IShapes {
         private List<IShape> FShapes = new List<IShape>();
+        private bool FVisible = true;
+
+        #region プロパティ
+
+        /// <summary>
+        /// 表示状態
+        /// </summary>
+        public bool Visible {
+            get => FVisible;
+            set {
+                FVisible = value;
+                foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                    wShape.Visible = FVisible;
+                }
+            }
+        }
+
+        #endregion プロパティ
 
         #region メソッド
 
@@ -20,20 +38,15 @@ namespace WFCAD {
         }
 
         /// <summary>
-        /// 追加します
-        /// </summary>
-        public void Add(IShape vShape) => FShapes.Add(vShape);
-
-        /// <summary>
         /// 選択します
         /// </summary>
-        public void Select(Point vMouseLocation, bool vIsMultiple) {
+        public void Select(Point vCoordinate, bool vIsMultiple) {
             bool wHasSelected = false;
             foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
                 if (wHasSelected) {
                     wShape.IsSelected = false;
                 } else {
-                    bool wIsHit = wShape.IsHit(vMouseLocation);
+                    bool wIsHit = wShape.IsHit(vCoordinate);
                     if (vIsMultiple) {
                         wShape.IsSelected = wShape.IsSelected || wIsHit;
                     } else {
@@ -47,12 +60,16 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 追加します
+        /// </summary>
+        public void Add(IShape vShape) => FShapes.Add(vShape);
+
+        /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(Size vSize) {
+        public void Move(Point vCoordinate) {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.StartPoint += vSize;
-                wShape.EndPoint += vSize;
+                wShape.Move(vCoordinate);
             }
         }
 

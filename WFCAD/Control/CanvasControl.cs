@@ -69,6 +69,20 @@ namespace WFCAD {
         /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
+        public void ShowPreview(Point vMouseLocation) {
+            IShapes wShapes = FShapes.DeepClone();
+            if (FShapes.Visible) {
+                FShapes.Visible = false;
+                this.Refresh(false);
+            }
+            wShapes.Move(vMouseLocation);
+            FSubPictureBox.Image?.Dispose();
+            FSubPictureBox.Image = wShapes.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
+        }
+
+        /// <summary>
+        /// 図形のプレビューを表示します
+        /// </summary>
         public void ShowPreview(IShape vShape, Point vMouseLocation) {
             IShape wShape = vShape.DeepClone();
             wShape.StartPoint = this.MouseDownLocation;
@@ -106,7 +120,8 @@ namespace WFCAD {
         /// 図形を移動します
         /// </summary>
         public void MoveShapes(Point vMouseLocation) {
-            FShapes.Move(new Size(vMouseLocation.X - this.CurrentMouseLocation.X, vMouseLocation.Y - this.CurrentMouseLocation.Y));
+            FShapes.Move(vMouseLocation);
+            FShapes.Visible = true;
             this.Refresh();
         }
 
