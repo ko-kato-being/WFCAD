@@ -76,10 +76,9 @@ namespace WFCAD {
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(Point vCoordinate) {
-            var wMovingSize = new Size(vCoordinate.X - this.StartPoint.X, vCoordinate.Y - this.StartPoint.Y);
-            this.StartPoint += wMovingSize;
-            this.EndPoint += wMovingSize;
+        public void Move(Size vSize) {
+            this.StartPoint += vSize;
+            this.EndPoint += vSize;
         }
 
         /// <summary>

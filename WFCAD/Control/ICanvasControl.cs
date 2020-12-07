@@ -19,11 +19,6 @@ namespace WFCAD {
         Point MouseUpLocation { get; set; }
 
         /// <summary>
-        /// 現在のマウスカーソル位置
-        /// </summary>
-        Point CurrentMouseLocation { get; set; }
-
-        /// <summary>
         /// 描画色
         /// </summary>
         Color Color { get; set; }

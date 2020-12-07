@@ -79,7 +79,6 @@ namespace WFCAD {
             };
             FSubPictureBox.MouseMove += (sender, e) => {
                 FMouseMoveAction?.Invoke(e);
-                FCanvasControl.CurrentMouseLocation = e.Location;
             };
 
             #endregion イベントハンドラの設定

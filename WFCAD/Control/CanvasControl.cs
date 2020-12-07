@@ -38,11 +38,6 @@ namespace WFCAD {
         public Point MouseUpLocation { get; set; }
 
         /// <summary>
-        /// 現在のマウスカーソル位置
-        /// </summary>
-        public Point CurrentMouseLocation { get; set; }
-
-        /// <summary>
         /// 描画色
         /// </summary>
         public Color Color { get; set; } = Color.Black;
@@ -75,7 +70,7 @@ namespace WFCAD {
                 FShapes.Visible = false;
                 this.Refresh(false);
             }
-            wShapes.Move(vMouseLocation);
+            wShapes.Move(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = wShapes.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
         }
@@ -120,7 +115,7 @@ namespace WFCAD {
         /// 図形を移動します
         /// </summary>
         public void MoveShapes(Point vMouseLocation) {
-            FShapes.Move(vMouseLocation);
+            FShapes.Move(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
             FShapes.Visible = true;
             this.Refresh();
         }

@@ -36,7 +36,7 @@ namespace WFCAD {
         /// <summary>
         /// 移動します
         /// </summary>
-        void Move(Point vCoordinate);
+        void Move(Size vSize);
 
         /// <summary>
         /// 最前面に移動します

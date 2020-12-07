@@ -45,7 +45,7 @@ namespace WFCAD {
         /// <summary>
         /// 移動します
         /// </summary>
-        void Move(Point vCoordinate);
+        void Move(Size vSize);
 
         /// <summary>
         /// 指定した座標が図形内に存在するか

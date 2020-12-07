@@ -67,9 +67,9 @@ namespace WFCAD {
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(Point vCoordinate) {
+        public void Move(Size vSize) {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Move(vCoordinate);
+                wShape.Move(vSize);
             }
         }
 
