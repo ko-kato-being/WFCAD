@@ -115,7 +115,9 @@ namespace WFCAD {
         /// 図形を移動します
         /// </summary>
         public void MoveShapes(Point vMouseLocation) {
-            FShapes.Move(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
+            var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
+            if (wSize.IsEmpty) return;
+            FShapes.Move(wSize);
             FShapes.Visible = true;
             this.Refresh();
         }
