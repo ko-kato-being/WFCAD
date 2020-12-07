@@ -58,7 +58,6 @@ namespace WFCAD {
             // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = null;
-
         }
 
         /// <summary>

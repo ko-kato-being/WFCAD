@@ -77,9 +77,7 @@ namespace WFCAD {
                 FCanvasControl.MouseUpLocation = e.Location;
                 FMouseUpAction?.Invoke(e);
             };
-            FSubPictureBox.MouseMove += (sender, e) => {
-                FMouseMoveAction?.Invoke(e);
-            };
+            FSubPictureBox.MouseMove += (sender, e) => FMouseMoveAction?.Invoke(e);
 
             // キー入力をハンドリング
             this.KeyDown += (sender, e) => {
