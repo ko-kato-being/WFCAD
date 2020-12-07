@@ -81,6 +81,26 @@ namespace WFCAD {
                 FMouseMoveAction?.Invoke(e);
             };
 
+            // キー入力をハンドリング
+            this.KeyDown += (sender, e) => {
+                if (e.Control) {
+                    switch (e.KeyCode) {
+                        case Keys.Y:
+                            FButtonRedo.PerformClick();
+                            break;
+                        case Keys.Z:
+                            FButtonUndo.PerformClick();
+                            break;
+                    }
+                } else {
+                    switch (e.KeyCode) {
+                        case Keys.Delete:
+                            FButtonRemove.PerformClick();
+                            break;
+                    }
+                }
+            };
+
             #endregion イベントハンドラの設定
 
         }

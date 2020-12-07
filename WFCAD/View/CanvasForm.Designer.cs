@@ -237,6 +237,7 @@
             this.ClientSize = new System.Drawing.Size(556, 496);
             this.Controls.Add(this.FMainPictureBox);
             this.Controls.Add(this.FTopPanel);
+            this.KeyPreview = true;
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).EndInit();
