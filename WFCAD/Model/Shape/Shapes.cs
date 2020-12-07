@@ -41,18 +41,29 @@ namespace WFCAD {
         /// 選択します
         /// </summary>
         public void Select(Point vCoordinate, bool vIsMultiple) {
-            bool wHasSelected = false;
-            foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
-                if (wHasSelected) {
-                    wShape.IsSelected = false;
-                } else {
-                    bool wIsHit = wShape.IsHit(vCoordinate);
-                    if (vIsMultiple) {
+            if (FShapes.Where(x => x.IsSelected).ToList().Count >= 2) {
+                if (FShapes.Any(x => x.IsHit(vCoordinate))) {
+                    foreach (IShape wShape in FShapes) {
+                        bool wIsHit = wShape.IsHit(vCoordinate);
                         wShape.IsSelected = wShape.IsSelected || wIsHit;
+                    }
+                } else {
+                    FShapes.ForEach(x => x.IsSelected = false);
+                }
+            } else {
+                bool wHasSelected = false;
+                foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
+                    if (wHasSelected) {
+                        wShape.IsSelected = false;
                     } else {
-                        wShape.IsSelected = wIsHit;
-                        if (wShape.IsSelected) {
-                            wHasSelected = true;
+                        bool wIsHit = wShape.IsHit(vCoordinate);
+                        if (vIsMultiple) {
+                            wShape.IsSelected = wShape.IsSelected || wIsHit;
+                        } else {
+                            wShape.IsSelected = wIsHit;
+                            if (wShape.IsSelected) {
+                                wHasSelected = true;
+                            }
                         }
                     }
                 }
