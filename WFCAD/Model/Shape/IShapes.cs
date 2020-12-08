@@ -34,6 +34,16 @@ namespace WFCAD {
         void Select(Point vCoordinate, bool vIsMultiple);
 
         /// <summary>
+        /// 全選択します
+        /// </summary>
+        void AllSelect();
+
+        /// <summary>
+        /// 選択を解除します
+        /// </summary>
+        void Unselect();
+
+        /// <summary>
         /// 追加します
         /// </summary>
         void Add(IShape vShape);

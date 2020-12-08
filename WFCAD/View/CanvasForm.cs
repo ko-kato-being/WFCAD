@@ -83,6 +83,10 @@ namespace WFCAD {
             this.KeyDown += (sender, e) => {
                 if (e.Control) {
                     switch (e.KeyCode) {
+                        case Keys.A:
+                            FButtonSelect.PerformClick();
+                            FCanvasControl.AllSelectShapes();
+                            break;
                         case Keys.C:
                             FCanvasControl.CopyShapes();
                             break;
@@ -103,6 +107,9 @@ namespace WFCAD {
                     switch (e.KeyCode) {
                         case Keys.Delete:
                             FButtonRemove.PerformClick();
+                            break;
+                        case Keys.Escape:
+                            FCanvasControl.UnelectShapes();
                             break;
                     }
                 }

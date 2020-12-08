@@ -89,6 +89,30 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 図形を選択します
+        /// </summary>
+        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
+            FShapes.Select(vMouseLocation, vIsMultiple);
+            this.Refresh(false);
+        }
+
+        /// <summary>
+        /// すべての図形を選択します
+        /// </summary>
+        public void AllSelectShapes() {
+            FShapes.AllSelect();
+            this.Refresh(false);
+        }
+
+        /// <summary>
+        /// すべての図形の選択を解除します
+        /// </summary>
+        public void UnelectShapes() {
+            FShapes.Unselect();
+            this.Refresh(false);
+        }
+
+        /// <summary>
         /// 図形を追加します
         /// </summary>
         public void AddShape(IShape vShape) {
@@ -102,14 +126,6 @@ namespace WFCAD {
             wShape.Option = new Pen(this.Color);
             FShapes.Add(wShape);
             this.Refresh();
-        }
-
-        /// <summary>
-        /// 図形を選択します
-        /// </summary>
-        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
-            FShapes.Select(vMouseLocation, vIsMultiple);
-            this.Refresh(false);
         }
 
         /// <summary>

@@ -87,6 +87,16 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 全選択します
+        /// </summary>
+        public void AllSelect() => FShapes.ForEach(x => x.IsSelected = true);
+
+        /// <summary>
+        /// 選択を解除します
+        /// </summary>
+        public void Unselect() => FShapes.ForEach(x => x.IsSelected = false);
+
+        /// <summary>
         /// 追加します
         /// </summary>
         public void Add(IShape vShape) => FShapes.Add(vShape);

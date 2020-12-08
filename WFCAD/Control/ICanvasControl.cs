@@ -33,6 +33,16 @@ namespace WFCAD {
         void SelectShapes(Point vMouseLocation, bool vIsMultiple);
 
         /// <summary>
+        /// すべての図形を選択します
+        /// </summary>
+        void AllSelectShapes();
+
+        /// <summary>
+        /// すべての図形の選択を解除します
+        /// </summary>
+        void UnelectShapes();
+
+        /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
         void ShowPreview(Point vMouseLocation);
