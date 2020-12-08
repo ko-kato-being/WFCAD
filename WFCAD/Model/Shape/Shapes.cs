@@ -129,14 +129,15 @@ namespace WFCAD {
         }
 
         /// <summary>
-        /// クリップボードにコピーします
+        /// コピーします
         /// </summary>
-        public void Copy() {
+        public void Copy(bool vIsCut = false) {
             var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
             if (wSelectedShapes.Count == 0) return;
 
             this.Clipboard = new List<IShape>();
             foreach (IShape wShape in wSelectedShapes) {
+                if (vIsCut) FShapes.Remove(wShape);
                 IShape wCopy = wShape.DeepClone();
 
                 // 選択状態にしておく

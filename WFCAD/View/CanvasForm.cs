@@ -89,6 +89,9 @@ namespace WFCAD {
                         case Keys.V:
                             FCanvasControl.PasteShapes();
                             break;
+                        case Keys.X:
+                            FCanvasControl.CopyShapes(true);
+                            break;
                         case Keys.Y:
                             FButtonRedo.PerformClick();
                             break;

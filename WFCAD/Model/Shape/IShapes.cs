@@ -59,9 +59,9 @@ namespace WFCAD {
         void Clone();
 
         /// <summary>
-        /// クリップボードにコピーします
+        /// コピーします
         /// </summary>
-        void Copy();
+        void Copy(bool vIsCut = false);
 
         /// <summary>
         /// 貼り付けます

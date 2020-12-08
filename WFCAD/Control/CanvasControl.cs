@@ -150,12 +150,13 @@ namespace WFCAD {
         /// <summary>
         /// 図形をクリップボードにコピーします
         /// </summary>
-        public void CopyShapes() {
-            FShapes.Copy();
+        public void CopyShapes(bool vIsCut = false) {
+            FShapes.Copy(vIsCut);
             ISnapshot wSnapshot = FSnapshots.GetLatest();
             if (wSnapshot == null) return;
             wSnapshot.Shapes.Clipboard = new List<IShape>();
             wSnapshot.Shapes.Clipboard.AddRange(FShapes.Clipboard.Select(x => x.DeepClone()));
+            if (vIsCut) this.Refresh(false);
         }
 
         /// <summary>

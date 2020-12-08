@@ -70,7 +70,7 @@ namespace WFCAD {
         /// <summary>
         /// 図形をクリップボードにコピーします
         /// </summary>
-        void CopyShapes();
+        void CopyShapes(bool vIsCut = false);
 
         /// <summary>
         /// 図形を貼り付けます
@@ -98,5 +98,6 @@ namespace WFCAD {
         void Clear();
 
         #endregion メソッド
+
     }
 }
