@@ -7,8 +7,20 @@ namespace WFCAD {
     /// 図形群クラス
     /// </summary>
     public class Shapes : IShapes {
+
+        #region 定数
+
+        private static readonly Size C_DefaultMovingSize = new Size(10, 10);
+
+        #endregion 定数
+
+        #region フィールド
+
         private List<IShape> FShapes = new List<IShape>();
+        private List<IShape> FClipBoard = new List<IShape>();
         private bool FVisible = true;
+
+        #endregion フィールド
 
         #region プロパティ
 
@@ -106,13 +118,40 @@ namespace WFCAD {
                 wShape.IsSelected = false;
                 wClone.IsSelected = true;
 
-                // 右下方向
-                var wMovingSize = new Size(10, 10);
-                wClone.StartPoint += wMovingSize;
-                wClone.EndPoint += wMovingSize;
+                wClone.Move(C_DefaultMovingSize);
                 wClonedShapes.Add(wClone);
             }
             FShapes.AddRange(wClonedShapes);
+        }
+
+        /// <summary>
+        /// クリップボードにコピーします
+        /// </summary>
+        public void Copy() {
+            var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
+            if (wSelectedShapes.Count == 0) return;
+
+            FClipBoard = new List<IShape>();
+            foreach (IShape wShape in wSelectedShapes) {
+                IShape wCopy = wShape.DeepClone();
+
+                // 選択状態にしておく
+                wCopy.IsSelected = true;
+
+                wCopy.Move(C_DefaultMovingSize);
+                FClipBoard.Add(wCopy);
+            }
+        }
+
+        /// <summary>
+        /// 貼り付けます
+        /// </summary>
+        public void Paste() {
+            FShapes.ForEach(x => x.IsSelected = false);
+            FShapes.AddRange(FClipBoard.Select(x => x.DeepClone()));
+
+            // 貼り付け位置を更新しておく
+            FClipBoard.ForEach(x => x.Move(C_DefaultMovingSize));
         }
 
         /// <summary>

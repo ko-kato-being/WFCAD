@@ -146,6 +146,19 @@ namespace WFCAD {
         }
 
         /// <summary>
+        /// 図形をクリップボードにコピーします
+        /// </summary>
+        public void CopyShapes() => FShapes.Copy();
+
+        /// <summary>
+        /// 図形を貼り付けます
+        /// </summary>
+        public void PasteShapes() {
+            FShapes.Paste();
+            this.Refresh();
+        }
+
+        /// <summary>
         /// 元に戻します
         /// </summary>
         public void Undo() {

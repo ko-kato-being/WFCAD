@@ -83,6 +83,12 @@ namespace WFCAD {
             this.KeyDown += (sender, e) => {
                 if (e.Control) {
                     switch (e.KeyCode) {
+                        case Keys.C:
+                            FCanvasControl.CopyShapes();
+                            break;
+                        case Keys.V:
+                            FCanvasControl.PasteShapes();
+                            break;
                         case Keys.Y:
                             FButtonRedo.PerformClick();
                             break;

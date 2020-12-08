@@ -53,6 +53,16 @@ namespace WFCAD {
         void Clone();
 
         /// <summary>
+        /// クリップボードにコピーします
+        /// </summary>
+        void Copy();
+
+        /// <summary>
+        /// 貼り付けます
+        /// </summary>
+        void Paste();
+
+        /// <summary>
         /// 削除します
         /// </summary>
         void Remove();

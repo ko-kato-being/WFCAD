@@ -68,6 +68,16 @@ namespace WFCAD {
         void CloneShapes();
 
         /// <summary>
+        /// 図形をクリップボードにコピーします
+        /// </summary>
+        void CopyShapes();
+
+        /// <summary>
+        /// 図形を貼り付けます
+        /// </summary>
+        void PasteShapes();
+
+        /// <summary>
         /// 元に戻します
         /// </summary>
         void Undo();
