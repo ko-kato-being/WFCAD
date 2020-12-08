@@ -130,8 +130,8 @@ namespace WFCAD {
         /// </summary>
         public IShapes DeepClone() {
             var wClone = new Shapes();
-            foreach (IShape wShape in FShapes.Select(x => x.DeepClone())) {
-                wClone.Add(wShape);
+            foreach (IShape wShape in FShapes) {
+                wClone.Add(wShape.DeepClone());
             }
             return wClone;
         }

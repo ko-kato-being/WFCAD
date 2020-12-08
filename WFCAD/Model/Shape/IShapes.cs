@@ -30,7 +30,6 @@ namespace WFCAD {
         /// <summary>
         /// 追加します
         /// </summary>
-        /// <param name="vShape"></param>
         void Add(IShape vShape);
 
         /// <summary>

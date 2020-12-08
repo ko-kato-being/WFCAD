@@ -50,9 +50,9 @@ namespace WFCAD {
         /// 再描画します
         /// </summary>
         public void Refresh(bool vTakeSnapshot = true) {
-            Bitmap wSnapshot = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
-            if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wSnapshot, FShapes.DeepClone()));
-            FMainPictureBox.Image = wSnapshot;
+            Bitmap wBitmap = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
+            if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wBitmap, FShapes.DeepClone()));
+            FMainPictureBox.Image = wBitmap;
 
             // プレビューをクリアする
             // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
