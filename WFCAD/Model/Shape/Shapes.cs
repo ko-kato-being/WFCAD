@@ -17,7 +17,6 @@ namespace WFCAD {
         #region フィールド
 
         private List<IShape> FShapes = new List<IShape>();
-        private List<IShape> FClipBoard = new List<IShape>();
         private bool FVisible = true;
 
         #endregion フィールド
@@ -36,6 +35,11 @@ namespace WFCAD {
                 }
             }
         }
+
+        /// <summary>
+        /// クリップボード
+        /// </summary>
+        public List<IShape> Clipboard { get; set; } = new List<IShape>();
 
         #endregion プロパティ
 
@@ -131,7 +135,7 @@ namespace WFCAD {
             var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
             if (wSelectedShapes.Count == 0) return;
 
-            FClipBoard = new List<IShape>();
+            this.Clipboard = new List<IShape>();
             foreach (IShape wShape in wSelectedShapes) {
                 IShape wCopy = wShape.DeepClone();
 
@@ -139,7 +143,7 @@ namespace WFCAD {
                 wCopy.IsSelected = true;
 
                 wCopy.Move(C_DefaultMovingSize);
-                FClipBoard.Add(wCopy);
+                this.Clipboard.Add(wCopy);
             }
         }
 
@@ -148,10 +152,10 @@ namespace WFCAD {
         /// </summary>
         public void Paste() {
             FShapes.ForEach(x => x.IsSelected = false);
-            FShapes.AddRange(FClipBoard.Select(x => x.DeepClone()));
+            FShapes.AddRange(this.Clipboard.Select(x => x.DeepClone()));
 
             // 貼り付け位置を更新しておく
-            FClipBoard.ForEach(x => x.Move(C_DefaultMovingSize));
+            this.Clipboard.ForEach(x => x.Move(C_DefaultMovingSize));
         }
 
         /// <summary>
@@ -169,6 +173,10 @@ namespace WFCAD {
         /// </summary>
         public IShapes DeepClone() {
             var wClone = new Shapes();
+            wClone.Visible = FVisible;
+            foreach (IShape wShape in this.Clipboard) {
+                wClone.Clipboard.Add(wShape.DeepClone());
+            }
             foreach (IShape wShape in FShapes) {
                 wClone.Add(wShape.DeepClone());
             }

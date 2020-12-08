@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WFCAD {
@@ -148,12 +150,19 @@ namespace WFCAD {
         /// <summary>
         /// 図形をクリップボードにコピーします
         /// </summary>
-        public void CopyShapes() => FShapes.Copy();
+        public void CopyShapes() {
+            FShapes.Copy();
+            ISnapshot wSnapshot = FSnapshots.GetLatest();
+            if (wSnapshot == null) return;
+            wSnapshot.Shapes.Clipboard = new List<IShape>();
+            wSnapshot.Shapes.Clipboard.AddRange(FShapes.Clipboard.Select(x => x.DeepClone()));
+        }
 
         /// <summary>
         /// 図形を貼り付けます
         /// </summary>
         public void PasteShapes() {
+            if (FShapes.Clipboard.Count == 0) return;
             FShapes.Paste();
             this.Refresh();
         }
@@ -165,7 +174,7 @@ namespace WFCAD {
             ISnapshot wSnapshot = FSnapshots.GetBefore();
             if (wSnapshot == null) return;
             FMainPictureBox.Image = wSnapshot.Bitmap;
-            FShapes = wSnapshot.Shapes;
+            FShapes = wSnapshot.Shapes.DeepClone();
         }
 
         /// <summary>
@@ -175,7 +184,7 @@ namespace WFCAD {
             ISnapshot wSnapshot = FSnapshots.GetAfter();
             if (wSnapshot == null) return;
             FMainPictureBox.Image = wSnapshot.Bitmap;
-            FShapes = wSnapshot.Shapes;
+            FShapes = wSnapshot.Shapes.DeepClone();
         }
 
         /// <summary>

@@ -12,6 +12,11 @@
         void Add(ISnapshot vSnapshot);
 
         /// <summary>
+        /// 最新のスナップショットを取得します
+        /// </summary>
+        ISnapshot GetLatest();
+
+        /// <summary>
         /// 一つ前のスナップショットを取得します
         /// </summary>
         ISnapshot GetBefore();

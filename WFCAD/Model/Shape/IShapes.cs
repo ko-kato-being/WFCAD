@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace WFCAD {
     /// <summary>
@@ -12,6 +13,11 @@ namespace WFCAD {
         /// 表示状態
         /// </summary>
         bool Visible { get; set; }
+
+        /// <summary>
+        /// クリップボード
+        /// </summary>
+        List<IShape> Clipboard { get; set; }
 
         #endregion プロパティ
 

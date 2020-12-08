@@ -5,7 +5,7 @@ namespace WFCAD {
     /// <summary>
     /// スナップショット群クラス
     /// </summary>
-    public class Snapshots : ISnapshots{
+    public class Snapshots : ISnapshots {
         private List<ISnapshot> FSnapshots = new List<ISnapshot>();
         private int FCurrentIndex = -1;
 
@@ -22,6 +22,11 @@ namespace WFCAD {
             FSnapshots.Add(vSnapshot);
             FCurrentIndex++;
         }
+
+        /// <summary>
+        /// 最新のスナップショットを取得します
+        /// </summary>
+        public ISnapshot GetLatest() => FSnapshots.Count > 0 ? FSnapshots[FCurrentIndex] : null;
 
         /// <summary>
         /// 一つ前のスナップショットを取得します

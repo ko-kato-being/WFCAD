@@ -4,7 +4,7 @@ namespace WFCAD {
     /// <summary>
     /// スナップショットクラス
     /// </summary>
-    public class Snapshot : ISnapshot{
+    public class Snapshot : ISnapshot {
 
         #region コンストラクタ
 
