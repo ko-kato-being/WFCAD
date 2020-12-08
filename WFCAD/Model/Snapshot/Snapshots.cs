@@ -15,6 +15,9 @@ namespace WFCAD {
         /// スナップショットを追加します
         /// </summary>
         public void Add(ISnapshot vSnapshot) {
+            foreach (ISnapshot wSnapshot in FSnapshots.Skip(FCurrentIndex + 1)) {
+                wSnapshot.Bitmap.Dispose();
+            }
             FSnapshots = FSnapshots.Take(FCurrentIndex + 1).ToList();
             FSnapshots.Add(vSnapshot);
             FCurrentIndex++;
