@@ -77,7 +77,7 @@ namespace WFCAD {
                             wShape.IsSelected = wShape.IsSelected || wIsHit;
                         } else {
                             wShape.IsSelected = wIsHit;
-                            if (wShape.IsSelected) {
+                            if (wIsHit) {
                                 wHasSelected = true;
                             }
                         }
