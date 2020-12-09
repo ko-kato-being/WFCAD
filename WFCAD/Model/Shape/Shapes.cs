@@ -57,14 +57,11 @@ namespace WFCAD {
         /// 選択します
         /// </summary>
         public void Select(Point vCoordinate, bool vIsMultiple) {
+            bool wExistsHitShape = false;
             if (FShapes.Where(x => x.IsSelected).ToList().Count >= 2) {
-                if (FShapes.Any(x => x.IsHit(vCoordinate))) {
-                    foreach (IShape wShape in FShapes) {
-                        bool wIsHit = wShape.IsHit(vCoordinate);
-                        wShape.IsSelected = wShape.IsSelected || wIsHit;
-                    }
-                } else {
-                    FShapes.ForEach(x => x.IsSelected = false);
+                foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
+                    bool wIsHit = wShape.IsHit(vCoordinate);
+                    wShape.IsSelected = wShape.IsSelected || wIsHit;
                 }
             } else {
                 bool wHasSelected = false;
@@ -84,6 +81,7 @@ namespace WFCAD {
                     }
                 }
             }
+            if (!wExistsHitShape) this.Unselect();
         }
 
         /// <summary>
