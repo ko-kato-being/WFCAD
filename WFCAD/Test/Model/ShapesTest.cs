@@ -21,7 +21,9 @@ namespace WFCAD {
             var wShapes = new Shapes();
             vTestDatas.ForEach(x => wShapes.Add(x.Shape));
             wShapes.Select(new Point(), vIsMultiple);
-            vTestDatas.ForEach(x => Assert.AreEqual(x.Result, x.Shape.IsSelected));
+            for (int i = 0; i < vTestDatas.Count; i++) {
+                Assert.AreEqual(vTestDatas[i].Result, vTestDatas[i].Shape.IsSelected, message: $"図形{i + 1}");
+            }
         }
 
         [Test]
@@ -41,11 +43,13 @@ namespace WFCAD {
             });
         }
 
-        [Test]
-        public void 選択_複数選択する場合は選択状態の図形を選択したら選択状態が解除されること() {
+        [TestCase(true)]
+        [TestCase(false)]
+        public void 選択_複数選択する場合は選択状態の図形を選択したら選択状態が反転すること(bool vIsSelected) {
             this.SelectTest(vIsMultiple: true, vTestDatas: new List<(IShape Mock, bool Result)> {
-                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: false),
+                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: true),
                 CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: true),
+                CreateSelectTestData(vIsSelected: vIsSelected, vIsHit: true, vResult: !vIsSelected),
             });
         }
 
