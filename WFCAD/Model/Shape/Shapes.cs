@@ -58,29 +58,30 @@ namespace WFCAD {
         /// </summary>
         public void Select(Point vCoordinate, bool vIsMultiple) {
             bool wExistsHitShape = false;
-            if (FShapes.Where(x => x.IsSelected).ToList().Count >= 2) {
-                foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
-                    bool wIsHit = wShape.IsHit(vCoordinate);
-                    if (wIsHit && !wShape.IsSelected && !vIsMultiple) {
+            bool wIsMultiSelected = FShapes.Where(x => x.IsSelected).ToList().Count >= 2;
+            foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
+                bool wIsHit = wShape.IsHit(vCoordinate);
+                if (vIsMultiple) {
+                    // 複数選択モードの場合
+                    if (wIsHit && !wExistsHitShape) {
+                        wShape.IsSelected = !wShape.IsSelected;
+                    }
+                } else if (wIsMultiSelected) {
+                    // 既に複数選択されている場合
+                    if (wIsHit && !wShape.IsSelected) {
                         this.Unselect();
                         wShape.IsSelected = true;
                         return;
                     }
                     wShape.IsSelected |= wIsHit;
-                    wExistsHitShape |= wIsHit;
-                }
-            } else {
-                foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
-                    bool wIsHit = wShape.IsHit(vCoordinate);
-                    if (vIsMultiple) {
-                        if (wIsHit) wShape.IsSelected = !wShape.IsSelected;
-                    } else if (!wExistsHitShape) {
+                } else {
+                    if (!wExistsHitShape) {
                         wShape.IsSelected = wIsHit;
                     } else {
                         wShape.IsSelected = false;
                     }
-                    wExistsHitShape |= wIsHit;
                 }
+                wExistsHitShape |= wIsHit;
             }
             if (!wExistsHitShape) this.Unselect();
         }

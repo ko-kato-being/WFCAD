@@ -26,52 +26,6 @@ namespace WFCAD {
             }
         }
 
-        [Test]
-        public void 選択_前面にある図形が選択されること() {
-            this.SelectTest(vIsMultiple: false, vTestDatas: new List<(IShape Mock, bool Result)> {
-                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: false),
-                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: true),
-            });
-        }
-
-        [Test]
-        public void 選択_複数選択する場合は他の図形の選択状態が維持されること() {
-            this.SelectTest(vIsMultiple: true, vTestDatas: new List<(IShape Mock, bool Result)> {
-                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: true),
-                CreateSelectTestData(vIsSelected: false, vIsHit: false, vResult: false),
-                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: true),
-            });
-        }
-
-        [TestCase(true)]
-        [TestCase(false)]
-        public void 選択_複数選択する場合は選択状態の図形を選択したら選択状態が反転すること(bool vIsSelected) {
-            this.SelectTest(vIsMultiple: true, vTestDatas: new List<(IShape Mock, bool Result)> {
-                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: true),
-                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: true),
-                CreateSelectTestData(vIsSelected: vIsSelected, vIsHit: true, vResult: !vIsSelected),
-            });
-        }
-
-        [Test]
-        public void 選択_複数選択状態で選択状態の図形を選択した場合は複数選択しない場合でも他の図形の選択状態が維持されること() {
-            this.SelectTest(vIsMultiple: false, vTestDatas: new List<(IShape Mock, bool Result)> {
-                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: true),
-                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: true),
-                CreateSelectTestData(vIsSelected: false, vIsHit: false, vResult: false),
-            });
-        }
-
-        [TestCase(true, true)]
-        [TestCase(false, false)]
-        public void 選択_複数選択状態で未選択状態の図形を選択した場合(bool vIsMultiple, bool vResult) {
-            this.SelectTest(vIsMultiple: vIsMultiple, vTestDatas: new List<(IShape Mock, bool Result)> {
-                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: vResult),
-                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: vResult),
-                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: true),
-            });
-        }
-
         [TestCase(true, true, true, true)]
         [TestCase(true, true, true, false)]
         [TestCase(true, true, false, false)]
@@ -87,6 +41,51 @@ namespace WFCAD {
                 CreateSelectTestData(vIsSelected: vIsSelected1, vIsHit: false, vResult: false),
                 CreateSelectTestData(vIsSelected: vIsSelected2, vIsHit: false, vResult: false),
                 CreateSelectTestData(vIsSelected: vIsSelected3, vIsHit: false, vResult: false),
+            });
+        }
+
+        [Test]
+        public void 選択_前面にある図形が選択されること() {
+            this.SelectTest(vIsMultiple: false, vTestDatas: new List<(IShape Mock, bool Result)> {
+                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: false),
+                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: true),
+            });
+        }
+
+        [Test]
+        public void 選択_複数選択モードの場合は他の図形の選択状態が維持されること() {
+            this.SelectTest(vIsMultiple: true, vTestDatas: new List<(IShape Mock, bool Result)> {
+                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: true),
+                CreateSelectTestData(vIsSelected: false, vIsHit: false, vResult: false),
+                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: true),
+            });
+        }
+
+        [TestCase(true, TestName = "選択_複数選択モードの場合は選択状態の図形を選択したら未選択状態になること")]
+        [TestCase(false, TestName = "選択_複数選択モードの場合は未選択状態の図形を選択したら選択状態になること")]
+        public void 選択_複数選択モードの場合は図形を選択したら選択状態が反転すること(bool vIsSelected) {
+            this.SelectTest(vIsMultiple: true, vTestDatas: new List<(IShape Mock, bool Result)> {
+                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: true),
+                CreateSelectTestData(vIsSelected: true, vIsHit: false, vResult: true),
+                CreateSelectTestData(vIsSelected: vIsSelected, vIsHit: true, vResult: !vIsSelected),
+            });
+        }
+
+        [Test]
+        public void 選択_複数選択状態で選択状態の図形を選択した場合は他の図形の選択状態が維持されること() {
+            this.SelectTest(vIsMultiple: false, vTestDatas: new List<(IShape Mock, bool Result)> {
+                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: false),
+                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: true),
+                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: true),
+            });
+        }
+
+        [Test]
+        public void 選択_複数選択状態で未選択状態の図形を選択した場合は他の図形の選択状態が解除されること() {
+            this.SelectTest(vIsMultiple: false, vTestDatas: new List<(IShape Mock, bool Result)> {
+                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: false),
+                CreateSelectTestData(vIsSelected: true, vIsHit: true, vResult: false),
+                CreateSelectTestData(vIsSelected: false, vIsHit: true, vResult: true),
             });
         }
 
