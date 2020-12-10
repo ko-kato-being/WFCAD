@@ -57,33 +57,33 @@ namespace WFCAD {
         /// 選択します
         /// </summary>
         public void Select(Point vCoordinate, bool vIsMultiple) {
-            bool wExistsHitShape = false;
+            bool wIsAlreadyHit = false;
             bool wIsMultiSelected = FShapes.Where(x => x.IsSelected).ToList().Count >= 2;
             foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
                 bool wIsHit = wShape.IsHit(vCoordinate);
                 if (vIsMultiple) {
                     // 複数選択モードの場合
-                    if (wIsHit && !wExistsHitShape) {
+                    if (!wIsAlreadyHit && wIsHit) {
                         wShape.IsSelected = !wShape.IsSelected;
                     }
                 } else if (wIsMultiSelected) {
                     // 既に複数選択されている場合
-                    if (wIsHit && !wShape.IsSelected) {
+                    if (!wIsAlreadyHit && wIsHit && !wShape.IsSelected) {
+                        // 未選択の図形を選択した場合は他の図形の選択を解除して終了
                         this.Unselect();
                         wShape.IsSelected = true;
                         return;
                     }
-                    wShape.IsSelected |= wIsHit;
                 } else {
-                    if (!wExistsHitShape) {
-                        wShape.IsSelected = wIsHit;
+                    if (!wIsAlreadyHit && wIsHit) {
+                        wShape.IsSelected = true;
                     } else {
                         wShape.IsSelected = false;
                     }
                 }
-                wExistsHitShape |= wIsHit;
+                wIsAlreadyHit |= wIsHit;
             }
-            if (!wExistsHitShape) this.Unselect();
+            if (!wIsAlreadyHit) this.Unselect();
         }
 
         /// <summary>
