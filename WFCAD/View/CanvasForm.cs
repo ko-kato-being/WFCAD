@@ -31,7 +31,7 @@ namespace WFCAD {
             };
             // 矩形ボタン
             FButtonRectangle.Click += (sender, e) => {
-                FCanvasControl.UnelectShapes();
+                FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
@@ -41,7 +41,7 @@ namespace WFCAD {
             };
             // 円ボタン
             FButtonEllipse.Click += (sender, e) => {
-                FCanvasControl.UnelectShapes();
+                FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
@@ -51,7 +51,7 @@ namespace WFCAD {
             };
             // 線ボタン
             FButtonLine.Click += (sender, e) => {
-                FCanvasControl.UnelectShapes();
+                FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
@@ -115,7 +115,7 @@ namespace WFCAD {
                             FButtonRemove.PerformClick();
                             break;
                         case Keys.Escape:
-                            FCanvasControl.UnelectShapes();
+                            FCanvasControl.UnselectShapes();
                             break;
                     }
                 }

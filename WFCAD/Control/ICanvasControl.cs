@@ -40,7 +40,7 @@ namespace WFCAD {
         /// <summary>
         /// すべての図形の選択を解除します
         /// </summary>
-        void UnelectShapes();
+        void UnselectShapes();
 
         /// <summary>
         /// 図形のプレビューを表示します

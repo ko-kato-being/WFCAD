@@ -107,7 +107,7 @@ namespace WFCAD {
         /// <summary>
         /// すべての図形の選択を解除します
         /// </summary>
-        public void UnelectShapes() {
+        public void UnselectShapes() {
             FShapes.Unselect();
             this.Refresh(false);
         }
