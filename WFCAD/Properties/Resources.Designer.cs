@@ -93,9 +93,39 @@ namespace WFCAD.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap 円 {
+            get {
+                object obj = ResourceManager.GetObject("円", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap 削除 {
             get {
                 object obj = ResourceManager.GetObject("削除", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 矩形 {
+            get {
+                object obj = ResourceManager.GetObject("矩形", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap 線 {
+            get {
+                object obj = ResourceManager.GetObject("線", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

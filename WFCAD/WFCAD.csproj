@@ -143,10 +143,19 @@
     <None Include="Resources\書類複製.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\複製.png" />
+    <None Include="Resources\選択.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\選択.png" />
+    <None Include="Resources\円.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\矩形.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\線.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\複製.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

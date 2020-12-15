@@ -24,15 +24,15 @@
         /// </summary>
         private void InitializeComponent() {
             this.FToolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.FButtonClone = new System.Windows.Forms.ToolStripButton();
             this.FButtonRotate = new System.Windows.Forms.ToolStripButton();
             this.FButtonForeground = new System.Windows.Forms.ToolStripButton();
             this.FButtonBackground = new System.Windows.Forms.ToolStripButton();
+            this.FToolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.FButtonClone = new System.Windows.Forms.ToolStripButton();
             this.FButtonUndo = new System.Windows.Forms.ToolStripButton();
             this.FButtonRedo = new System.Windows.Forms.ToolStripButton();
             this.FButtonRemove = new System.Windows.Forms.ToolStripButton();
             this.FButtonReset = new System.Windows.Forms.ToolStripButton();
-            this.FToolStrip1 = new System.Windows.Forms.ToolStrip();
             this.FButtonSelect = new System.Windows.Forms.ToolStripButton();
             this.FButtonRectangle = new System.Windows.Forms.ToolStripButton();
             this.FButtonEllipse = new System.Windows.Forms.ToolStripButton();
@@ -64,15 +64,6 @@
             this.FToolStrip2.TabIndex = 1;
             this.FToolStrip2.Text = "toolStrip2";
             // 
-            // FButtonClone
-            // 
-            this.FButtonClone.Image = global::WFCAD.Properties.Resources.複製;
-            this.FButtonClone.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonClone.Name = "FButtonClone";
-            this.FButtonClone.Size = new System.Drawing.Size(36, 51);
-            this.FButtonClone.Text = "複製";
-            this.FButtonClone.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
             // FButtonRotate
             // 
             this.FButtonRotate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -96,6 +87,29 @@
             this.FButtonBackground.Name = "FButtonBackground";
             this.FButtonBackground.Size = new System.Drawing.Size(47, 51);
             this.FButtonBackground.Text = "最背面";
+            // 
+            // FToolStrip1
+            // 
+            this.FToolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.FToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FButtonSelect,
+            this.FButtonRectangle,
+            this.FButtonEllipse,
+            this.FButtonLine});
+            this.FToolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.FToolStrip1.Name = "FToolStrip1";
+            this.FToolStrip1.Size = new System.Drawing.Size(467, 54);
+            this.FToolStrip1.TabIndex = 0;
+            this.FToolStrip1.Text = "toolStrip1";
+            // 
+            // FButtonClone
+            // 
+            this.FButtonClone.Image = global::WFCAD.Properties.Resources.複製;
+            this.FButtonClone.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonClone.Name = "FButtonClone";
+            this.FButtonClone.Size = new System.Drawing.Size(36, 51);
+            this.FButtonClone.Text = "複製";
+            this.FButtonClone.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // FButtonUndo
             // 
@@ -133,20 +147,6 @@
             this.FButtonReset.Text = "リセット";
             this.FButtonReset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // FToolStrip1
-            // 
-            this.FToolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.FToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FButtonSelect,
-            this.FButtonRectangle,
-            this.FButtonEllipse,
-            this.FButtonLine});
-            this.FToolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.FToolStrip1.Name = "FToolStrip1";
-            this.FToolStrip1.Size = new System.Drawing.Size(467, 54);
-            this.FToolStrip1.TabIndex = 0;
-            this.FToolStrip1.Text = "toolStrip1";
-            // 
             // FButtonSelect
             // 
             this.FButtonSelect.Image = global::WFCAD.Properties.Resources.選択;
@@ -158,27 +158,30 @@
             // 
             // FButtonRectangle
             // 
-            this.FButtonRectangle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonRectangle.Image = global::WFCAD.Properties.Resources.矩形;
             this.FButtonRectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FButtonRectangle.Name = "FButtonRectangle";
-            this.FButtonRectangle.Size = new System.Drawing.Size(35, 51);
+            this.FButtonRectangle.Size = new System.Drawing.Size(36, 51);
             this.FButtonRectangle.Text = "矩形";
+            this.FButtonRectangle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // FButtonEllipse
             // 
-            this.FButtonEllipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonEllipse.Image = global::WFCAD.Properties.Resources.円;
             this.FButtonEllipse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FButtonEllipse.Name = "FButtonEllipse";
-            this.FButtonEllipse.Size = new System.Drawing.Size(23, 51);
+            this.FButtonEllipse.Size = new System.Drawing.Size(36, 51);
             this.FButtonEllipse.Text = "円";
+            this.FButtonEllipse.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // FButtonLine
             // 
-            this.FButtonLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonLine.Image = global::WFCAD.Properties.Resources.線;
             this.FButtonLine.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FButtonLine.Name = "FButtonLine";
-            this.FButtonLine.Size = new System.Drawing.Size(23, 51);
+            this.FButtonLine.Size = new System.Drawing.Size(36, 51);
             this.FButtonLine.Text = "線";
+            this.FButtonLine.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // FMainPictureBox
             // 
