@@ -163,6 +163,16 @@ namespace WFCAD.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap 色 {
+            get {
+                object obj = ResourceManager.GetObject("色", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap 複製 {
             get {
                 object obj = ResourceManager.GetObject("複製", resourceCulture);

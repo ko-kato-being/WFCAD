@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WFCAD {
@@ -59,6 +60,30 @@ namespace WFCAD {
                     FCanvasControl.ShowPreview(new Line(), vMouseEventArgs.Location);
                 };
             };
+            // 色の設定ボタン
+            FButtonColor.Click += (sender, e) => {
+                using (var wColorDialog = new ColorDialog()) {
+                    wColorDialog.Color = FCanvasControl.Color;
+                    wColorDialog.AllowFullOpen = false;
+                    if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
+
+                    var wColorMap = new System.Drawing.Imaging.ColorMap();
+                    wColorMap.OldColor = FCanvasControl.Color;
+                    wColorMap.NewColor = wColorDialog.Color;
+                    using (var wGraphics = Graphics.FromImage(FButtonColor.Image)) {
+                        var wRectangle = new System.Drawing.Rectangle(0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height);
+                        using (var wImageAttributes = new System.Drawing.Imaging.ImageAttributes()) {
+                            wImageAttributes.SetRemapTable(new System.Drawing.Imaging.ColorMap[] { wColorMap });
+                            wGraphics.DrawImage(FButtonColor.Image, wRectangle, 0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height, GraphicsUnit.Pixel, wImageAttributes);
+                        }
+                        using (var wPen = new Pen(Color.Black)) {
+                            wGraphics.DrawRectangle(wPen, wRectangle);
+                        }
+                    }
+                    FCanvasControl.Color = wColorDialog.Color;
+                }
+            };
+
             // 最前面に移動
             FButtonForeground.Click += (sender, e) => FCanvasControl.MoveToFrontShapes();
             // 最背面に移動
