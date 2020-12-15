@@ -6,6 +6,11 @@ namespace WFCAD {
     /// </summary>
     public class Line : Shape {
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Line(Color vColor) : base(vColor) { }
+
         #region　メソッド
 
         /// <summary>
@@ -32,7 +37,7 @@ namespace WFCAD {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override IShape DeepCloneCore() => new Line();
+        protected override IShape DeepCloneCore() => new Line(FPrevColor);
 
         #endregion　メソッド
     }

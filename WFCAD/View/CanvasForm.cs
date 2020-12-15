@@ -34,30 +34,30 @@ namespace WFCAD {
             FButtonRectangle.Click += (sender, e) => {
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle());
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle(FCanvasControl.Color));
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
                     if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Rectangle(), vMouseEventArgs.Location);
+                    FCanvasControl.ShowPreview(new Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
                 };
             };
             // 円ボタン
             FButtonEllipse.Click += (sender, e) => {
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse());
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse(FCanvasControl.Color));
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
                     if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Ellipse(), vMouseEventArgs.Location);
+                    FCanvasControl.ShowPreview(new Ellipse(FCanvasControl.Color), vMouseEventArgs.Location);
                 };
             };
             // 線ボタン
             FButtonLine.Click += (sender, e) => {
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line());
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line(FCanvasControl.Color));
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
                     if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Line(), vMouseEventArgs.Location);
+                    FCanvasControl.ShowPreview(new Line(FCanvasControl.Color), vMouseEventArgs.Location);
                 };
             };
             // 色の設定ボタン

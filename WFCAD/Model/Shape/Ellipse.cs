@@ -9,6 +9,11 @@ namespace WFCAD {
     public class Ellipse : Shape {
         private System.Drawing.Rectangle FFrameRectangle;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Ellipse(Color vColor) : base(vColor) { }
+
         #region　メソッド
 
         /// <summary>
@@ -34,7 +39,7 @@ namespace WFCAD {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override IShape DeepCloneCore() => new Ellipse();
+        protected override IShape DeepCloneCore() => new Ellipse(FPrevColor);
 
 
         #endregion　メソッド

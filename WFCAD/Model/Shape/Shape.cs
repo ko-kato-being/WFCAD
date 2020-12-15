@@ -7,6 +7,15 @@ namespace WFCAD {
     /// </summary>
     public abstract class Shape : IShape {
         private bool FIsSelected;
+        protected Color FPrevColor;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        protected Shape(Color vColor) {
+            this.Color = vColor;
+            FPrevColor = vColor;
+        }
 
         #region プロパティ
 
@@ -90,17 +99,14 @@ namespace WFCAD {
         /// 選択状態にします
         /// </summary>
         protected void Select() {
-            if (this.Color == null) return;
+            FPrevColor = this.Color;
             this.Color = Color.Blue;
         }
 
         /// <summary>
         /// 選択状態を解除します
         /// </summary>
-        protected void UnSelect() {
-            if (this.Color == null) return;
-            this.Color = Color.Black;
-        }
+        protected void UnSelect() => this.Color = FPrevColor;
 
         /// <summary>
         /// 複製します

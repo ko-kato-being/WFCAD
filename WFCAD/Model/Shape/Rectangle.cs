@@ -9,6 +9,11 @@ namespace WFCAD {
     public class Rectangle : Shape {
         private System.Drawing.Rectangle FFrameRectangle;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Rectangle(Color vColor) : base(vColor) { }
+
         #region　メソッド
 
         /// <summary>
@@ -34,7 +39,7 @@ namespace WFCAD {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override IShape DeepCloneCore() => new Rectangle();
+        protected override IShape DeepCloneCore() => new Rectangle(FPrevColor);
 
         #endregion　メソッド
 
