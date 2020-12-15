@@ -11,7 +11,11 @@ namespace WFCAD {
         /// <summary>
         /// 描画します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics) => vGraphics.DrawLine(this.Option, this.StartPoint, this.EndPoint);
+        protected override void DrawCore(Graphics vGraphics) {
+            using (var wPen = new Pen(this.Color)) {
+                vGraphics.DrawLine(wPen, this.StartPoint, this.EndPoint);
+            }
+        }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか

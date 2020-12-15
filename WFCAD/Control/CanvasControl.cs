@@ -83,7 +83,7 @@ namespace WFCAD {
             IShape wShape = vShape.DeepClone();
             wShape.StartPoint = this.MouseDownLocation;
             wShape.EndPoint = vMouseLocation;
-            wShape.Option = new Pen(this.Color);
+            wShape.Color = this.Color;
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = wShape.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
         }
@@ -123,7 +123,7 @@ namespace WFCAD {
             IShape wShape = vShape.DeepClone();
             wShape.StartPoint = this.MouseDownLocation;
             wShape.EndPoint = this.MouseUpLocation;
-            wShape.Option = new Pen(this.Color);
+            wShape.Color = this.Color;
             FShapes.Add(wShape);
             this.Refresh();
         }

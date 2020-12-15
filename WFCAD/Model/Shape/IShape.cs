@@ -29,9 +29,9 @@ namespace WFCAD {
         bool Visible { get; set; }
 
         /// <summary>
-        /// 描画オプション
+        /// 表示色
         /// </summary>
-        Pen Option { get; set; }
+        Color Color { get; set; }
 
         #endregion プロパティ
 

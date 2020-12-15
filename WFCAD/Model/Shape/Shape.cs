@@ -48,9 +48,9 @@ namespace WFCAD {
         public bool Visible { get; set; } = true;
 
         /// <summary>
-        /// 描画オプション
+        /// 表示色
         /// </summary>
-        public Pen Option { get; set; }
+        public Color Color { get; set; }
 
         #endregion プロパティ
 
@@ -90,16 +90,16 @@ namespace WFCAD {
         /// 選択状態にします
         /// </summary>
         protected void Select() {
-            if (this.Option == null) return;
-            this.Option.Color = Color.Blue;
+            if (this.Color == null) return;
+            this.Color = Color.Blue;
         }
 
         /// <summary>
         /// 選択状態を解除します
         /// </summary>
         protected void UnSelect() {
-            if (this.Option == null) return;
-            this.Option.Color = Color.Black;
+            if (this.Color == null) return;
+            this.Color = Color.Black;
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace WFCAD {
             wShape.StartPoint = this.StartPoint;
             wShape.EndPoint = this.EndPoint;
             wShape.IsSelected = this.IsSelected;
-            wShape.Option = (Pen)this.Option?.Clone();
+            wShape.Color = this.Color;
             return wShape;
         }
 
