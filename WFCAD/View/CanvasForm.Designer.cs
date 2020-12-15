@@ -39,6 +39,11 @@
             this.FButtonLine = new System.Windows.Forms.ToolStripButton();
             this.FMainPictureBox = new System.Windows.Forms.PictureBox();
             this.FSubPictureBox = new System.Windows.Forms.PictureBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
@@ -50,12 +55,16 @@
             // 
             this.FToolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.FToolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FButtonClone,
-            this.FButtonRotate,
-            this.FButtonForeground,
-            this.FButtonBackground,
             this.FButtonUndo,
             this.FButtonRedo,
+            this.toolStripSeparator2,
+            this.FButtonClone,
+            this.toolStripSeparator3,
+            this.FButtonRotate,
+            this.toolStripSeparator4,
+            this.FButtonForeground,
+            this.FButtonBackground,
+            this.toolStripSeparator5,
             this.FButtonRemove,
             this.FButtonReset});
             this.FToolStrip2.Location = new System.Drawing.Point(0, 54);
@@ -141,6 +150,7 @@
             this.FToolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.FToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FButtonSelect,
+            this.toolStripSeparator1,
             this.FButtonRectangle,
             this.FButtonEllipse,
             this.FButtonLine});
@@ -208,6 +218,31 @@
             this.FSubPictureBox.TabIndex = 1;
             this.FSubPictureBox.TabStop = false;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 54);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 54);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 54);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 54);
+            // 
             // CanvasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -249,6 +284,11 @@
         private System.Windows.Forms.ToolStripButton FButtonRectangle;
         private System.Windows.Forms.ToolStripButton FButtonEllipse;
         private System.Windows.Forms.ToolStripButton FButtonLine;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 
