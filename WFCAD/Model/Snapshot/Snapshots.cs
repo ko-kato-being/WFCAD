@@ -6,8 +6,10 @@ namespace WFCAD {
     /// スナップショット群クラス
     /// </summary>
     public class Snapshots : ISnapshots {
-        private List<ISnapshot> FSnapshots = new List<ISnapshot>();
-        private int FCurrentIndex = -1;
+        private List<ISnapshot> FSnapshots = new List<ISnapshot> {
+            new Snapshot(null, new Shapes()) // 先頭に空のスナップショットを入れておきます
+        };
+        private int FCurrentIndex;
 
         #region メソッド
 
