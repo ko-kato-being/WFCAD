@@ -23,10 +23,7 @@
         /// コード エディターで変更しないでください。
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CanvasForm));
-            this.FMainPictureBox = new System.Windows.Forms.PictureBox();
-            this.FSubPictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.FToolStrip2 = new System.Windows.Forms.ToolStrip();
             this.FButtonClone = new System.Windows.Forms.ToolStripButton();
             this.FButtonRotate = new System.Windows.Forms.ToolStripButton();
             this.FButtonForeground = new System.Windows.Forms.ToolStripButton();
@@ -35,17 +32,153 @@
             this.FButtonRedo = new System.Windows.Forms.ToolStripButton();
             this.FButtonRemove = new System.Windows.Forms.ToolStripButton();
             this.FButtonReset = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.FToolStrip1 = new System.Windows.Forms.ToolStrip();
             this.FButtonSelect = new System.Windows.Forms.ToolStripButton();
             this.FButtonRectangle = new System.Windows.Forms.ToolStripButton();
             this.FButtonEllipse = new System.Windows.Forms.ToolStripButton();
             this.FButtonLine = new System.Windows.Forms.ToolStripButton();
+            this.FMainPictureBox = new System.Windows.Forms.PictureBox();
+            this.FSubPictureBox = new System.Windows.Forms.PictureBox();
+            this.FToolStrip2.SuspendLayout();
+            this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
             this.FMainPictureBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FSubPictureBox)).BeginInit();
-            this.toolStrip2.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // FToolStrip2
+            // 
+            this.FToolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.FToolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FButtonClone,
+            this.FButtonRotate,
+            this.FButtonForeground,
+            this.FButtonBackground,
+            this.FButtonUndo,
+            this.FButtonRedo,
+            this.FButtonRemove,
+            this.FButtonReset});
+            this.FToolStrip2.Location = new System.Drawing.Point(0, 54);
+            this.FToolStrip2.Name = "FToolStrip2";
+            this.FToolStrip2.Size = new System.Drawing.Size(467, 54);
+            this.FToolStrip2.TabIndex = 1;
+            this.FToolStrip2.Text = "toolStrip2";
+            // 
+            // FButtonClone
+            // 
+            this.FButtonClone.Image = global::WFCAD.Properties.Resources.複製;
+            this.FButtonClone.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonClone.Name = "FButtonClone";
+            this.FButtonClone.Size = new System.Drawing.Size(36, 51);
+            this.FButtonClone.Text = "複製";
+            this.FButtonClone.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // FButtonRotate
+            // 
+            this.FButtonRotate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonRotate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonRotate.Name = "FButtonRotate";
+            this.FButtonRotate.Size = new System.Drawing.Size(35, 51);
+            this.FButtonRotate.Text = "回転";
+            // 
+            // FButtonForeground
+            // 
+            this.FButtonForeground.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonForeground.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonForeground.Name = "FButtonForeground";
+            this.FButtonForeground.Size = new System.Drawing.Size(47, 51);
+            this.FButtonForeground.Text = "最前面";
+            // 
+            // FButtonBackground
+            // 
+            this.FButtonBackground.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonBackground.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonBackground.Name = "FButtonBackground";
+            this.FButtonBackground.Size = new System.Drawing.Size(47, 51);
+            this.FButtonBackground.Text = "最背面";
+            // 
+            // FButtonUndo
+            // 
+            this.FButtonUndo.Image = global::WFCAD.Properties.Resources.元に戻す;
+            this.FButtonUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonUndo.Name = "FButtonUndo";
+            this.FButtonUndo.Size = new System.Drawing.Size(54, 51);
+            this.FButtonUndo.Text = "元に戻す";
+            this.FButtonUndo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // FButtonRedo
+            // 
+            this.FButtonRedo.Image = global::WFCAD.Properties.Resources.やり直し;
+            this.FButtonRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonRedo.Name = "FButtonRedo";
+            this.FButtonRedo.Size = new System.Drawing.Size(49, 51);
+            this.FButtonRedo.Text = "やり直し";
+            this.FButtonRedo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // FButtonRemove
+            // 
+            this.FButtonRemove.Image = global::WFCAD.Properties.Resources.削除;
+            this.FButtonRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonRemove.Name = "FButtonRemove";
+            this.FButtonRemove.Size = new System.Drawing.Size(36, 51);
+            this.FButtonRemove.Text = "削除";
+            this.FButtonRemove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // FButtonReset
+            // 
+            this.FButtonReset.Image = global::WFCAD.Properties.Resources.リセット;
+            this.FButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonReset.Name = "FButtonReset";
+            this.FButtonReset.Size = new System.Drawing.Size(45, 51);
+            this.FButtonReset.Text = "リセット";
+            this.FButtonReset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // FToolStrip1
+            // 
+            this.FToolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.FToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FButtonSelect,
+            this.FButtonRectangle,
+            this.FButtonEllipse,
+            this.FButtonLine});
+            this.FToolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.FToolStrip1.Name = "FToolStrip1";
+            this.FToolStrip1.Size = new System.Drawing.Size(467, 54);
+            this.FToolStrip1.TabIndex = 0;
+            this.FToolStrip1.Text = "toolStrip1";
+            // 
+            // FButtonSelect
+            // 
+            this.FButtonSelect.Image = global::WFCAD.Properties.Resources.選択;
+            this.FButtonSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonSelect.Name = "FButtonSelect";
+            this.FButtonSelect.Size = new System.Drawing.Size(36, 51);
+            this.FButtonSelect.Text = "選択";
+            this.FButtonSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // FButtonRectangle
+            // 
+            this.FButtonRectangle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonRectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonRectangle.Name = "FButtonRectangle";
+            this.FButtonRectangle.Size = new System.Drawing.Size(35, 51);
+            this.FButtonRectangle.Text = "矩形";
+            // 
+            // FButtonEllipse
+            // 
+            this.FButtonEllipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonEllipse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonEllipse.Name = "FButtonEllipse";
+            this.FButtonEllipse.Size = new System.Drawing.Size(23, 51);
+            this.FButtonEllipse.Text = "円";
+            // 
+            // FButtonLine
+            // 
+            this.FButtonLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FButtonLine.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonLine.Name = "FButtonLine";
+            this.FButtonLine.Size = new System.Drawing.Size(23, 51);
+            this.FButtonLine.Text = "線";
             // 
             // FMainPictureBox
             // 
@@ -69,162 +202,24 @@
             this.FSubPictureBox.TabIndex = 1;
             this.FSubPictureBox.TabStop = false;
             // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FButtonClone,
-            this.FButtonRotate,
-            this.FButtonForeground,
-            this.FButtonBackground,
-            this.FButtonUndo,
-            this.FButtonRedo,
-            this.FButtonRemove,
-            this.FButtonReset});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 25);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(467, 25);
-            this.toolStrip2.TabIndex = 1;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // FButtonClone
-            // 
-            this.FButtonClone.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonClone.Image = ((System.Drawing.Image)(resources.GetObject("FButtonClone.Image")));
-            this.FButtonClone.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonClone.Name = "FButtonClone";
-            this.FButtonClone.Size = new System.Drawing.Size(35, 22);
-            this.FButtonClone.Text = "複製";
-            // 
-            // FButtonRotate
-            // 
-            this.FButtonRotate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonRotate.Image = ((System.Drawing.Image)(resources.GetObject("FButtonRotate.Image")));
-            this.FButtonRotate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonRotate.Name = "FButtonRotate";
-            this.FButtonRotate.Size = new System.Drawing.Size(35, 22);
-            this.FButtonRotate.Text = "回転";
-            // 
-            // FButtonForeground
-            // 
-            this.FButtonForeground.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonForeground.Image = ((System.Drawing.Image)(resources.GetObject("FButtonForeground.Image")));
-            this.FButtonForeground.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonForeground.Name = "FButtonForeground";
-            this.FButtonForeground.Size = new System.Drawing.Size(47, 22);
-            this.FButtonForeground.Text = "最前面";
-            // 
-            // FButtonBackground
-            // 
-            this.FButtonBackground.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonBackground.Image = ((System.Drawing.Image)(resources.GetObject("FButtonBackground.Image")));
-            this.FButtonBackground.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonBackground.Name = "FButtonBackground";
-            this.FButtonBackground.Size = new System.Drawing.Size(47, 22);
-            this.FButtonBackground.Text = "最背面";
-            // 
-            // FButtonUndo
-            // 
-            this.FButtonUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonUndo.Image = ((System.Drawing.Image)(resources.GetObject("FButtonUndo.Image")));
-            this.FButtonUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonUndo.Name = "FButtonUndo";
-            this.FButtonUndo.Size = new System.Drawing.Size(40, 22);
-            this.FButtonUndo.Text = "Undo";
-            // 
-            // FButtonRedo
-            // 
-            this.FButtonRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonRedo.Image = ((System.Drawing.Image)(resources.GetObject("FButtonRedo.Image")));
-            this.FButtonRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonRedo.Name = "FButtonRedo";
-            this.FButtonRedo.Size = new System.Drawing.Size(38, 22);
-            this.FButtonRedo.Text = "Redo";
-            // 
-            // FButtonRemove
-            // 
-            this.FButtonRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonRemove.Image = ((System.Drawing.Image)(resources.GetObject("FButtonRemove.Image")));
-            this.FButtonRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonRemove.Name = "FButtonRemove";
-            this.FButtonRemove.Size = new System.Drawing.Size(35, 22);
-            this.FButtonRemove.Text = "削除";
-            // 
-            // FButtonReset
-            // 
-            this.FButtonReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonReset.Image = ((System.Drawing.Image)(resources.GetObject("FButtonReset.Image")));
-            this.FButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonReset.Name = "FButtonReset";
-            this.FButtonReset.Size = new System.Drawing.Size(45, 22);
-            this.FButtonReset.Text = "リセット";
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FButtonSelect,
-            this.FButtonRectangle,
-            this.FButtonEllipse,
-            this.FButtonLine});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(467, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // FButtonSelect
-            // 
-            this.FButtonSelect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonSelect.Image = ((System.Drawing.Image)(resources.GetObject("FButtonSelect.Image")));
-            this.FButtonSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonSelect.Name = "FButtonSelect";
-            this.FButtonSelect.Size = new System.Drawing.Size(35, 22);
-            this.FButtonSelect.Text = "選択";
-            // 
-            // FButtonRectangle
-            // 
-            this.FButtonRectangle.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonRectangle.Image = ((System.Drawing.Image)(resources.GetObject("FButtonRectangle.Image")));
-            this.FButtonRectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonRectangle.Name = "FButtonRectangle";
-            this.FButtonRectangle.Size = new System.Drawing.Size(35, 22);
-            this.FButtonRectangle.Text = "矩形";
-            // 
-            // FButtonEllipse
-            // 
-            this.FButtonEllipse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonEllipse.Image = ((System.Drawing.Image)(resources.GetObject("FButtonEllipse.Image")));
-            this.FButtonEllipse.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonEllipse.Name = "FButtonEllipse";
-            this.FButtonEllipse.Size = new System.Drawing.Size(23, 22);
-            this.FButtonEllipse.Text = "円";
-            // 
-            // FButtonLine
-            // 
-            this.FButtonLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.FButtonLine.Image = ((System.Drawing.Image)(resources.GetObject("FButtonLine.Image")));
-            this.FButtonLine.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonLine.Name = "FButtonLine";
-            this.FButtonLine.Size = new System.Drawing.Size(23, 22);
-            this.FButtonLine.Text = "線";
-            // 
             // CanvasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(467, 423);
-            this.Controls.Add(this.toolStrip2);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.FToolStrip2);
+            this.Controls.Add(this.FToolStrip1);
             this.Controls.Add(this.FMainPictureBox);
             this.KeyPreview = true;
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
+            this.FToolStrip2.ResumeLayout(false);
+            this.FToolStrip2.PerformLayout();
+            this.FToolStrip1.ResumeLayout(false);
+            this.FToolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).EndInit();
             this.FMainPictureBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FSubPictureBox)).EndInit();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,7 +229,7 @@
 
         private System.Windows.Forms.PictureBox FMainPictureBox;
         private System.Windows.Forms.PictureBox FSubPictureBox;
-        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStrip FToolStrip2;
         private System.Windows.Forms.ToolStripButton FButtonClone;
         private System.Windows.Forms.ToolStripButton FButtonRotate;
         private System.Windows.Forms.ToolStripButton FButtonForeground;
@@ -243,7 +238,7 @@
         private System.Windows.Forms.ToolStripButton FButtonRedo;
         private System.Windows.Forms.ToolStripButton FButtonRemove;
         private System.Windows.Forms.ToolStripButton FButtonReset;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip FToolStrip1;
         private System.Windows.Forms.ToolStripButton FButtonSelect;
         private System.Windows.Forms.ToolStripButton FButtonRectangle;
         private System.Windows.Forms.ToolStripButton FButtonEllipse;
