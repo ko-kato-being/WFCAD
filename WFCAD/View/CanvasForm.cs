@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace WFCAD {
@@ -67,13 +68,13 @@ namespace WFCAD {
                     wColorDialog.AllowFullOpen = false;
                     if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
 
-                    var wColorMap = new System.Drawing.Imaging.ColorMap();
-                    wColorMap.OldColor = FCanvasControl.Color;
-                    wColorMap.NewColor = wColorDialog.Color;
                     using (var wGraphics = Graphics.FromImage(FButtonColor.Image)) {
                         var wRectangle = new System.Drawing.Rectangle(0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height);
-                        using (var wImageAttributes = new System.Drawing.Imaging.ImageAttributes()) {
-                            wImageAttributes.SetRemapTable(new System.Drawing.Imaging.ColorMap[] { wColorMap });
+                        using (var wImageAttributes = new ImageAttributes()) {
+                            wImageAttributes.SetRemapTable(new ColorMap[] { new ColorMap {
+                                OldColor = FCanvasControl.Color,
+                                NewColor = wColorDialog.Color,
+                            }});
                             wGraphics.DrawImage(FButtonColor.Image, wRectangle, 0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height, GraphicsUnit.Pixel, wImageAttributes);
                         }
                         using (var wPen = new Pen(Color.Black)) {
