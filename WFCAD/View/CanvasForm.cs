@@ -13,7 +13,7 @@ namespace WFCAD {
         private Action<MouseEventArgs> FMouseDownAction;
         private Action<MouseEventArgs> FMouseUpAction;
         private Action<MouseEventArgs> FMouseMoveAction;
-        private readonly List<ToolStripButton> FButtonGroup;
+        private readonly List<ToolStripButton> FGroupButtons;
 
         /// <summary>
         /// コンストラクタ
@@ -21,7 +21,7 @@ namespace WFCAD {
         public CanvasForm() {
             InitializeComponent();
             FCanvasControl = new CanvasControl(FMainPictureBox, FSubPictureBox);
-            FButtonGroup = new List<ToolStripButton> {
+            FGroupButtons = new List<ToolStripButton> {
                 FButtonSelect,
                 FButtonRectangle,
                 FButtonEllipse,
@@ -32,7 +32,7 @@ namespace WFCAD {
 
             // 選択ボタン
             FButtonSelect.Click += (sender, e) => {
-                this.SetButtonGroupChecked(sender as ToolStripButton);
+                this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FMouseDownAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.MoveShapes(vMouseEventArgs.Location);
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
@@ -42,7 +42,7 @@ namespace WFCAD {
             };
             // 矩形ボタン
             FButtonRectangle.Click += (sender, e) => {
-                this.SetButtonGroupChecked(sender as ToolStripButton);
+                this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle(FCanvasControl.Color));
@@ -53,7 +53,7 @@ namespace WFCAD {
             };
             // 円ボタン
             FButtonEllipse.Click += (sender, e) => {
-                this.SetButtonGroupChecked(sender as ToolStripButton);
+                this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse(FCanvasControl.Color));
@@ -64,7 +64,7 @@ namespace WFCAD {
             };
             // 線ボタン
             FButtonLine.Click += (sender, e) => {
-                this.SetButtonGroupChecked(sender as ToolStripButton);
+                this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line(FCanvasControl.Color));
@@ -166,8 +166,8 @@ namespace WFCAD {
         /// <summary>
         /// ボタングループのチェック状態を制御する
         /// </summary>
-        private void SetButtonGroupChecked(ToolStripButton vTarget) {
-            foreach (ToolStripButton wButton in FButtonGroup) {
+        private void SetGroupButtonsChecked(ToolStripButton vTarget) {
+            foreach (ToolStripButton wButton in FGroupButtons) {
                 if (wButton == vTarget) {
                     wButton.Checked = true;
                 } else {
