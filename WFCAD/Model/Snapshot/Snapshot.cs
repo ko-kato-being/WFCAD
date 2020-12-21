@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
+using WFCAD.Model.Shape;
 
-namespace WFCAD {
+namespace WFCAD.Model.Snapshot {
     /// <summary>
     /// スナップショットクラス
     /// </summary>

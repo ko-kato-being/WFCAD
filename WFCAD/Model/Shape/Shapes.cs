@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 
-namespace WFCAD {
+namespace WFCAD.Model.Shape {
     /// <summary>
     /// 図形群クラス
     /// </summary>

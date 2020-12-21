@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WFCAD {
+namespace WFCAD.Model.Shape {
     /// <summary>
     /// 図形を表すインターフェース
     /// </summary>

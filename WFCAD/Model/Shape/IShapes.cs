@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace WFCAD {
+namespace WFCAD.Model.Shape {
     /// <summary>
     /// 図形群を表すインターフェース
     /// </summary>

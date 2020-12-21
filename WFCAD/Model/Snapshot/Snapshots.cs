@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WFCAD.Model.Shape;
 
-namespace WFCAD {
+namespace WFCAD.Model.Snapshot {
     /// <summary>
     /// スナップショット群クラス
     /// </summary>

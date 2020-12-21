@@ -1,4 +1,4 @@
-﻿namespace WFCAD {
+﻿namespace WFCAD.Model.Snapshot {
     /// <summary>
     /// スナップショット群を表すインターフェース
     /// </summary>

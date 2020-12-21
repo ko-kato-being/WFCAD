@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace WFCAD {
+namespace WFCAD.Model.Shape {
     /// <summary>
     /// 矩形クラス
     /// </summary>

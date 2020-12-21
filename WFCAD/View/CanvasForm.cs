@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using WFCAD.Control;
+using WFCAD.Model.Shape;
 
-namespace WFCAD {
+namespace WFCAD.View {
     /// <summary>
     /// キャンバスフォーム
     /// </summary>
@@ -45,10 +47,10 @@ namespace WFCAD {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Rectangle(FCanvasControl.Color));
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Model.Shape.Rectangle(FCanvasControl.Color));
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
                     if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
+                    FCanvasControl.ShowPreview(new Model.Shape.Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
                 };
             };
             // 円ボタン

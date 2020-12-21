@@ -1,4 +1,4 @@
-﻿namespace WFCAD {
+﻿namespace WFCAD.View {
     partial class CanvasForm {
         /// <summary>
         /// 必要なデザイナー変数です。

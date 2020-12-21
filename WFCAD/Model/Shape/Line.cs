@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WFCAD {
+namespace WFCAD.Model.Shape {
     /// <summary>
     /// 線クラス
     /// </summary>

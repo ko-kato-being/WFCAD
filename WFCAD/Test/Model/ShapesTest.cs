@@ -2,8 +2,9 @@
 using System.Drawing;
 using Moq;
 using NUnit.Framework;
+using WFCAD.Model.Shape;
 
-namespace WFCAD {
+namespace WFCAD.Test.Model {
     [TestFixture]
     public class ShapesTest {
 
