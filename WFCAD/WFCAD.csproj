@@ -140,9 +140,6 @@
     <None Include="Resources\削除.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\書類複製.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\円.png" />
   </ItemGroup>
   <ItemGroup>
