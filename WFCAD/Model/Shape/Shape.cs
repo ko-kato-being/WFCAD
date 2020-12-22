@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
@@ -134,6 +135,20 @@ namespace WFCAD.Model.Shape {
         /// 移動します
         /// </summary>
         public void Move(Size vSize) => this.SetPoints(this.StartPoint + vSize, this.EndPoint + vSize);
+
+        /// <summary>
+        /// 拡大・縮小します
+        /// </summary>
+        public void ChangeScale(Size vSize) {
+            IFramePoint wFramePoint = this.FramePoints.FirstOrDefault(x => x.IsSelected);
+            if (wFramePoint == null) return;
+
+            var wPoints = wFramePoint.BasePoints.ToList();
+            wPoints.Add(wFramePoint.Point + vSize);
+            var wStartPoint = new Point(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
+            var wEndPoint = new Point(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
+            this.SetPoints(wStartPoint, wEndPoint);
+        }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか

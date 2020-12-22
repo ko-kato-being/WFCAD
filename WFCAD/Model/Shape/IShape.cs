@@ -60,6 +60,11 @@ namespace WFCAD.Model.Shape {
         void Move(Size vSize);
 
         /// <summary>
+        /// 拡大・縮小します
+        /// </summary>
+        void ChangeScale(Size vSize);
+
+        /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
         bool IsHit(Point vCoordinate);

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model.Frame {
     /// <summary>
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
+        private Rectangle FFrameRectangle;
 
         /// <summary>
         /// コンストラクタ
@@ -44,18 +46,21 @@ namespace WFCAD.Model.Frame {
             var wTopLeft = new Point(this.Point.X - C_Radius, this.Point.Y - C_Radius);
             var wBottomRight = new Point(this.Point.X + C_Radius, this.Point.Y + C_Radius);
 
-            var wFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, wBottomRight.X - wTopLeft.X, wBottomRight.Y - wTopLeft.Y);
+            FFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, wBottomRight.X - wTopLeft.X, wBottomRight.Y - wTopLeft.Y);
             using (var wBrush = new SolidBrush(Color.White)) {
-                vGraphics.FillEllipse(wBrush, wFrameRectangle);
+                vGraphics.FillEllipse(wBrush, FFrameRectangle);
             }
-            vGraphics.DrawEllipse(vPen, wFrameRectangle);
+            vGraphics.DrawEllipse(vPen, FFrameRectangle);
         }
 
         /// <summary>
         /// 指定した座標が円内に存在するか
         /// </summary>
         public bool IsHit(Point vCoordinate) {
-            return false;
+            using (var wPath = new GraphicsPath()) {
+                wPath.AddEllipse(FFrameRectangle);
+                return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);
+            }
         }
 
         #endregion メソッド

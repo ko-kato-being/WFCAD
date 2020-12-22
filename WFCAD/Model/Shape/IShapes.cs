@@ -54,6 +54,11 @@ namespace WFCAD.Model.Shape {
         void Move(Size vSize);
 
         /// <summary>
+        /// 拡大・縮小します
+        /// </summary>
+        void ChangeScale(Size vSize);
+
+        /// <summary>
         /// 最前面に移動します
         /// </summary>
         void MoveToFront();

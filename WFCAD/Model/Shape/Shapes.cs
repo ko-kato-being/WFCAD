@@ -111,6 +111,13 @@ namespace WFCAD.Model.Shape {
         }
 
         /// <summary>
+        /// 拡大・縮小します
+        /// </summary>
+        public void ChangeScale(Size vSize) {
+
+        }
+
+        /// <summary>
         /// 最前面に移動します
         /// </summary>
         public void MoveToFront() => FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
