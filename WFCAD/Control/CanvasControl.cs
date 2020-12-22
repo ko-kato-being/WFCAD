@@ -119,12 +119,12 @@ namespace WFCAD.Control {
         public void AddShape(IShape vShape) {
             // 二点間の距離が10以下の図形は意図していないとみなして追加しない。
             double wDistance = Utilities.GetDistance(this.MouseDownLocation, this.MouseUpLocation);
-            if (wDistance < 10) return;
-
-            IShape wShape = vShape.DeepClone();
-            wShape.SetPoints(this.MouseDownLocation, this.MouseUpLocation);
-            wShape.Color = this.Color;
-            FShapes.Add(wShape);
+            if (wDistance > 10) {
+                IShape wShape = vShape.DeepClone();
+                wShape.SetPoints(this.MouseDownLocation, this.MouseUpLocation);
+                wShape.Color = this.Color;
+                FShapes.Add(wShape);
+            }
             this.Refresh();
         }
 
