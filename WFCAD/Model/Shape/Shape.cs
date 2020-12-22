@@ -42,6 +42,11 @@ namespace WFCAD.Model.Shape {
         protected int Height => Math.Abs(this.StartPoint.Y - this.EndPoint.Y);
 
         /// <summary>
+        /// 外枠
+        /// </summary>
+        protected System.Drawing.Rectangle FrameRectangle => new System.Drawing.Rectangle(this.StartPoint.X, this.StartPoint.Y, this.Width, this.Height);
+
+        /// <summary>
         /// 選択されているか
         /// </summary>
         public bool IsSelected {
@@ -83,12 +88,12 @@ namespace WFCAD.Model.Shape {
 
             // 枠点の座標
             var wTopLeft = this.StartPoint;
-            var wTop = new Point(this.EndPoint.X / 2, this.StartPoint.Y);
+            var wTop = new Point(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.StartPoint.Y);
             var wTopRight = new Point(this.EndPoint.X, this.StartPoint.Y);
-            var wLeft = new Point(this.StartPoint.X, this.EndPoint.Y / 2);
-            var wRight = new Point(this.EndPoint.X, this.EndPoint.Y / 2);
+            var wLeft = new Point(this.StartPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
+            var wRight = new Point(this.EndPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
             var wBottomLeft = new Point(this.StartPoint.X, this.EndPoint.Y);
-            var wBottom = new Point(this.EndPoint.X / 2, this.EndPoint.Y);
+            var wBottom = new Point(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.EndPoint.Y);
             var wBottomRight = this.EndPoint;
 
             // 枠点と基準点の設定
@@ -111,6 +116,9 @@ namespace WFCAD.Model.Shape {
             if (this.Visible) {
                 using (var wGraphics = Graphics.FromImage(vBitmap)) {
                     this.DrawCore(wGraphics);
+                    if (this.IsSelected) {
+                        this.DrawFrame(wGraphics);
+                    }
                 }
             }
             return vBitmap;
@@ -120,6 +128,19 @@ namespace WFCAD.Model.Shape {
         /// 派生クラスごとの描画処理
         /// </summary>
         protected abstract void DrawCore(Graphics vGraphics);
+
+        /// <summary>
+        /// 枠を描画します
+        /// </summary>
+        protected virtual void DrawFrame(Graphics vGraphics) {
+            // 枠線は黒色で固定
+            using (var wPen = new Pen(Color.Black)) {
+                vGraphics.DrawRectangle(wPen, this.FrameRectangle);
+                foreach (IFramePoint wFramePoint in this.FramePoints) {
+                    wFramePoint.Draw(vGraphics, wPen);
+                }
+            }
+        }
 
         /// <summary>
         /// 移動します

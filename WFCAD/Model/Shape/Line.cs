@@ -39,6 +39,18 @@ namespace WFCAD.Model.Shape {
         }
 
         /// <summary>
+        /// 枠を描画します
+        /// </summary>
+        protected override void DrawFrame(Graphics vGraphics) {
+            // 枠線は黒色で固定
+            using (var wPen = new Pen(Color.Black)) {
+                foreach (IFramePoint wFramePoint in this.FramePoints) {
+                    wFramePoint.Draw(vGraphics, wPen);
+                }
+            }
+        }
+
+        /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public override bool IsHit(Point vCoordinate) {

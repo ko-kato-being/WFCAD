@@ -20,12 +20,12 @@ namespace WFCAD.Model.Frame {
         /// <summary>
         /// 座標
         /// </summary>
-        public Point Point { get; set; }
+        public Point Point { get; }
 
         /// <summary>
         /// 基準点
         /// </summary>
-        public IEnumerable<Point> BasePoints { get; set; }
+        public IEnumerable<Point> BasePoints { get; }
 
         /// <summary>
         /// 選択されているか
@@ -39,8 +39,13 @@ namespace WFCAD.Model.Frame {
         /// <summary>
         /// 描画します。
         /// </summary>
-        public void Draw() {
+        public void Draw(Graphics vGraphics, Pen vPen) {
+            const int C_Radius = 5;
+            var wTopLeft = new Point(this.Point.X - C_Radius, this.Point.Y - C_Radius);
+            var wBottomRight = new Point(this.Point.X + C_Radius, this.Point.Y + C_Radius);
 
+            var wFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, wBottomRight.X - wTopLeft.X, wBottomRight.Y - wTopLeft.Y);
+            vGraphics.DrawEllipse(vPen, wFrameRectangle);
         }
 
         /// <summary>
