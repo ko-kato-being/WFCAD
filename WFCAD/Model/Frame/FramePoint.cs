@@ -40,11 +40,14 @@ namespace WFCAD.Model.Frame {
         /// 描画します。
         /// </summary>
         public void Draw(Graphics vGraphics, Pen vPen) {
-            const int C_Radius = 5;
+            const int C_Radius = 4;
             var wTopLeft = new Point(this.Point.X - C_Radius, this.Point.Y - C_Radius);
             var wBottomRight = new Point(this.Point.X + C_Radius, this.Point.Y + C_Radius);
 
             var wFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, wBottomRight.X - wTopLeft.X, wBottomRight.Y - wTopLeft.Y);
+            using (var wBrush = new SolidBrush(Color.White)) {
+                vGraphics.FillEllipse(wBrush, wFrameRectangle);
+            }
             vGraphics.DrawEllipse(vPen, wFrameRectangle);
         }
 

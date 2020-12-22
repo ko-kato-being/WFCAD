@@ -37,7 +37,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override IShape DeepCloneCore() => new Ellipse(FPrevColor);
+        protected override IShape DeepCloneCore() => new Ellipse(this.Color);
 
 
         #endregion　メソッド
