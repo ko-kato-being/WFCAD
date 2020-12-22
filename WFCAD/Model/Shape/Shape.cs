@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
@@ -61,6 +63,11 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         public Color Color { get; set; }
 
+        /// <summary>
+        /// 枠点リスト
+        /// </summary>
+        public IEnumerable<IFramePoint> FramePoints { get; set; }
+
         #endregion プロパティ
 
         #region メソッド
@@ -73,6 +80,28 @@ namespace WFCAD.Model.Shape {
             // 左上の点と右下の点を始点と終点に設定します。
             this.StartPoint = new Point(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
             this.EndPoint = new Point(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
+
+            // 枠点の座標
+            var wTopLeft = this.StartPoint;
+            var wTop = new Point(this.EndPoint.X / 2, this.StartPoint.Y);
+            var wTopRight = new Point(this.EndPoint.X, this.StartPoint.Y);
+            var wLeft = new Point(this.StartPoint.X, this.EndPoint.Y / 2);
+            var wRight = new Point(this.EndPoint.X, this.EndPoint.Y / 2);
+            var wBottomLeft = new Point(this.StartPoint.X, this.EndPoint.Y);
+            var wBottom = new Point(this.EndPoint.X / 2, this.EndPoint.Y);
+            var wBottomRight = this.EndPoint;
+
+            // 枠点と基準点の設定
+            this.FramePoints = new List<IFramePoint> {
+                new FramePoint(wTopLeft, wBottomRight),
+                new FramePoint(wTop, wBottomLeft, wBottomRight),
+                new FramePoint(wTopRight, wBottomLeft),
+                new FramePoint(wLeft, wTopRight, wBottomRight),
+                new FramePoint(wRight, wTopLeft, wBottomLeft),
+                new FramePoint(wBottomLeft, wTopRight),
+                new FramePoint(wBottom, wTopLeft, wTopRight),
+                new FramePoint(wBottomRight, wTopLeft),
+            };
         }
 
         /// <summary>

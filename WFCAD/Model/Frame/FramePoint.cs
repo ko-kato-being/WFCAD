@@ -7,6 +7,14 @@ namespace WFCAD.Model.Frame {
     /// </summary>
     public class FramePoint : IFramePoint {
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public FramePoint(Point vPoint, params Point[] vBasePoints) {
+            this.Point = vPoint;
+            this.BasePoints = vBasePoints;
+        }
+
         #region プロパティ
 
         /// <summary>
@@ -17,7 +25,7 @@ namespace WFCAD.Model.Frame {
         /// <summary>
         /// 基準点
         /// </summary>
-        public List<Point> BasePoints { get; set; }
+        public IEnumerable<Point> BasePoints { get; set; }
 
         /// <summary>
         /// 選択されているか

@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
@@ -20,6 +22,11 @@ namespace WFCAD.Model.Shape {
             // 線に関しては外枠の概念が無いため、始点と終点を加工せずに使用します。
             this.StartPoint = vStartPoint;
             this.EndPoint = vEndPoint;
+
+            this.FramePoints = new List<IFramePoint> {
+                new FramePoint(this.StartPoint, this.EndPoint),
+                new FramePoint(this.EndPoint, this.StartPoint),
+            };
         }
 
         /// <summary>

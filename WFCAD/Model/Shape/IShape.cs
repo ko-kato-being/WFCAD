@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
@@ -32,6 +34,11 @@ namespace WFCAD.Model.Shape {
         /// 表示色
         /// </summary>
         Color Color { get; set; }
+
+        /// <summary>
+        /// 枠点リスト
+        /// </summary>
+        IEnumerable<IFramePoint> FramePoints { get; }
 
         #endregion プロパティ
 

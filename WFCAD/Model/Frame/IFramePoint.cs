@@ -12,12 +12,12 @@ namespace WFCAD.Model.Frame {
         /// <summary>
         /// 座標
         /// </summary>
-        Point Point { get; set; }
+        Point Point { get; }
 
         /// <summary>
         /// 基準点
         /// </summary>
-        List<Point> BasePoints { get; set; }
+        IEnumerable<Point> BasePoints { get; }
 
         /// <summary>
         /// 選択されているか
