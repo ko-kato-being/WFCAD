@@ -22,12 +22,12 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 始点
         /// </summary>
-        public Point StartPoint { get; set; }
+        public Point StartPoint { get; protected set; }
 
         /// <summary>
         /// 終点
         /// </summary>
-        public Point EndPoint { get; set; }
+        public Point EndPoint { get; protected set; }
 
         /// <summary>
         /// 幅
@@ -64,6 +64,16 @@ namespace WFCAD.Model.Shape {
         #endregion プロパティ
 
         #region メソッド
+
+        /// <summary>
+        /// 始点と終点を設定します
+        /// </summary>
+        public virtual void SetPoints(Point vStartPoint, Point vEndPoint) {
+            // 引数で受け取った始点と終点を対角線とする矩形に対して、
+            // 左上の点と右下の点を始点と終点に設定します。
+            this.StartPoint = new Point(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
+            this.EndPoint = new Point(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
+        }
 
         /// <summary>
         /// 描画します
@@ -113,8 +123,7 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         public IShape DeepClone() {
             IShape wShape = this.DeepCloneCore();
-            wShape.StartPoint = this.StartPoint;
-            wShape.EndPoint = this.EndPoint;
+            wShape.SetPoints(this.StartPoint, this.EndPoint);
             wShape.IsSelected = this.IsSelected;
             wShape.Color = this.Color;
             return wShape;

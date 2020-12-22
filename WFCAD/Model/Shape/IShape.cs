@@ -11,12 +11,12 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 始点
         /// </summary>
-        Point StartPoint { get; set; }
+        Point StartPoint { get; }
 
         /// <summary>
         /// 終点
         /// </summary>
-        Point EndPoint { get; set; }
+        Point EndPoint { get; }
 
         /// <summary>
         /// 選択されているか
@@ -36,6 +36,11 @@ namespace WFCAD.Model.Shape {
         #endregion プロパティ
 
         #region メソッド
+
+        /// <summary>
+        /// 始点と終点を設定します
+        /// </summary>
+        void SetPoints(Point vStartPoint, Point vEndPoint);
 
         /// <summary>
         /// 描画します

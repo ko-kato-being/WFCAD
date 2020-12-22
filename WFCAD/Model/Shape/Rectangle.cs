@@ -20,7 +20,7 @@ namespace WFCAD.Model.Shape {
         /// 描画します
         /// </summary>
         protected override void DrawCore(Graphics vGraphics) {
-            FFrameRectangle = new System.Drawing.Rectangle(Math.Min(this.StartPoint.X, this.EndPoint.X), Math.Min(this.StartPoint.Y, this.EndPoint.Y), this.Width, this.Height);
+            FFrameRectangle = new System.Drawing.Rectangle(this.StartPoint.X, this.StartPoint.Y, this.Width, this.Height);
             using (var wPen = new Pen(this.Color)) {
                 vGraphics.DrawRectangle(wPen, FFrameRectangle);
             }

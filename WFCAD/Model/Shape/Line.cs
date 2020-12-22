@@ -12,6 +12,15 @@ namespace WFCAD.Model.Shape {
         public Line(Color vColor) : base(vColor) { }
 
         #region　メソッド
+        
+        /// <summary>
+        /// 始点と終点を設定します
+        /// </summary>
+        public override void SetPoints(Point vStartPoint, Point vEndPoint) {
+            // 線に関しては外枠の概念が無いため、始点と終点を加工せずに使用します。
+            this.StartPoint = vStartPoint;
+            this.EndPoint = vEndPoint;
+        }
 
         /// <summary>
         /// 描画します

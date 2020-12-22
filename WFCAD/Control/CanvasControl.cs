@@ -83,8 +83,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void ShowPreview(IShape vShape, Point vMouseLocation) {
             IShape wShape = vShape.DeepClone();
-            wShape.StartPoint = this.MouseDownLocation;
-            wShape.EndPoint = vMouseLocation;
+            wShape.SetPoints(this.MouseDownLocation, vMouseLocation);
             wShape.Color = this.Color;
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = wShape.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
@@ -123,8 +122,7 @@ namespace WFCAD.Control {
             if (wDistance < 10) return;
 
             IShape wShape = vShape.DeepClone();
-            wShape.StartPoint = this.MouseDownLocation;
-            wShape.EndPoint = this.MouseUpLocation;
+            wShape.SetPoints(this.MouseDownLocation, this.MouseUpLocation);
             wShape.Color = this.Color;
             FShapes.Add(wShape);
             this.Refresh();
