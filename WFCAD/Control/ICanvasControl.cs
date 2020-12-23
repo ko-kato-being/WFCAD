@@ -59,9 +59,9 @@ namespace WFCAD.Control {
         void AddShape(IShape vShape);
 
         /// <summary>
-        /// 図形の終点を設定します
+        /// 図形を編集します
         /// </summary>
-        void SetShapesEndPoint(Point vMouseLocation);
+        void EditShapes(Point vMouseLocation);
 
         /// <summary>
         /// 図形を最前面に移動します

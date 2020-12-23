@@ -139,21 +139,28 @@ namespace WFCAD.Model.Shape {
         protected virtual void DrawFrameRectangle(Graphics vGraphics, Pen vPen) => vGraphics.DrawRectangle(vPen, this.FrameRectangle);
 
         /// <summary>
+        /// 編集します
+        /// </summary>
+        public void Edit(Size vSize) {
+            // 枠点が選択されているか
+            if (this.FramePoints.Any(x => x.IsSelected)) {
+                // 拡大・縮小
+                IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
+                if (wFramePoint == null) return;
+
+                (Point wStartPoint, Point wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
+                this.SetPoints(wStartPoint, wEndPoint);
+                wFramePoint.IsSelected = false;
+            } else {
+                // 移動
+                this.Move(vSize);
+            }
+        }
+
+        /// <summary>
         /// 移動します
         /// </summary>
         public void Move(Size vSize) => this.SetPoints(this.StartPoint + vSize, this.EndPoint + vSize);
-
-        /// <summary>
-        /// 拡大・縮小します
-        /// </summary>
-        public void ChangeScale(Size vSize) {
-            IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
-            if (wFramePoint == null) return;
-
-            (Point wStartPoint, Point wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
-            this.SetPoints(wStartPoint, wEndPoint);
-            wFramePoint.IsSelected = false;
-        }
 
         /// <summary>
         /// 拡大・縮小するための座標取得処理

@@ -15,11 +15,6 @@ namespace WFCAD.Model.Shape {
         bool Visible { get; set; }
 
         /// <summary>
-        /// 枠点が選択されているか
-        /// </summary>
-        bool IsFramePointSelected { get; }
-
-        /// <summary>
         /// クリップボード
         /// </summary>
         List<IShape> Clipboard { get; set; }
@@ -54,14 +49,9 @@ namespace WFCAD.Model.Shape {
         void Add(IShape vShape);
 
         /// <summary>
-        /// 移動します
+        /// 図形を編集します
         /// </summary>
-        void Move(Size vSize);
-
-        /// <summary>
-        /// 拡大・縮小します
-        /// </summary>
-        void ChangeScale(Size vSize);
+        void EditShapes(Size vSize);
 
         /// <summary>
         /// 最前面に移動します
