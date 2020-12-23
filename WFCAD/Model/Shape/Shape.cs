@@ -121,13 +121,20 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        protected virtual void DrawFrame(Graphics vGraphics) {
+        protected void DrawFrame(Graphics vGraphics) {
             // 枠線は黒色で固定
             using (var wPen = new Pen(Color.Black)) {
-                vGraphics.DrawRectangle(wPen, this.FrameRectangle);
-                foreach (IFramePoint wFramePoint in this.FramePoints) {
-                    wFramePoint.Draw(vGraphics, wPen);
-                }
+                this.DrawFrameCore(vGraphics, wPen);
+            }
+        }
+
+        /// <summary>
+        /// 派生クラスごとの枠描画処理
+        /// </summary>
+        protected virtual void DrawFrameCore(Graphics vGraphics, Pen vPen) {
+            vGraphics.DrawRectangle(vPen, this.FrameRectangle);
+            foreach (IFramePoint wFramePoint in this.FramePoints) {
+                wFramePoint.Draw(vGraphics, vPen);
             }
         }
 
@@ -143,12 +150,20 @@ namespace WFCAD.Model.Shape {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
-            var wPoints = wFramePoint.BasePoints.ToList();
-            wPoints.Add(wFramePoint.Point + vSize);
-            var wStartPoint = new Point(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
-            var wEndPoint = new Point(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
+            (Point wStartPoint, Point wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
             this.SetPoints(wStartPoint, wEndPoint);
             wFramePoint.IsSelected = false;
+        }
+
+        /// <summary>
+        /// 拡大・縮小するための座標取得処理
+        /// </summary>
+        protected virtual (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize) {
+            var wPoints = vFramePoint.BasePoints.ToList();
+            wPoints.Add(vFramePoint.Point + vSize);
+            var wStartPoint = new Point(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
+            var wEndPoint = new Point(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
+            return (wStartPoint, wEndPoint);
         }
 
         /// <summary>

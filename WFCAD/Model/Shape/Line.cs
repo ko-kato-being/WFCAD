@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
@@ -41,14 +42,17 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        protected override void DrawFrame(Graphics vGraphics) {
-            // 枠線は黒色で固定
-            using (var wPen = new Pen(Color.Black)) {
-                foreach (IFramePoint wFramePoint in this.FramePoints) {
-                    wFramePoint.Draw(vGraphics, wPen);
-                }
+        protected override void DrawFrameCore(Graphics vGraphics, Pen vPen) {
+            foreach (IFramePoint wFramePoint in this.FramePoints) {
+                wFramePoint.Draw(vGraphics, vPen);
             }
         }
+
+        /// <summary>
+        /// 拡大・縮小するための座標取得処理
+        /// </summary>
+        protected override (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize)
+            => (vFramePoint.Point + vSize, vFramePoint.BasePoints.First());
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
