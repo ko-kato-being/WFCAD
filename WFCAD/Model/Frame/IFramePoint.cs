@@ -38,6 +38,11 @@ namespace WFCAD.Model.Frame {
         /// </summary>
         bool IsHit(Point vCoordinate);
 
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        IFramePoint DeepClone();
+
         #endregion メソッド
 
     }

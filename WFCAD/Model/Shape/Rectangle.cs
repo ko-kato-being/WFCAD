@@ -37,7 +37,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override IShape DeepCloneCore() => new Rectangle(this.Color);
+        protected override Shape DeepCloneCore() => new Rectangle(this.Color);
 
         #endregion　メソッド
 

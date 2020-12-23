@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
@@ -37,6 +38,11 @@ namespace WFCAD.Model.Shape {
         }
 
         /// <summary>
+        /// 枠点が選択されているか
+        /// </summary>
+        public bool IsFramePointSelected { get; set; }
+
+        /// <summary>
         /// クリップボード
         /// </summary>
         public List<IShape> Clipboard { get; set; } = new List<IShape>();
@@ -57,6 +63,9 @@ namespace WFCAD.Model.Shape {
         /// 選択します
         /// </summary>
         public void Select(Point vCoordinate, bool vIsMultiple) {
+            this.FramePointSelect(vCoordinate);
+            if (this.IsFramePointSelected) return;
+
             bool wIsAlreadyHit = false;
             bool wIsMultiSelected = FShapes.Where(x => x.IsSelected).ToList().Count >= 2;
             foreach (IShape wShape in Enumerable.Reverse(FShapes)) {
@@ -87,6 +96,23 @@ namespace WFCAD.Model.Shape {
         }
 
         /// <summary>
+        /// 枠点を選択します
+        /// </summary>
+        private void FramePointSelect(Point vCoordinate) {
+            this.IsFramePointSelected = false;
+            foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
+                foreach (IFramePoint wPoint in wShape.FramePoints) {
+                    wPoint.IsSelected = false;
+                }
+                if (this.IsFramePointSelected) continue;
+                IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
+                if (wFramePoint == null) continue;
+                wFramePoint.IsSelected = true;
+                this.IsFramePointSelected = true;
+            }
+        }
+
+        /// <summary>
         /// 全選択します
         /// </summary>
         public void AllSelect() => FShapes.ForEach(x => x.IsSelected = true);
@@ -114,7 +140,9 @@ namespace WFCAD.Model.Shape {
         /// 拡大・縮小します
         /// </summary>
         public void ChangeScale(Size vSize) {
-
+            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                wShape.ChangeScale(vSize);
+            }
         }
 
         /// <summary>
@@ -191,7 +219,8 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         public IShapes DeepClone() {
             var wClone = new Shapes();
-            wClone.Visible = FVisible;
+            wClone.Visible = this.Visible;
+            wClone.IsFramePointSelected = this.IsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
             }

@@ -15,6 +15,11 @@ namespace WFCAD.Model.Shape {
         bool Visible { get; set; }
 
         /// <summary>
+        /// 枠点が選択されているか
+        /// </summary>
+        bool IsFramePointSelected { get; }
+
+        /// <summary>
         /// クリップボード
         /// </summary>
         List<IShape> Clipboard { get; set; }

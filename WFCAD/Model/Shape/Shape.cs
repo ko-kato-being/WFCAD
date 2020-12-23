@@ -140,7 +140,7 @@ namespace WFCAD.Model.Shape {
         /// 拡大・縮小します
         /// </summary>
         public void ChangeScale(Size vSize) {
-            IFramePoint wFramePoint = this.FramePoints.FirstOrDefault(x => x.IsSelected);
+            IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
             var wPoints = wFramePoint.BasePoints.ToList();
@@ -148,6 +148,7 @@ namespace WFCAD.Model.Shape {
             var wStartPoint = new Point(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
             var wEndPoint = new Point(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
             this.SetPoints(wStartPoint, wEndPoint);
+            wFramePoint.IsSelected = false;
         }
 
         /// <summary>
@@ -159,17 +160,18 @@ namespace WFCAD.Model.Shape {
         /// 複製します
         /// </summary>
         public IShape DeepClone() {
-            IShape wShape = this.DeepCloneCore();
+            Shape wShape = this.DeepCloneCore();
             wShape.SetPoints(this.StartPoint, this.EndPoint);
             wShape.IsSelected = this.IsSelected;
             wShape.Color = this.Color;
+            wShape.FramePoints = this.FramePoints?.Select(x => x.DeepClone());
             return wShape;
         }
 
         /// <summary>
         /// 派生クラスごとのインスタンスを返します
         /// </summary>
-        protected abstract IShape DeepCloneCore();
+        protected abstract Shape DeepCloneCore();
 
         #endregion メソッド
     }

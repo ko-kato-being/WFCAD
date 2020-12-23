@@ -73,7 +73,14 @@ namespace WFCAD.Control {
                 FShapes.Visible = false;
                 this.Refresh(false);
             }
-            wShapes.Move(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
+            var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
+            if (wShapes.IsFramePointSelected) {
+                // 拡大・縮小
+                wShapes.ChangeScale(wSize);
+            } else {
+                // 移動
+                wShapes.Move(wSize);
+            }
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = wShapes.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
         }
@@ -129,15 +136,22 @@ namespace WFCAD.Control {
         }
 
         /// <summary>
-        /// 図形を移動します
+        /// 図形の終点を設定します
         /// </summary>
-        public void MoveShapes(Point vMouseLocation) {
+        public void SetShapesEndPoint(Point vMouseLocation) {
             var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
             if (wSize.IsEmpty) return;
-            FShapes.Move(wSize);
+            if (FShapes.IsFramePointSelected) {
+                // 拡大・縮小
+                FShapes.ChangeScale(wSize);
+            } else {
+                // 移動
+                FShapes.Move(wSize);
+            }
             FShapes.Visible = true;
             this.Refresh();
         }
+
 
         /// <summary>
         /// 図形を最前面に移動します

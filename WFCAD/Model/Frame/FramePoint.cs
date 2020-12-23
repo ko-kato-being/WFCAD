@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace WFCAD.Model.Frame {
     /// <summary>
@@ -14,7 +15,16 @@ namespace WFCAD.Model.Frame {
         /// </summary>
         public FramePoint(Point vPoint, params Point[] vBasePoints) {
             this.Point = vPoint;
-            this.BasePoints = vBasePoints;
+            this.BasePoints = vBasePoints.ToList();
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        private FramePoint(Point vPoint, IEnumerable<Point> vBasePoints, bool vIsSelected) {
+            this.Point = vPoint;
+            this.BasePoints = vBasePoints.ToList();
+            this.IsSelected = vIsSelected;
         }
 
         #region プロパティ
@@ -42,11 +52,11 @@ namespace WFCAD.Model.Frame {
         /// 描画します。
         /// </summary>
         public void Draw(Graphics vGraphics, Pen vPen) {
+            // 円の半径
             const int C_Radius = 4;
             var wTopLeft = new Point(this.Point.X - C_Radius, this.Point.Y - C_Radius);
-            var wBottomRight = new Point(this.Point.X + C_Radius, this.Point.Y + C_Radius);
 
-            FFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, wBottomRight.X - wTopLeft.X, wBottomRight.Y - wTopLeft.Y);
+            FFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
             using (var wBrush = new SolidBrush(Color.White)) {
                 vGraphics.FillEllipse(wBrush, FFrameRectangle);
             }
@@ -62,6 +72,11 @@ namespace WFCAD.Model.Frame {
                 return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);
             }
         }
+
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        public IFramePoint DeepClone() => new FramePoint(this.Point, this.BasePoints, this.IsSelected);
 
         #endregion メソッド
 

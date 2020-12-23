@@ -36,7 +36,7 @@ namespace WFCAD.View {
             FButtonSelect.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FMouseDownAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.MoveShapes(vMouseEventArgs.Location);
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SetShapesEndPoint(vMouseEventArgs.Location);
                 FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
                     if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
                     FCanvasControl.ShowPreview(vMouseEventArgs.Location);
