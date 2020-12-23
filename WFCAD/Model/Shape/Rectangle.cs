@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model.Shape {
@@ -18,11 +17,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 描画します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics) {
-            using (var wPen = new Pen(this.Color)) {
-                vGraphics.DrawRectangle(wPen, this.FrameRectangle);
-            }
-        }
+        protected override void DrawCore(Graphics vGraphics, Pen vPen) => vGraphics.DrawRectangle(vPen, this.FrameRectangle);
 
         /// <summary>
         /// 指定した座標が図形内に存在するか

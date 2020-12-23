@@ -104,7 +104,9 @@ namespace WFCAD.Model.Shape {
         public Bitmap Draw(Bitmap vBitmap) {
             if (this.Visible) {
                 using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                    this.DrawCore(wGraphics);
+                    using (var wPen = new Pen(this.Color)) {
+                        this.DrawCore(wGraphics, wPen);
+                    }
                     if (this.IsSelected) {
                         this.DrawFrame(wGraphics);
                     }
@@ -116,7 +118,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 派生クラスごとの描画処理
         /// </summary>
-        protected abstract void DrawCore(Graphics vGraphics);
+        protected abstract void DrawCore(Graphics vGraphics, Pen vPen);
 
         /// <summary>
         /// 枠を描画します
@@ -124,19 +126,17 @@ namespace WFCAD.Model.Shape {
         protected void DrawFrame(Graphics vGraphics) {
             // 枠線は黒色で固定
             using (var wPen = new Pen(Color.Black)) {
-                this.DrawFrameCore(vGraphics, wPen);
+                this.DrawFrameRectangle(vGraphics, wPen);
+                foreach (IFramePoint wFramePoint in this.FramePoints) {
+                    wFramePoint.Draw(vGraphics, wPen);
+                }
             }
         }
 
         /// <summary>
-        /// 派生クラスごとの枠描画処理
+        /// 枠線を描画します
         /// </summary>
-        protected virtual void DrawFrameCore(Graphics vGraphics, Pen vPen) {
-            vGraphics.DrawRectangle(vPen, this.FrameRectangle);
-            foreach (IFramePoint wFramePoint in this.FramePoints) {
-                wFramePoint.Draw(vGraphics, vPen);
-            }
-        }
+        protected virtual void DrawFrameRectangle(Graphics vGraphics, Pen vPen) => vGraphics.DrawRectangle(vPen, this.FrameRectangle);
 
         /// <summary>
         /// 移動します

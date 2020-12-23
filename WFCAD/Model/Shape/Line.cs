@@ -15,7 +15,7 @@ namespace WFCAD.Model.Shape {
         public Line(Color vColor) : base(vColor) { }
 
         #region　メソッド
-        
+
         /// <summary>
         /// 始点と終点を設定します
         /// </summary>
@@ -33,20 +33,12 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 描画します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics) {
-            using (var wPen = new Pen(this.Color)) {
-                vGraphics.DrawLine(wPen, this.StartPoint, this.EndPoint);
-            }
-        }
+        protected override void DrawCore(Graphics vGraphics, Pen vPen) => vGraphics.DrawLine(vPen, this.StartPoint, this.EndPoint);
 
         /// <summary>
-        /// 枠を描画します
+        /// 枠線は描画しない
         /// </summary>
-        protected override void DrawFrameCore(Graphics vGraphics, Pen vPen) {
-            foreach (IFramePoint wFramePoint in this.FramePoints) {
-                wFramePoint.Draw(vGraphics, vPen);
-            }
-        }
+        protected override void DrawFrameRectangle(Graphics vGraphics, Pen vPen) { }
 
         /// <summary>
         /// 拡大・縮小するための座標取得処理
