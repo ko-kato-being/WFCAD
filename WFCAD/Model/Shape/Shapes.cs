@@ -124,11 +124,20 @@ namespace WFCAD.Model.Shape {
 
 
         /// <summary>
-        /// 図形を編集します
+        /// 編集します
         /// </summary>
-        public void EditShapes(Size vSize) {
+        public void Edit(Size vSize) {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
                 wShape.Edit(vSize);
+            }
+        }
+
+        /// <summary>
+        /// 右に回転させます
+        /// </summary>
+        public void RotateRight() {
+            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                wShape.RotateRight();
             }
         }
 

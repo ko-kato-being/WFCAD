@@ -174,6 +174,14 @@ namespace WFCAD.Model.Shape {
         }
 
         /// <summary>
+        /// 右に回転させます
+        /// </summary>
+        public void RotateRight() {
+            var wOrigin = new Point(this.StartPoint.X + this.Width / 2, this.StartPoint.Y + this.Height / 2);
+            this.SetPoints(Utilities.RotatePoint(this.StartPoint, wOrigin, -90d), Utilities.RotatePoint(this.EndPoint, wOrigin, -90d));
+        }
+
+        /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public abstract bool IsHit(Point vCoordinate);

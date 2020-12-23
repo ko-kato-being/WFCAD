@@ -64,6 +64,11 @@ namespace WFCAD.Control {
         void EditShapes(Point vMouseLocation);
 
         /// <summary>
+        /// 図形を右に回転させます
+        /// </summary>
+        void RotateRightShapes();
+
+        /// <summary>
         /// 図形を最前面に移動します
         /// </summary>
         void MoveToFrontShapes();

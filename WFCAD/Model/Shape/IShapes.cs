@@ -49,9 +49,14 @@ namespace WFCAD.Model.Shape {
         void Add(IShape vShape);
 
         /// <summary>
-        /// 図形を編集します
+        /// 編集します
         /// </summary>
-        void EditShapes(Size vSize);
+        void Edit(Size vSize);
+
+        /// <summary>
+        /// 右に回転させます
+        /// </summary>
+        void RotateRight();
 
         /// <summary>
         /// 最前面に移動します

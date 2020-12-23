@@ -73,7 +73,7 @@ namespace WFCAD.Control {
                 FShapes.Visible = false;
                 this.Refresh(false);
             }
-            wShapes.EditShapes(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
+            wShapes.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
             FSubPictureBox.Image?.Dispose();
             FSubPictureBox.Image = wShapes.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
         }
@@ -134,11 +134,18 @@ namespace WFCAD.Control {
         public void EditShapes(Point vMouseLocation) {
             var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
             if (wSize.IsEmpty) return;
-            FShapes.EditShapes(wSize);
+            FShapes.Edit(wSize);
             FShapes.Visible = true;
             this.Refresh();
         }
 
+        /// <summary>
+        /// 図形を右に回転させます
+        /// </summary>
+        public void RotateRightShapes() {
+            FShapes.RotateRight();
+            this.Refresh();
+        }
 
         /// <summary>
         /// 図形を最前面に移動します

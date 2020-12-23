@@ -99,16 +99,18 @@ namespace WFCAD.View {
                 }
             };
 
-            // 最前面に移動
-            FButtonForeground.Click += (sender, e) => FCanvasControl.MoveToFrontShapes();
-            // 最背面に移動
-            FButtonBackground.Click += (sender, e) => FCanvasControl.MoveToBackShapes();
-            // 複製ボタン
-            FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
             // Undo
             FButtonUndo.Click += (sender, e) => FCanvasControl.Undo();
             // Redo
             FButtonRedo.Click += (sender, e) => FCanvasControl.Redo();
+            // 複製ボタン
+            FButtonClone.Click += (sender, e) => FCanvasControl.CloneShapes();
+            // 回転
+            FButtonRotate.Click += (sender, e) => FCanvasControl.RotateRightShapes();
+            // 最前面に移動
+            FButtonForeground.Click += (sender, e) => FCanvasControl.MoveToFrontShapes();
+            // 最背面に移動
+            FButtonBackground.Click += (sender, e) => FCanvasControl.MoveToBackShapes();
             // 削除ボタン
             FButtonRemove.Click += (sender, e) => FCanvasControl.RemoveShapes();
             // リセットボタン

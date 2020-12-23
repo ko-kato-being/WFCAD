@@ -60,6 +60,11 @@ namespace WFCAD.Model.Shape {
         void Edit(Size vSize);
 
         /// <summary>
+        /// 右に回転させます
+        /// </summary>
+        void RotateRight();
+
+        /// <summary>
         /// 移動します
         /// </summary>
         void Move(Size vSize);

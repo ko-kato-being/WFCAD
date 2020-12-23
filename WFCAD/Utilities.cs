@@ -14,5 +14,16 @@ namespace WFCAD {
             double wHeight = Math.Abs(vPoint1.Y - vPoint2.Y);
             return Math.Sqrt(wWidth * wWidth + wHeight * wHeight);
         }
+
+        /// <summary>
+        /// 指定した座標を指定した点を中心にして指定した角度だけ回転させます
+        /// </summary>
+        public static Point RotatePoint(Point vTarget, Point vOrigin, double vRadians) {
+            double wSin = Math.Sin(vRadians);
+            double wCos = Math.Cos(vRadians);
+            int wNewX = (int)((wCos * (vTarget.X - vOrigin.X)) + (wSin * (-1) * (vTarget.Y - vOrigin.Y)) + vOrigin.X);
+            int wNewY = (int)((wSin * (vTarget.X - vOrigin.X)) + (wCos * (vTarget.Y - vOrigin.Y)) + vOrigin.Y);
+            return new Point(wNewX, wNewY);
+        }
     }
 }
