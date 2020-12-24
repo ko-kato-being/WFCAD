@@ -74,7 +74,16 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         protected override (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize) {
             var wPoints = vFramePoint.BasePoints.ToList();
-            wPoints.Add(vFramePoint.Point + vSize);
+            Size wAdjustSize = vSize;
+            if (wPoints.Count == 2) {
+                // 基準点を結ぶ線分に対して水平方向には拡大・縮小できないように制限します
+                if (wPoints[0].X == wPoints[1].X) {
+                    wAdjustSize = new Size(vSize.Width, 0);
+                } else if (wPoints[0].Y == wPoints[1].Y) {
+                    wAdjustSize = new Size(0, vSize.Height);
+                }
+            }
+            wPoints.Add(vFramePoint.Point + wAdjustSize);
             var wStartPoint = new Point(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
             var wEndPoint = new Point(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
             return (wStartPoint, wEndPoint);
