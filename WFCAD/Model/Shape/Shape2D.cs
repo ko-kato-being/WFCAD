@@ -56,7 +56,6 @@ namespace WFCAD.Model.Shape {
         /// 枠を描画します
         /// </summary>
         protected override void DrawFrame(Graphics vGraphics) {
-            // 枠線は黒色で固定
             using (var wPen = new Pen(C_FrameColor)) {
                 vGraphics.DrawRectangle(wPen, this.FrameRectangle);
                 foreach (IFramePoint wFramePoint in this.FramePoints) {

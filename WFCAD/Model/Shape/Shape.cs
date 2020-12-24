@@ -136,7 +136,7 @@ namespace WFCAD.Model.Shape {
         /// 右に回転させます
         /// </summary>
         public void RotateRight() {
-            var wOrigin = new Point(this.StartPoint.X + this.Width / 2, this.StartPoint.Y + this.Height / 2);
+            var wOrigin = new Point(Math.Min(this.StartPoint.X, this.EndPoint.X) + this.Width / 2, Math.Min(this.StartPoint.Y, this.EndPoint.Y) + this.Height / 2);
             this.SetPoints(Utilities.RotateRight90(this.StartPoint, wOrigin), Utilities.RotateRight90(this.EndPoint, wOrigin));
         }
 
