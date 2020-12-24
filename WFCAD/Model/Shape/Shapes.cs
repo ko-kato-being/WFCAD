@@ -111,7 +111,7 @@ namespace WFCAD.Model.Shape {
             foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
                 IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
                 if (wFramePoint == null) continue;
-                SetFramePointIsSelected(wFramePoint.LocationKind, (vShape) => vShape.IsSelected && vShape.GetType() == wShape.GetType());
+                SetFramePointIsSelected(wFramePoint.LocationKind, (vShape) => vShape.IsSelected && vShape.Dimensionality == wShape.Dimensionality);
                 FIsFramePointSelected = true;
                 return true;
             }

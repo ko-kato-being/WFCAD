@@ -15,6 +15,11 @@ namespace WFCAD.Model.Shape {
         public Shape1D(Color vColor) : base(vColor) { }
 
         /// <summary>
+        /// 次元数
+        /// </summary>
+        public override int Dimensionality => 1;
+
+        /// <summary>
         /// 始点と終点を設定します
         /// </summary>
         public override void SetPoints(Point vStartPoint, Point vEndPoint) {

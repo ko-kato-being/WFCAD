@@ -28,6 +28,11 @@ namespace WFCAD.Model.Shape {
         #region プロパティ
 
         /// <summary>
+        /// 次元数
+        /// </summary>
+        public abstract int Dimensionality { get; }
+
+        /// <summary>
         /// 始点
         /// </summary>
         public Point StartPoint { get; protected set; }

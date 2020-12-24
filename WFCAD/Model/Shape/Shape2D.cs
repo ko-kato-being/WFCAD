@@ -16,6 +16,11 @@ namespace WFCAD.Model.Shape {
         public Shape2D(Color vColor) : base(vColor) { }
 
         /// <summary>
+        /// 次元数
+        /// </summary>
+        public override int Dimensionality => 2;
+
+        /// <summary>
         /// 外枠
         /// </summary>
         public System.Drawing.Rectangle FrameRectangle => new System.Drawing.Rectangle(this.StartPoint.X, this.StartPoint.Y, this.Width, this.Height);
