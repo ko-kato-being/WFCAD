@@ -41,14 +41,14 @@ namespace WFCAD.Model.Shape {
 
             // 枠点と基準点の設定
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(wTopLeft, wBottomRight),
-                new FramePoint(wTop, wBottomLeft, wBottomRight),
-                new FramePoint(wTopRight, wBottomLeft),
-                new FramePoint(wLeft, wTopRight, wBottomRight),
-                new FramePoint(wRight, wTopLeft, wBottomLeft),
-                new FramePoint(wBottomLeft, wTopRight),
-                new FramePoint(wBottom, wTopLeft, wTopRight),
-                new FramePoint(wBottomRight, wTopLeft),
+                new FramePoint(wTopLeft, FramePointLocationKindEnum.TopLeft, wBottomRight),
+                new FramePoint(wTop, FramePointLocationKindEnum.Top, wBottomLeft, wBottomRight),
+                new FramePoint(wTopRight, FramePointLocationKindEnum.TopRight, wBottomLeft),
+                new FramePoint(wLeft, FramePointLocationKindEnum.Left, wTopRight, wBottomRight),
+                new FramePoint(wRight, FramePointLocationKindEnum.Right, wTopLeft, wBottomLeft),
+                new FramePoint(wBottomLeft, FramePointLocationKindEnum.BottomLeft, wTopRight),
+                new FramePoint(wBottom, FramePointLocationKindEnum.Bottom, wTopLeft, wTopRight),
+                new FramePoint(wBottomRight, FramePointLocationKindEnum.BottomRight, wTopLeft),
             };
         }
 

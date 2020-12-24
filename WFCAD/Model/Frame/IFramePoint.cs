@@ -15,6 +15,11 @@ namespace WFCAD.Model.Frame {
         Point Point { get; }
 
         /// <summary>
+        /// 位置種類
+        /// </summary>
+        FramePointLocationKindEnum LocationKind { get; }
+
+        /// <summary>
         /// 基準点
         /// </summary>
         IEnumerable<Point> BasePoints { get; }

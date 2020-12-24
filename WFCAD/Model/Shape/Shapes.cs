@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using WFCAD.Model.Frame;
@@ -93,18 +94,25 @@ namespace WFCAD.Model.Shape {
         /// 枠点を選択します
         /// </summary>
         private bool FramePointSelect(Point vCoordinate) {
-            bool wIsFramePointSelected = false;
-            foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
-                foreach (IFramePoint wPoint in wShape.FramePoints) {
-                    wPoint.IsSelected = false;
+            // 各図形の枠点選択状態を設定します
+            void SetFramePointIsSelected(FramePointLocationKindEnum? vTargetKind, Func<IShape, bool> vFilter) {
+                foreach (IShape wShape in FShapes.Where(vFilter)) {
+                    foreach (IFramePoint wFramePoint in wShape.FramePoints) {
+                        wFramePoint.IsSelected = wFramePoint.LocationKind == vTargetKind;
+                    }
                 }
-                if (wIsFramePointSelected) continue;
+            }
+
+            // 全図形の枠点選択状態を初期化
+            SetFramePointIsSelected(null, (vShape) => true);
+
+            foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
                 IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
                 if (wFramePoint == null) continue;
-                wFramePoint.IsSelected = true;
-                wIsFramePointSelected = true;
+                SetFramePointIsSelected(wFramePoint.LocationKind, (vShape) => vShape.IsSelected && vShape.GetType() == wShape.GetType());
+                return true;
             }
-            return wIsFramePointSelected;
+            return false;
         }
 
         /// <summary>

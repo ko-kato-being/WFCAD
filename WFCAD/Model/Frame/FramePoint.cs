@@ -13,16 +13,18 @@ namespace WFCAD.Model.Frame {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public FramePoint(Point vPoint, params Point[] vBasePoints) {
+        public FramePoint(Point vPoint, FramePointLocationKindEnum vLocationKind, params Point[] vBasePoints) {
             this.Point = vPoint;
+            this.LocationKind = vLocationKind;
             this.BasePoints = vBasePoints.ToList();
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private FramePoint(Point vPoint, IEnumerable<Point> vBasePoints, bool vIsSelected) {
+        private FramePoint(Point vPoint, FramePointLocationKindEnum vLocationKind, IEnumerable<Point> vBasePoints, bool vIsSelected) {
             this.Point = vPoint;
+            this.LocationKind = vLocationKind;
             this.BasePoints = vBasePoints.ToList();
             this.IsSelected = vIsSelected;
         }
@@ -33,6 +35,11 @@ namespace WFCAD.Model.Frame {
         /// 座標
         /// </summary>
         public Point Point { get; }
+
+        /// <summary>
+        /// 位置種類
+        /// </summary>
+        public FramePointLocationKindEnum LocationKind { get; }
 
         /// <summary>
         /// 基準点
@@ -76,7 +83,7 @@ namespace WFCAD.Model.Frame {
         /// <summary>
         /// 複製します
         /// </summary>
-        public IFramePoint DeepClone() => new FramePoint(this.Point, this.BasePoints, this.IsSelected);
+        public IFramePoint DeepClone() => new FramePoint(this.Point, this.LocationKind, this.BasePoints, this.IsSelected);
 
         #endregion メソッド
 

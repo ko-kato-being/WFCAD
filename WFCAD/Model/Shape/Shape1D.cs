@@ -18,13 +18,14 @@ namespace WFCAD.Model.Shape {
         /// 始点と終点を設定します
         /// </summary>
         public override void SetPoints(Point vStartPoint, Point vEndPoint) {
-            // 線に関しては外枠の概念が無いため、始点と終点を加工せずに使用します。
-            this.StartPoint = vStartPoint;
-            this.EndPoint = vEndPoint;
+            // 左に位置する点を始点にします
+            bool wIsLeft = vStartPoint.X < vEndPoint.X;
+            this.StartPoint = wIsLeft ? vStartPoint : vEndPoint;
+            this.EndPoint = wIsLeft ? vEndPoint : vStartPoint;
 
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(this.StartPoint, this.EndPoint),
-                new FramePoint(this.EndPoint, this.StartPoint),
+                new FramePoint(this.StartPoint, FramePointLocationKindEnum.Start, this.EndPoint),
+                new FramePoint(this.EndPoint, FramePointLocationKindEnum.End, this.StartPoint),
             };
         }
 
