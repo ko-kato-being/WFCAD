@@ -1,12 +1,11 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
     /// 楕円クラス
     /// </summary>
-    public class Ellipse : Shape {
+    public class Ellipse : Shape2D {
 
         /// <summary>
         /// コンストラクタ

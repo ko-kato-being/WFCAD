@@ -5,7 +5,7 @@ namespace WFCAD.Model.Shape {
     /// <summary>
     /// 矩形クラス
     /// </summary>
-    public class Rectangle : Shape {
+    public class Rectangle : Shape2D {
 
         /// <summary>
         /// コンストラクタ

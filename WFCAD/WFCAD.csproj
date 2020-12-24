@@ -80,7 +80,11 @@
     <Compile Include="Control\CanvasControl.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />
+    <Compile Include="Model\Shape\IShape1D.cs" />
+    <Compile Include="Model\Shape\IShape2D.cs" />
     <Compile Include="Model\Shape\IShapes.cs" />
+    <Compile Include="Model\Shape\Shape1D.cs" />
+    <Compile Include="Model\Shape\Shape2D.cs" />
     <Compile Include="Model\Snapshot\ISnapshot.cs" />
     <Compile Include="Model\Snapshot\ISnapshots.cs" />
     <Compile Include="Model\Shape\Line.cs" />

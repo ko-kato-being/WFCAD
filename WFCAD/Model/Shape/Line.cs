@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using WFCAD.Model.Frame;
+﻿using System.Drawing;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
     /// 線クラス
     /// </summary>
-    public class Line : Shape {
+    public class Line : Shape1D {
 
         /// <summary>
         /// コンストラクタ
@@ -17,34 +14,9 @@ namespace WFCAD.Model.Shape {
         #region　メソッド
 
         /// <summary>
-        /// 始点と終点を設定します
-        /// </summary>
-        public override void SetPoints(Point vStartPoint, Point vEndPoint) {
-            // 線に関しては外枠の概念が無いため、始点と終点を加工せずに使用します。
-            this.StartPoint = vStartPoint;
-            this.EndPoint = vEndPoint;
-
-            this.FramePoints = new List<IFramePoint> {
-                new FramePoint(this.StartPoint, this.EndPoint),
-                new FramePoint(this.EndPoint, this.StartPoint),
-            };
-        }
-
-        /// <summary>
         /// 描画します
         /// </summary>
         protected override void DrawCore(Graphics vGraphics, Pen vPen) => vGraphics.DrawLine(vPen, this.StartPoint, this.EndPoint);
-
-        /// <summary>
-        /// 枠線は描画しない
-        /// </summary>
-        protected override void DrawFrameRectangle(Graphics vGraphics, Pen vPen) { }
-
-        /// <summary>
-        /// 拡大・縮小するための座標取得処理
-        /// </summary>
-        protected override (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize)
-            => (vFramePoint.Point + vSize, vFramePoint.BasePoints.First());
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
