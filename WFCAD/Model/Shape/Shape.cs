@@ -178,7 +178,7 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         public void RotateRight() {
             var wOrigin = new Point(this.StartPoint.X + this.Width / 2, this.StartPoint.Y + this.Height / 2);
-            this.SetPoints(Utilities.RotatePoint(this.StartPoint, wOrigin, -90d), Utilities.RotatePoint(this.EndPoint, wOrigin, -90d));
+            this.SetPoints(Utilities.RotateRight90(this.StartPoint, wOrigin), Utilities.RotateRight90(this.EndPoint, wOrigin));
         }
 
         /// <summary>
