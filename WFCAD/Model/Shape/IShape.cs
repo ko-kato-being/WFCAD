@@ -55,19 +55,19 @@ namespace WFCAD.Model.Shape {
         Bitmap Draw(Bitmap vBitmap);
 
         /// <summary>
-        /// 編集します
+        /// 移動します
         /// </summary>
-        void Edit(Size vSize);
+        void Move(Size vSize);
+
+        /// <summary>
+        /// 拡大・縮小します
+        /// </summary>
+        void ChangeScale(Size vSize);
 
         /// <summary>
         /// 右に回転させます
         /// </summary>
         void RotateRight();
-
-        /// <summary>
-        /// 移動します
-        /// </summary>
-        void Move(Size vSize);
 
         /// <summary>
         /// 指定した座標が図形内に存在するか

@@ -20,6 +20,7 @@ namespace WFCAD.Model.Shape {
 
         private List<IShape> FShapes = new List<IShape>();
         private bool FVisible = true;
+        private bool FIsFramePointSelected;
 
         #endregion フィールド
 
@@ -105,11 +106,13 @@ namespace WFCAD.Model.Shape {
 
             // 全図形の枠点選択状態を初期化
             SetFramePointIsSelected(null, (vShape) => true);
+            FIsFramePointSelected = false;
 
             foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
                 IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
                 if (wFramePoint == null) continue;
                 SetFramePointIsSelected(wFramePoint.LocationKind, (vShape) => vShape.IsSelected && vShape.GetType() == wShape.GetType());
+                FIsFramePointSelected = true;
                 return true;
             }
             return false;
@@ -136,7 +139,13 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         public void Edit(Size vSize) {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Edit(vSize);
+                if (FIsFramePointSelected) {
+                    // 拡大・縮小
+                    wShape.ChangeScale(vSize);
+                } else {
+                    // 移動
+                    wShape.Move(vSize);
+                }
             }
         }
 
@@ -224,6 +233,7 @@ namespace WFCAD.Model.Shape {
         public IShapes DeepClone() {
             var wClone = new Shapes();
             wClone.Visible = this.Visible;
+            wClone.FIsFramePointSelected = FIsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
             }
