@@ -8,7 +8,7 @@ namespace WFCAD.Model.Shape {
     /// <summary>
     /// 2次元図形クラス
     /// </summary>
-    public abstract class Shape2D : Shape, IShape2D {
+    public abstract class Shape2D : Shape {
 
         /// <summary>
         /// コンストラクタ

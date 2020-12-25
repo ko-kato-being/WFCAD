@@ -7,7 +7,7 @@ namespace WFCAD.Model.Shape {
     /// <summary>
     /// 1次元図形クラス
     /// </summary>
-    public abstract class Shape1D : Shape, IShape1D {
+    public abstract class Shape1D : Shape {
 
         /// <summary>
         /// コンストラクタ
