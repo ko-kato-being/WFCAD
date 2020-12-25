@@ -37,10 +37,7 @@ namespace WFCAD.View {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FMouseDownAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.EditShapes(vMouseEventArgs.Location);
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(vMouseEventArgs.Location);
-                };
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.ShowPreview(vMouseEventArgs.Location);
             };
             // 矩形ボタン
             FButtonRectangle.Click += (sender, e) => {
@@ -48,10 +45,7 @@ namespace WFCAD.View {
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Model.Shape.Rectangle(FCanvasControl.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Model.Shape.Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
-                };
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.ShowPreview(new Model.Shape.Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
             };
             // 円ボタン
             FButtonEllipse.Click += (sender, e) => {
@@ -59,10 +53,7 @@ namespace WFCAD.View {
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Ellipse(FCanvasControl.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Ellipse(FCanvasControl.Color), vMouseEventArgs.Location);
-                };
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.ShowPreview(new Ellipse(FCanvasControl.Color), vMouseEventArgs.Location);
             };
             // 線ボタン
             FButtonLine.Click += (sender, e) => {
@@ -70,10 +61,7 @@ namespace WFCAD.View {
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
                 FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Line(FCanvasControl.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => {
-                    if ((MouseButtons & MouseButtons.Left) != MouseButtons.Left) return;
-                    FCanvasControl.ShowPreview(new Line(FCanvasControl.Color), vMouseEventArgs.Location);
-                };
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.ShowPreview(new Line(FCanvasControl.Color), vMouseEventArgs.Location);
             };
             // 色の設定ボタン
             FButtonColor.Click += (sender, e) => {
@@ -118,17 +106,23 @@ namespace WFCAD.View {
 
             // マウスイベントは前面に配置している FSubPictureBox で処理する
             FSubPictureBox.MouseDown += (sender, e) => {
+                if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
                 FCanvasControl.MouseDownLocation = e.Location;
                 FMouseDownAction?.Invoke(e);
             };
             FSubPictureBox.MouseUp += (sender, e) => {
+                if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
                 FCanvasControl.MouseUpLocation = e.Location;
                 FMouseUpAction?.Invoke(e);
             };
-            FSubPictureBox.MouseMove += (sender, e) => FMouseMoveAction?.Invoke(e);
+            FSubPictureBox.MouseMove += (sender, e) => {
+                if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+                FMouseMoveAction?.Invoke(e);
+            };
 
             // キー入力をハンドリング
             this.KeyDown += (sender, e) => {
+                if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) return;
                 if (e.Control) {
                     switch (e.KeyCode) {
                         case Keys.A:
