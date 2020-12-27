@@ -12,7 +12,7 @@ namespace WFCAD.Model.Shape {
 
         #region 定数
 
-        protected static readonly Color C_FrameColor = Color.Black;
+        protected static readonly Color C_FrameColor = Color.Gray;
 
         #endregion 定数
 
