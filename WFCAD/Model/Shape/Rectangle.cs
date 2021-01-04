@@ -19,7 +19,7 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         protected override void DrawCore(Graphics vGraphics) {
             using (var wBrush = new SolidBrush(this.Color))
-            using (var wPen = new Pen(C_BorderColor, 2)) {
+            using (var wPen = new Pen(C_BorderColor, 2f)) {
                 vGraphics.FillRectangle(wBrush, this.FrameRectangle);
                 vGraphics.DrawRectangle(wPen, this.FrameRectangle);
             }

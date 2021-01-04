@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
@@ -17,7 +18,8 @@ namespace WFCAD.Model.Shape {
         /// 描画します
         /// </summary>
         protected override void DrawCore(Graphics vGraphics) {
-            using (var wPen = new Pen(this.Color, 2)) {
+            vGraphics.SmoothingMode = SmoothingMode.AntiAlias;
+            using (var wPen = new Pen(this.Color, 2f)) {
                 vGraphics.DrawLine(wPen, this.StartPoint, this.EndPoint);
             }
         }

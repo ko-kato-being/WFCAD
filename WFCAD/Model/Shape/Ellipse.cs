@@ -18,8 +18,9 @@ namespace WFCAD.Model.Shape {
         /// 描画します
         /// </summary>
         protected override void DrawCore(Graphics vGraphics) {
+            vGraphics.SmoothingMode = SmoothingMode.AntiAlias;
             using (var wBrush = new SolidBrush(this.Color))
-            using (var wPen = new Pen(C_BorderColor, 3)) {
+            using (var wPen = new Pen(C_BorderColor, 3f)) {
                 vGraphics.DrawEllipse(wPen, this.FrameRectangle);
                 vGraphics.FillEllipse(wBrush, this.FrameRectangle);
             }
