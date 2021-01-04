@@ -12,10 +12,10 @@ namespace WFCAD.View {
     /// </summary>
     public partial class CanvasForm : Form {
         private readonly ICanvasControl FCanvasControl;
+        private readonly List<ToolStripButton> FGroupButtons;
         private Action<MouseEventArgs> FMouseDownAction;
         private Action<MouseEventArgs> FMouseUpAction;
         private Action<MouseEventArgs> FMouseMoveAction;
-        private readonly List<ToolStripButton> FGroupButtons;
 
         /// <summary>
         /// コンストラクタ
