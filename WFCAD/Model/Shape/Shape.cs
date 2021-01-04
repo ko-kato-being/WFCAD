@@ -90,6 +90,7 @@ namespace WFCAD.Model.Shape {
                 using (var wGraphics = Graphics.FromImage(vBitmap)) {
                     this.DrawCore(wGraphics);
                     if (this.IsSelected) {
+                        wGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         this.DrawFrame(wGraphics);
                     }
                 }
