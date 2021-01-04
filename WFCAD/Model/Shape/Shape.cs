@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using WFCAD.Model.Frame;
 
@@ -90,7 +91,7 @@ namespace WFCAD.Model.Shape {
                 using (var wGraphics = Graphics.FromImage(vBitmap)) {
                     this.DrawCore(wGraphics);
                     if (this.IsSelected) {
-                        wGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        wGraphics.SmoothingMode = SmoothingMode.AntiAlias;
                         this.DrawFrame(wGraphics);
                     }
                 }
