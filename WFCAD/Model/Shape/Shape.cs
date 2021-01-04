@@ -12,6 +12,7 @@ namespace WFCAD.Model.Shape {
 
         #region 定数
 
+        protected static readonly Color C_BorderColor = Color.Black;
         protected static readonly Color C_FrameColor = Color.Gray;
 
         #endregion 定数
@@ -87,9 +88,7 @@ namespace WFCAD.Model.Shape {
         public Bitmap Draw(Bitmap vBitmap) {
             if (this.Visible) {
                 using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                    using (var wPen = new Pen(this.Color)) {
-                        this.DrawCore(wGraphics, wPen);
-                    }
+                    this.DrawCore(wGraphics);
                     if (this.IsSelected) {
                         this.DrawFrame(wGraphics);
                     }
@@ -101,7 +100,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 派生クラスごとの描画処理
         /// </summary>
-        protected abstract void DrawCore(Graphics vGraphics, Pen vPen);
+        protected abstract void DrawCore(Graphics vGraphics);
 
         /// <summary>
         /// 枠を描画します

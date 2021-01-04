@@ -17,7 +17,13 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 描画します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics, Pen vPen) => vGraphics.DrawEllipse(vPen, this.FrameRectangle);
+        protected override void DrawCore(Graphics vGraphics) {
+            using (var wBrush = new SolidBrush(this.Color))
+            using (var wPen = new Pen(C_BorderColor, 3)) {
+                vGraphics.DrawEllipse(wPen, this.FrameRectangle);
+                vGraphics.FillEllipse(wBrush, this.FrameRectangle);
+            }
+        }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
