@@ -69,8 +69,8 @@ namespace WFCAD.Control {
         /// </summary>
         public void ShowPreview(Point vMouseLocation) {
             IShapes wShapes = FShapes.DeepClone();
-            if (FShapes.Visible) {
-                FShapes.Visible = false;
+            if (!FShapes.IsPreviewing) {
+                FShapes.IsPreviewing = true;
                 this.Refresh(false);
             }
             wShapes.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
@@ -135,7 +135,7 @@ namespace WFCAD.Control {
             var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
             if (wSize.IsEmpty) return;
             FShapes.Edit(wSize);
-            FShapes.Visible = true;
+            FShapes.IsPreviewing = false;
             this.Refresh();
         }
 

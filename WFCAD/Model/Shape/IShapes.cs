@@ -10,9 +10,9 @@ namespace WFCAD.Model.Shape {
         #region プロパティ
 
         /// <summary>
-        /// 表示状態
+        /// プレビュー中か
         /// </summary>
-        bool Visible { get; set; }
+        bool IsPreviewing { get; set; }
 
         /// <summary>
         /// クリップボード

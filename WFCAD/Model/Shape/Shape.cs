@@ -60,11 +60,6 @@ namespace WFCAD.Model.Shape {
         public bool IsSelected { get; set; }
 
         /// <summary>
-        /// 表示状態
-        /// </summary>
-        public bool Visible { get; set; } = true;
-
-        /// <summary>
         /// 表示色
         /// </summary>
         public Color Color { get; set; }
@@ -87,13 +82,11 @@ namespace WFCAD.Model.Shape {
         /// 描画します
         /// </summary>
         public Bitmap Draw(Bitmap vBitmap) {
-            if (this.Visible) {
-                using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                    this.DrawCore(wGraphics);
-                    if (this.IsSelected) {
-                        wGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-                        this.DrawFrame(wGraphics);
-                    }
+            using (var wGraphics = Graphics.FromImage(vBitmap)) {
+                this.DrawCore(wGraphics);
+                if (this.IsSelected) {
+                    wGraphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    this.DrawFrame(wGraphics);
                 }
             }
             return vBitmap;

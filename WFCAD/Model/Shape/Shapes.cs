@@ -19,7 +19,6 @@ namespace WFCAD.Model.Shape {
         #region フィールド
 
         private List<IShape> FShapes = new List<IShape>();
-        private bool FVisible = true;
         private bool FIsFramePointSelected;
 
         #endregion フィールド
@@ -29,15 +28,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 表示状態
         /// </summary>
-        public bool Visible {
-            get => FVisible;
-            set {
-                FVisible = value;
-                foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                    wShape.Visible = FVisible;
-                }
-            }
-        }
+        public bool IsPreviewing { get; set; }
 
         /// <summary>
         /// クリップボード
@@ -52,6 +43,7 @@ namespace WFCAD.Model.Shape {
         /// 描画します
         /// </summary>
         public Bitmap Draw(Bitmap vBitmap) {
+            if (this.IsPreviewing) return vBitmap;
             FShapes.ForEach(x => x.Draw(vBitmap));
             return vBitmap;
         }
@@ -232,7 +224,6 @@ namespace WFCAD.Model.Shape {
         /// </summary>
         public IShapes DeepClone() {
             var wClone = new Shapes();
-            wClone.Visible = this.Visible;
             wClone.FIsFramePointSelected = FIsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());

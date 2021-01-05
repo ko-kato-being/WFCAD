@@ -31,11 +31,6 @@ namespace WFCAD.Model.Shape {
         bool IsSelected { get; set; }
 
         /// <summary>
-        /// 表示状態
-        /// </summary>
-        bool Visible { get; set; }
-
-        /// <summary>
         /// 表示色
         /// </summary>
         Color Color { get; set; }
