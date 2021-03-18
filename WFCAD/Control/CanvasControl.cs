@@ -11,7 +11,7 @@ namespace WFCAD.Control {
     public class CanvasControl : ICanvasControl {
         private readonly PictureBox FMainPictureBox;
         private readonly PictureBox FSubPictureBox;
-        private ICanvas FShapes;
+        private ICanvas FCanvas;
         private readonly ISnapshots FSnapshots;
 
         #region コンストラクタ
@@ -22,7 +22,7 @@ namespace WFCAD.Control {
         public CanvasControl(PictureBox vMainPictureBox, PictureBox vSubPictureBox) {
             FMainPictureBox = vMainPictureBox;
             FSubPictureBox = vSubPictureBox;
-            FShapes = new Canvas();
+            FCanvas = new Canvas();
             FSnapshots = new Snapshots();
         }
 
@@ -53,8 +53,8 @@ namespace WFCAD.Control {
         /// 再描画します
         /// </summary>
         public void Refresh(bool vTakeSnapshot = true) {
-            Bitmap wBitmap = FShapes.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
-            if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wBitmap, FShapes.DeepClone()));
+            Bitmap wBitmap = FCanvas.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
+            if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wBitmap, FCanvas.DeepClone()));
             FMainPictureBox.Image = wBitmap;
 
             // プレビューをクリアする
@@ -67,9 +67,9 @@ namespace WFCAD.Control {
         /// 図形のプレビューを表示します
         /// </summary>
         public void ShowPreview(Point vMouseLocation) {
-            ICanvas wShapes = FShapes.DeepClone();
-            if (!FShapes.IsPreviewing) {
-                FShapes.IsPreviewing = true;
+            ICanvas wShapes = FCanvas.DeepClone();
+            if (!FCanvas.IsPreviewing) {
+                FCanvas.IsPreviewing = true;
                 this.Refresh(false);
             }
             wShapes.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
@@ -92,7 +92,7 @@ namespace WFCAD.Control {
         /// 図形を選択します
         /// </summary>
         public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
-            FShapes.Select(vMouseLocation, vIsMultiple);
+            FCanvas.Select(vMouseLocation, vIsMultiple);
             this.Refresh(false);
         }
 
@@ -100,7 +100,7 @@ namespace WFCAD.Control {
         /// すべての図形を選択します
         /// </summary>
         public void AllSelectShapes() {
-            FShapes.AllSelect();
+            FCanvas.AllSelect();
             this.Refresh(false);
         }
 
@@ -108,7 +108,7 @@ namespace WFCAD.Control {
         /// すべての図形の選択を解除します
         /// </summary>
         public void UnselectShapes() {
-            FShapes.Unselect();
+            FCanvas.Unselect();
             this.Refresh(false);
         }
 
@@ -122,7 +122,7 @@ namespace WFCAD.Control {
                 IShape wShape = vShape.DeepClone();
                 wShape.SetPoints(this.MouseDownLocation, this.MouseUpLocation);
                 wShape.Color = this.Color;
-                FShapes.Add(wShape);
+                FCanvas.Add(wShape);
             }
             this.Refresh();
         }
@@ -133,8 +133,8 @@ namespace WFCAD.Control {
         public void EditShapes(Point vMouseLocation) {
             var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
             if (wSize.IsEmpty) return;
-            FShapes.Edit(wSize);
-            FShapes.IsPreviewing = false;
+            FCanvas.Edit(wSize);
+            FCanvas.IsPreviewing = false;
             this.Refresh();
         }
 
@@ -142,7 +142,7 @@ namespace WFCAD.Control {
         /// 図形を右に回転させます
         /// </summary>
         public void RotateRightShapes() {
-            FShapes.RotateRight();
+            FCanvas.RotateRight();
             this.Refresh();
         }
 
@@ -150,7 +150,7 @@ namespace WFCAD.Control {
         /// 図形を最前面に移動します
         /// </summary>
         public void MoveToFrontShapes() {
-            FShapes.MoveToFront();
+            FCanvas.MoveToFront();
             this.Refresh();
         }
 
@@ -158,7 +158,7 @@ namespace WFCAD.Control {
         /// 図形を最背面に移動します
         /// </summary>
         public void MoveToBackShapes() {
-            FShapes.MoveToBack();
+            FCanvas.MoveToBack();
             this.Refresh();
         }
 
@@ -166,7 +166,7 @@ namespace WFCAD.Control {
         /// 図形を複製します
         /// </summary>
         public void CloneShapes() {
-            FShapes.Clone();
+            FCanvas.Clone();
             this.Refresh();
         }
 
@@ -174,11 +174,11 @@ namespace WFCAD.Control {
         /// 図形をクリップボードにコピーします
         /// </summary>
         public void CopyShapes(bool vIsCut = false) {
-            FShapes.Copy(vIsCut);
+            FCanvas.Copy(vIsCut);
             ISnapshot wSnapshot = FSnapshots.GetLatest();
             if (wSnapshot == null) return;
             wSnapshot.Shapes.Clipboard = new List<IShape>();
-            wSnapshot.Shapes.Clipboard.AddRange(FShapes.Clipboard.Select(x => x.DeepClone()));
+            wSnapshot.Shapes.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
             if (vIsCut) this.Refresh(false);
         }
 
@@ -186,8 +186,8 @@ namespace WFCAD.Control {
         /// 図形を貼り付けます
         /// </summary>
         public void PasteShapes() {
-            if (FShapes.Clipboard.Count == 0) return;
-            FShapes.Paste();
+            if (FCanvas.Clipboard.Count == 0) return;
+            FCanvas.Paste();
             this.Refresh();
         }
 
@@ -198,7 +198,7 @@ namespace WFCAD.Control {
             ISnapshot wSnapshot = FSnapshots.GetBefore();
             if (wSnapshot == null) return;
             FMainPictureBox.Image = wSnapshot.Bitmap;
-            FShapes = wSnapshot.Shapes.DeepClone();
+            FCanvas = wSnapshot.Shapes.DeepClone();
         }
 
         /// <summary>
@@ -208,14 +208,14 @@ namespace WFCAD.Control {
             ISnapshot wSnapshot = FSnapshots.GetAfter();
             if (wSnapshot == null) return;
             FMainPictureBox.Image = wSnapshot.Bitmap;
-            FShapes = wSnapshot.Shapes.DeepClone();
+            FCanvas = wSnapshot.Shapes.DeepClone();
         }
 
         /// <summary>
         /// 選択中の図形を削除します
         /// </summary>
         public void RemoveShapes() {
-            FShapes.Remove();
+            FCanvas.Remove();
             this.Refresh();
         }
 
@@ -223,7 +223,7 @@ namespace WFCAD.Control {
         /// キャンバスをクリアします
         /// </summary>
         public void Clear() {
-            FShapes.Clear();
+            FCanvas.Clear();
             this.Refresh();
         }
 
