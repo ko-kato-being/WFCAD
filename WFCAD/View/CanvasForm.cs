@@ -10,19 +10,22 @@ namespace WFCAD.View {
     /// <summary>
     /// キャンバスフォーム
     /// </summary>
-    public partial class CanvasForm : Form {
+    public partial class CanvasForm : Form, ICanvasView {
         private readonly ICanvasControl FCanvasControl;
         private readonly List<ToolStripButton> FGroupButtons;
         private Action<MouseEventArgs> FMouseDownAction;
         private Action<MouseEventArgs> FMouseUpAction;
         private Action<MouseEventArgs> FMouseMoveAction;
 
+        int ICanvasView.Width => FMainPictureBox.Width;
+        int ICanvasView.Height => FMainPictureBox.Height;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvasControl = new CanvasControl(FMainPictureBox, FSubPictureBox);
+            FCanvasControl = new CanvasControl(this);
             FGroupButtons = new List<ToolStripButton> {
                 FButtonSelect,
                 FButtonRectangle,
@@ -159,6 +162,25 @@ namespace WFCAD.View {
 
             #endregion イベントハンドラの設定
 
+        }
+
+        /// <summary>
+        /// すべて再描画します
+        /// </summary>
+        public void RefreshAll(Bitmap vBitmap) {
+            FMainPictureBox.Image = vBitmap;
+
+            // プレビューをクリアする
+            // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
+            FSubPictureBox.Image?.Dispose();
+            FSubPictureBox.Image = null;
+        }
+
+        /// <summary>
+        /// プレビューを再描画します
+        /// </summary>
+        public void RefreshPreview(Bitmap vBitmap) {
+            FSubPictureBox.Image = vBitmap;
         }
 
         /// <summary>

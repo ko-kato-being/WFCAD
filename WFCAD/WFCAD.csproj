@@ -119,6 +119,7 @@
     <Compile Include="Model\Shape\IShape.cs" />
     <Compile Include="Model\Shape\Rectangle.cs" />
     <Compile Include="Model\Shape\Shape.cs" />
+    <Compile Include="View\ICanvasView.cs" />
     <EmbeddedResource Include="View\CanvasForm.resx">
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using WFCAD.Model;
+using WFCAD.View;
 
 namespace WFCAD.Control {
     /// <summary>
     /// キャンバスコントロール
     /// </summary>
     public class CanvasControl : ICanvasControl {
-        private readonly PictureBox FMainPictureBox;
-        private readonly PictureBox FSubPictureBox;
+        private ICanvasView FCanvasView;
         private ICanvas FCanvas;
         private readonly ISnapshots FSnapshots;
 
@@ -19,9 +18,8 @@ namespace WFCAD.Control {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CanvasControl(PictureBox vMainPictureBox, PictureBox vSubPictureBox) {
-            FMainPictureBox = vMainPictureBox;
-            FSubPictureBox = vSubPictureBox;
+        public CanvasControl(ICanvasView vCanvasView) {
+            FCanvasView = vCanvasView;
             FCanvas = new Canvas();
             FSnapshots = new Snapshots();
         }
@@ -50,31 +48,25 @@ namespace WFCAD.Control {
         #region メソッド
 
         /// <summary>
-        /// 再描画します
+        /// 描画します
         /// </summary>
-        public void Refresh(bool vTakeSnapshot = true) {
-            Bitmap wBitmap = FCanvas.Draw(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
+        private void Draw(bool vTakeSnapshot = true) {
+            Bitmap wBitmap = FCanvas.Draw(new Bitmap(FCanvasView.Width, FCanvasView.Height));
             if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wBitmap, FCanvas.DeepClone()));
-            FMainPictureBox.Image = wBitmap;
-
-            // プレビューをクリアする
-            // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
-            FSubPictureBox.Image?.Dispose();
-            FSubPictureBox.Image = null;
+            FCanvasView.RefreshAll(wBitmap);
         }
 
         /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
         public void ShowPreview(Point vMouseLocation) {
-            ICanvas wShapes = FCanvas.DeepClone();
+            ICanvas wCanvas = FCanvas.DeepClone();
             if (!FCanvas.IsPreviewing) {
                 FCanvas.IsPreviewing = true;
-                this.Refresh(false);
+                this.Draw(false);
             }
-            wShapes.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
-            FSubPictureBox.Image?.Dispose();
-            FSubPictureBox.Image = wShapes.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
+            wCanvas.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
+            FCanvasView.RefreshPreview(wCanvas.Draw(new Bitmap(FCanvasView.Width, FCanvasView.Height)));
         }
 
         /// <summary>
@@ -84,8 +76,7 @@ namespace WFCAD.Control {
             IShape wShape = vShape.DeepClone();
             wShape.SetPoints(this.MouseDownLocation, vMouseLocation);
             wShape.Color = this.Color;
-            FSubPictureBox.Image?.Dispose();
-            FSubPictureBox.Image = wShape.Draw(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
+            FCanvasView.RefreshPreview(wShape.Draw(new Bitmap(FCanvasView.Width, FCanvasView.Height)));
         }
 
         /// <summary>
@@ -93,7 +84,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
             FCanvas.Select(vMouseLocation, vIsMultiple);
-            this.Refresh(false);
+            this.Draw(false);
         }
 
         /// <summary>
@@ -101,7 +92,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void AllSelectShapes() {
             FCanvas.AllSelect();
-            this.Refresh(false);
+            this.Draw(false);
         }
 
         /// <summary>
@@ -109,7 +100,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void UnselectShapes() {
             FCanvas.Unselect();
-            this.Refresh(false);
+            this.Draw(false);
         }
 
         /// <summary>
@@ -124,7 +115,7 @@ namespace WFCAD.Control {
                 wShape.Color = this.Color;
                 FCanvas.Add(wShape);
             }
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -135,7 +126,7 @@ namespace WFCAD.Control {
             if (wSize.IsEmpty) return;
             FCanvas.Edit(wSize);
             FCanvas.IsPreviewing = false;
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -143,7 +134,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void RotateRightShapes() {
             FCanvas.RotateRight();
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -151,7 +142,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void MoveToFrontShapes() {
             FCanvas.MoveToFront();
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -159,7 +150,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void MoveToBackShapes() {
             FCanvas.MoveToBack();
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -167,7 +158,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void CloneShapes() {
             FCanvas.Clone();
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -179,7 +170,7 @@ namespace WFCAD.Control {
             if (wSnapshot == null) return;
             wSnapshot.Shapes.Clipboard = new List<IShape>();
             wSnapshot.Shapes.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
-            if (vIsCut) this.Refresh(false);
+            if (vIsCut) this.Draw(false);
         }
 
         /// <summary>
@@ -188,7 +179,7 @@ namespace WFCAD.Control {
         public void PasteShapes() {
             if (FCanvas.Clipboard.Count == 0) return;
             FCanvas.Paste();
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -197,7 +188,7 @@ namespace WFCAD.Control {
         public void Undo() {
             ISnapshot wSnapshot = FSnapshots.GetBefore();
             if (wSnapshot == null) return;
-            FMainPictureBox.Image = wSnapshot.Bitmap;
+            FCanvasView.RefreshAll(wSnapshot.Bitmap);
             FCanvas = wSnapshot.Shapes.DeepClone();
         }
 
@@ -207,7 +198,7 @@ namespace WFCAD.Control {
         public void Redo() {
             ISnapshot wSnapshot = FSnapshots.GetAfter();
             if (wSnapshot == null) return;
-            FMainPictureBox.Image = wSnapshot.Bitmap;
+            FCanvasView.RefreshAll(wSnapshot.Bitmap);
             FCanvas = wSnapshot.Shapes.DeepClone();
         }
 
@@ -216,7 +207,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void RemoveShapes() {
             FCanvas.Remove();
-            this.Refresh();
+            this.Draw();
         }
 
         /// <summary>
@@ -224,7 +215,7 @@ namespace WFCAD.Control {
         /// </summary>
         public void Clear() {
             FCanvas.Clear();
-            this.Refresh();
+            this.Draw();
         }
 
         #endregion メソッド
