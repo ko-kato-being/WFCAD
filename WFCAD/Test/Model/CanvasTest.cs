@@ -2,7 +2,7 @@
 using System.Drawing;
 using Moq;
 using NUnit.Framework;
-using WFCAD.Model.Shape;
+using WFCAD.Model;
 
 namespace WFCAD.Test.Model {
     [TestFixture]

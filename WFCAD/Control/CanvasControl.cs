@@ -2,8 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using WFCAD.Model.Shape;
-using WFCAD.Model.Snapshot;
+using WFCAD.Model;
 
 namespace WFCAD.Control {
     /// <summary>

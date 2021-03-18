@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using WFCAD.Model.Shape;
+using WFCAD.Model;
 
 namespace WFCAD.Control {
     /// <summary>

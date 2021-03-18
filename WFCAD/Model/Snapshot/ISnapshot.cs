@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using WFCAD.Model.Shape;
 
-namespace WFCAD.Model.Snapshot {
+namespace WFCAD.Model {
     /// <summary>
     /// スナップショットを表すインターフェース
     /// </summary>

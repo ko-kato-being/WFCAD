@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace WFCAD.Model.Shape {
+namespace WFCAD.Model {
     /// <summary>
     /// キャンバスを表すインターフェース
     /// </summary>

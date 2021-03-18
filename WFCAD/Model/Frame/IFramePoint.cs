@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace WFCAD.Model.Frame {
+namespace WFCAD.Model {
     /// <summary>
     /// 枠の点を表すインターフェース
     /// </summary>

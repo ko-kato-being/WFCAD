@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using WFCAD.Model.Frame;
 
-namespace WFCAD.Model.Shape {
+namespace WFCAD.Model {
     /// <summary>
     /// 1次元図形クラス
     /// </summary>

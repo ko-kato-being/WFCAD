@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using WFCAD.Control;
-using WFCAD.Model.Shape;
+using WFCAD.Model;
 
 namespace WFCAD.View {
     /// <summary>
@@ -44,8 +44,8 @@ namespace WFCAD.View {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCanvasControl.UnselectShapes();
                 FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Model.Shape.Rectangle(FCanvasControl.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.ShowPreview(new Model.Shape.Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
+                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.AddShape(new Model.Rectangle(FCanvasControl.Color));
+                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasControl.ShowPreview(new Model.Rectangle(FCanvasControl.Color), vMouseEventArgs.Location);
             };
             // 円ボタン
             FButtonEllipse.Click += (sender, e) => {

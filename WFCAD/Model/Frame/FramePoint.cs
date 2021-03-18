@@ -3,12 +3,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 
-namespace WFCAD.Model.Frame {
+namespace WFCAD.Model {
     /// <summary>
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private Rectangle FFrameRectangle;
+        private System.Drawing.Rectangle FFrameRectangle;
 
         /// <summary>
         /// コンストラクタ
@@ -63,7 +63,7 @@ namespace WFCAD.Model.Frame {
             const int C_Radius = 4;
             var wTopLeft = new Point(this.Point.X - C_Radius, this.Point.Y - C_Radius);
 
-            FFrameRectangle = new Rectangle(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
+            FFrameRectangle = new System.Drawing.Rectangle(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
             using (var wBrush = new SolidBrush(Color.White)) {
                 vGraphics.FillEllipse(wBrush, FFrameRectangle);
             }
