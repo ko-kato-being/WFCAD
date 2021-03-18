@@ -6,7 +6,7 @@ using WFCAD.Model.Shape;
 
 namespace WFCAD.Test.Model {
     [TestFixture]
-    public class ShapesTest {
+    public class CanvasTest {
 
         #region 選択
 
@@ -19,7 +19,7 @@ namespace WFCAD.Test.Model {
         }
 
         private void SelectTest(bool vIsMultiple, List<(IShape Shape, bool Result)> vTestDatas) {
-            var wShapes = new Shapes();
+            var wShapes = new Canvas();
             vTestDatas.ForEach(x => wShapes.Add(x.Shape));
             wShapes.Select(new Point(), vIsMultiple);
             for (int i = 0; i < vTestDatas.Count; i++) {

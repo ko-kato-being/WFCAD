@@ -12,7 +12,7 @@ namespace WFCAD.Control {
     public class CanvasControl : ICanvasControl {
         private readonly PictureBox FMainPictureBox;
         private readonly PictureBox FSubPictureBox;
-        private IShapes FShapes;
+        private ICanvas FShapes;
         private readonly ISnapshots FSnapshots;
 
         #region コンストラクタ
@@ -23,7 +23,7 @@ namespace WFCAD.Control {
         public CanvasControl(PictureBox vMainPictureBox, PictureBox vSubPictureBox) {
             FMainPictureBox = vMainPictureBox;
             FSubPictureBox = vSubPictureBox;
-            FShapes = new Shapes();
+            FShapes = new Canvas();
             FSnapshots = new Snapshots();
         }
 
@@ -68,7 +68,7 @@ namespace WFCAD.Control {
         /// 図形のプレビューを表示します
         /// </summary>
         public void ShowPreview(Point vMouseLocation) {
-            IShapes wShapes = FShapes.DeepClone();
+            ICanvas wShapes = FShapes.DeepClone();
             if (!FShapes.IsPreviewing) {
                 FShapes.IsPreviewing = true;
                 this.Refresh(false);

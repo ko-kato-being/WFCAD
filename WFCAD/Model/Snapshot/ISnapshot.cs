@@ -17,7 +17,7 @@ namespace WFCAD.Model.Snapshot {
         /// <summary>
         /// 図形群
         /// </summary>
-        IShapes Shapes { get; set; }
+        ICanvas Shapes { get; set; }
 
         #endregion プロパティ
 

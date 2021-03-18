@@ -3,9 +3,9 @@ using System.Drawing;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
-    /// 図形群を表すインターフェース
+    /// キャンバスを表すインターフェース
     /// </summary>
-    public interface IShapes {
+    public interface ICanvas {
 
         #region プロパティ
 
@@ -96,7 +96,7 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 自身のインスタンスを複製します
         /// </summary>
-        IShapes DeepClone();
+        ICanvas DeepClone();
 
         #endregion　メソッド
 

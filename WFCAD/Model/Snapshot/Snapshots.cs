@@ -8,7 +8,7 @@ namespace WFCAD.Model.Snapshot {
     /// </summary>
     public class Snapshots : ISnapshots {
         private List<ISnapshot> FSnapshots = new List<ISnapshot> {
-            new Snapshot(null, new Shapes()) // 先頭に空のスナップショットを入れておきます
+            new Snapshot(null, new Canvas()) // 先頭に空のスナップショットを入れておきます
         };
         private int FCurrentIndex;
 

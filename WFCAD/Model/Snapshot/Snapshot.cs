@@ -12,7 +12,7 @@ namespace WFCAD.Model.Snapshot {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Snapshot(Bitmap vBitmap, IShapes vShapes) {
+        public Snapshot(Bitmap vBitmap, ICanvas vShapes) {
             this.Bitmap = vBitmap;
             this.Shapes = vShapes;
         }
@@ -29,7 +29,7 @@ namespace WFCAD.Model.Snapshot {
         /// <summary>
         /// 図形群
         /// </summary>
-        public IShapes Shapes { get; set; }
+        public ICanvas Shapes { get; set; }
 
         #endregion プロパティ
 

@@ -6,9 +6,9 @@ using WFCAD.Model.Frame;
 
 namespace WFCAD.Model.Shape {
     /// <summary>
-    /// 図形群クラス
+    /// キャンバスクラス
     /// </summary>
-    public class Shapes : IShapes {
+    public class Canvas : ICanvas {
 
         #region 定数
 
@@ -222,8 +222,8 @@ namespace WFCAD.Model.Shape {
         /// <summary>
         /// 自身のインスタンスを複製します
         /// </summary>
-        public IShapes DeepClone() {
-            var wClone = new Shapes();
+        public ICanvas DeepClone() {
+            var wClone = new Canvas();
             wClone.FIsFramePointSelected = FIsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
