@@ -168,8 +168,8 @@ namespace WFCAD.Controller {
             FCanvas.Copy(vIsCut);
             ISnapshot wSnapshot = FSnapshots.GetLatest();
             if (wSnapshot == null) return;
-            wSnapshot.Shapes.Clipboard = new List<IShape>();
-            wSnapshot.Shapes.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
+            wSnapshot.Canvas.Clipboard = new List<IShape>();
+            wSnapshot.Canvas.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
             if (vIsCut) this.Draw(false);
         }
 
@@ -189,7 +189,7 @@ namespace WFCAD.Controller {
             ISnapshot wSnapshot = FSnapshots.GetBefore();
             if (wSnapshot == null) return;
             FCanvasView.RefreshAll(wSnapshot.Bitmap);
-            FCanvas = wSnapshot.Shapes.DeepClone();
+            FCanvas = wSnapshot.Canvas.DeepClone();
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace WFCAD.Controller {
             ISnapshot wSnapshot = FSnapshots.GetAfter();
             if (wSnapshot == null) return;
             FCanvasView.RefreshAll(wSnapshot.Bitmap);
-            FCanvas = wSnapshot.Shapes.DeepClone();
+            FCanvas = wSnapshot.Canvas.DeepClone();
         }
 
         /// <summary>

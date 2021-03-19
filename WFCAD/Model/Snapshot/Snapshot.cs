@@ -11,9 +11,9 @@ namespace WFCAD.Model {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Snapshot(Bitmap vBitmap, ICanvas vShapes) {
+        public Snapshot(Bitmap vBitmap, ICanvas vCanvas) {
             this.Bitmap = vBitmap;
-            this.Shapes = vShapes;
+            this.Canvas = vCanvas;
         }
 
         #endregion コンストラクタ
@@ -26,9 +26,9 @@ namespace WFCAD.Model {
         public Bitmap Bitmap { get; set; }
 
         /// <summary>
-        /// 図形群
+        /// キャンバス
         /// </summary>
-        public ICanvas Shapes { get; set; }
+        public ICanvas Canvas { get; set; }
 
         #endregion プロパティ
 

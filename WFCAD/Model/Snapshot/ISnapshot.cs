@@ -14,9 +14,9 @@ namespace WFCAD.Model {
         Bitmap Bitmap { get; set; }
 
         /// <summary>
-        /// 図形群
+        /// キャンバス
         /// </summary>
-        ICanvas Shapes { get; set; }
+        ICanvas Canvas { get; set; }
 
         #endregion プロパティ
 
