@@ -41,7 +41,7 @@ namespace WFCAD.Controller {
         /// <summary>
         /// 描画色
         /// </summary>
-        public Color Color { get; set; } = Color.Black;
+        public Color Color { get; set; } = Color.Orange;
 
         #endregion プロパティ
 

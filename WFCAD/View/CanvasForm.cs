@@ -26,6 +26,7 @@ namespace WFCAD.View {
         public CanvasForm() {
             InitializeComponent();
             FCanvasController = new CanvasController(this);
+            this.SetColor(Color.Black, FCanvasController.Color);
             FGroupButtons = new List<ToolStripButton> {
                 FButtonSelect,
                 FButtonRectangle,
@@ -73,19 +74,7 @@ namespace WFCAD.View {
                     wColorDialog.AllowFullOpen = false;
                     if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
 
-                    using (var wGraphics = Graphics.FromImage(FButtonColor.Image)) {
-                        var wRectangle = new System.Drawing.Rectangle(0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height);
-                        using (var wImageAttributes = new ImageAttributes()) {
-                            wImageAttributes.SetRemapTable(new ColorMap[] { new ColorMap {
-                                OldColor = FCanvasController.Color,
-                                NewColor = wColorDialog.Color,
-                            }});
-                            wGraphics.DrawImage(FButtonColor.Image, wRectangle, 0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height, GraphicsUnit.Pixel, wImageAttributes);
-                        }
-                        using (var wPen = new Pen(Color.Black)) {
-                            wGraphics.DrawRectangle(wPen, wRectangle);
-                        }
-                    }
+                    this.SetColor(FCanvasController.Color, wColorDialog.Color);
                     FCanvasController.Color = wColorDialog.Color;
                 }
             };
@@ -181,6 +170,25 @@ namespace WFCAD.View {
         /// </summary>
         public void RefreshPreview(Bitmap vBitmap) {
             FSubPictureBox.Image = vBitmap;
+        }
+
+        /// <summary>
+        /// 色の設定ボタンの画像を設定します
+        /// </summary>
+        private void SetColor(Color vOldColor, Color vNewColor) {
+            using (var wGraphics = Graphics.FromImage(FButtonColor.Image)) {
+                var wRectangle = new System.Drawing.Rectangle(0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height);
+                using (var wImageAttributes = new ImageAttributes()) {
+                    wImageAttributes.SetRemapTable(new ColorMap[] { new ColorMap {
+                                OldColor = vOldColor,
+                                NewColor = vNewColor
+                            }});
+                    wGraphics.DrawImage(FButtonColor.Image, wRectangle, 0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height, GraphicsUnit.Pixel, wImageAttributes);
+                }
+                using (var wPen = new Pen(Color.Black)) {
+                    wGraphics.DrawRectangle(wPen, wRectangle);
+                }
+            }
         }
 
         /// <summary>
