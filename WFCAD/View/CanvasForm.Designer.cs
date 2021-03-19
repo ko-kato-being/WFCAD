@@ -275,6 +275,7 @@
             this.FButtonSave.Size = new System.Drawing.Size(35, 51);
             this.FButtonSave.Text = "保存";
             this.FButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonSave.Visible = false;
             // 
             // FButtonLoad
             // 
@@ -284,11 +285,13 @@
             this.FButtonLoad.Size = new System.Drawing.Size(35, 51);
             this.FButtonLoad.Text = "読込";
             this.FButtonLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonLoad.Visible = false;
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 54);
+            this.toolStripSeparator7.Visible = false;
             // 
             // CanvasForm
             // 
