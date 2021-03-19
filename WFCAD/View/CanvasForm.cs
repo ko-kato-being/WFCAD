@@ -26,6 +26,7 @@ namespace WFCAD.View {
         public CanvasForm() {
             InitializeComponent();
             FCanvasController = new CanvasController(this);
+            // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColor(Color.Black, FCanvasController.Color);
             FGroupButtons = new List<ToolStripButton> {
                 FButtonSelect,
@@ -175,14 +176,18 @@ namespace WFCAD.View {
         /// <summary>
         /// 色の設定ボタンの画像を設定します
         /// </summary>
+        /// <remarks>
+        /// ボタンのImageには一色の画像を設定しています。
+        /// その色を置換することで画像自体を加工してアイコンが変わったように見せています
+        /// </remarks>
         private void SetColor(Color vOldColor, Color vNewColor) {
             using (var wGraphics = Graphics.FromImage(FButtonColor.Image)) {
                 var wRectangle = new System.Drawing.Rectangle(0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height);
                 using (var wImageAttributes = new ImageAttributes()) {
                     wImageAttributes.SetRemapTable(new ColorMap[] { new ColorMap {
-                                OldColor = vOldColor,
-                                NewColor = vNewColor
-                            }});
+                        OldColor = vOldColor,
+                        NewColor = vNewColor
+                    } });
                     wGraphics.DrawImage(FButtonColor.Image, wRectangle, 0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height, GraphicsUnit.Pixel, wImageAttributes);
                 }
                 using (var wPen = new Pen(Color.Black)) {
