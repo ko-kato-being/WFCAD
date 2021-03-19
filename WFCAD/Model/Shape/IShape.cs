@@ -54,6 +54,11 @@ namespace WFCAD.Model {
         Bitmap Draw(Bitmap vBitmap);
 
         /// <summary>
+        /// 枠を描画します
+        /// </summary>
+        void DrawFrame(Bitmap vBitmap);
+
+        /// <summary>
         /// 移動します
         /// </summary>
         void Move(Size vSize);

@@ -83,12 +83,18 @@ namespace WFCAD.Model {
         public Bitmap Draw(Bitmap vBitmap) {
             using (var wGraphics = Graphics.FromImage(vBitmap)) {
                 this.DrawCore(wGraphics);
-                if (this.IsSelected) {
-                    wGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    this.DrawFrame(wGraphics);
-                }
             }
             return vBitmap;
+        }
+
+        /// <summary>
+        /// 枠を描画します
+        /// </summary>
+        public void DrawFrame(Bitmap vBitmap) {
+            using (var wGraphics = Graphics.FromImage(vBitmap)) {
+                wGraphics.SmoothingMode = SmoothingMode.AntiAlias;
+                this.DrawFrame(wGraphics);
+            }
         }
 
         /// <summary>

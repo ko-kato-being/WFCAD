@@ -44,6 +44,9 @@ namespace WFCAD.Model {
         public Bitmap Draw(Bitmap vBitmap) {
             if (this.IsPreviewing) return vBitmap;
             FShapes.ForEach(x => x.Draw(vBitmap));
+            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                wShape.DrawFrame(vBitmap);
+            }
             return vBitmap;
         }
 
