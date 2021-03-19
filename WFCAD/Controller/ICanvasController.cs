@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
 using WFCAD.Model;
 
-namespace WFCAD.Control {
+namespace WFCAD.Controller {
     /// <summary>
-    /// キャンバスコントロールインターフェース
+    /// キャンバスコントローラーインターフェース
     /// </summary>
-    public interface ICanvasControl {
+    public interface ICanvasController {
 
         #region プロパティ
 

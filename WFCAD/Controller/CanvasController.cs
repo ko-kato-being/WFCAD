@@ -4,11 +4,11 @@ using System.Linq;
 using WFCAD.Model;
 using WFCAD.View;
 
-namespace WFCAD.Control {
+namespace WFCAD.Controller {
     /// <summary>
-    /// キャンバスコントロール
+    /// キャンバスコントローラー
     /// </summary>
-    public class CanvasControl : ICanvasControl {
+    public class CanvasController : ICanvasController {
         private ICanvasView FCanvasView;
         private ICanvas FCanvas;
         private readonly ISnapshots FSnapshots;
@@ -18,7 +18,7 @@ namespace WFCAD.Control {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CanvasControl(ICanvasView vCanvasView) {
+        public CanvasController(ICanvasView vCanvasView) {
             FCanvasView = vCanvasView;
             FCanvas = new Canvas();
             FSnapshots = new Snapshots();
