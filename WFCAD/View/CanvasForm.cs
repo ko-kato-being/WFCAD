@@ -15,13 +15,13 @@ namespace WFCAD.View {
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
         private EditCommand FEditCommand;
-        private Command FCloneCommand;
-        private Command FMoveToFrontCommand;
-        private Command FMoveToBackCommand;
-        private Command FRemoveCommand;
-        private Command FClearCommand;
-        private Command FAllSelectCommand;
-        private Command FUnselectCommand;
+        private ICommand FCloneCommand;
+        private ICommand FMoveToFrontCommand;
+        private ICommand FMoveToBackCommand;
+        private ICommand FRemoveCommand;
+        private ICommand FClearCommand;
+        private ICommand FAllSelectCommand;
+        private ICommand FUnselectCommand;
 
         /// <summary>
         /// コンストラクタ
