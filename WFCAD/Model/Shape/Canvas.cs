@@ -25,7 +25,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// プレビューイベント
         /// </summary>
-        public event Action<Bitmap> Previewing;
+        public event Action<Bitmap> Preview;
 
         #endregion イベント
 
@@ -56,7 +56,7 @@ namespace WFCAD.Model {
         /// 描画します
         /// </summary>
         public void Draw() {
-            this.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height); ;
+            this.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
             foreach (IShape wShape in FShapes) {
                 wShape.Draw(this.Bitmap);
                 if (wShape.IsSelected) {
@@ -152,7 +152,7 @@ namespace WFCAD.Model {
             if (vIsPreview) {
                 var wBitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
                 vShape.Draw(wBitmap);
-                this.Previewing?.Invoke(wBitmap);
+                this.Preview?.Invoke(wBitmap);
             } else {
                 FShapes.Add(vShape);
                 this.Draw();
@@ -182,7 +182,7 @@ namespace WFCAD.Model {
                     wShape.Draw(wBitmap);
                     wShape.DrawFrame(wBitmap);
                 }
-                this.Previewing?.Invoke(wBitmap);
+                this.Preview?.Invoke(wBitmap);
             } else {
                 foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
                     if (FIsFramePointSelected) {

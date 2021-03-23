@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -14,9 +13,8 @@ namespace WFCAD.View {
         private readonly Canvas FCanvas;
         private readonly ICanvasController FCanvasController;
         private readonly List<ToolStripButton> FGroupButtons;
-        private Action<MouseEventArgs> FMouseDownAction;
-        private Action<MouseEventArgs> FMouseUpAction;
-        private Action<MouseEventArgs> FMouseMoveAction;
+        private IModeCommand FModeCommand;
+        private Color FColor = Color.Orange;
 
         /// <summary>
         /// コンストラクタ
@@ -28,9 +26,8 @@ namespace WFCAD.View {
             };
             FCanvasController = new CanvasController(FCanvas);
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
-            this.SetColor(Color.Black, FCanvasController.Color);
+            this.SetColor(Color.Black, FColor);
             FGroupButtons = new List<ToolStripButton> {
-                FButtonSelect,
                 FButtonRectangle,
                 FButtonEllipse,
                 FButtonLine,
@@ -47,50 +44,40 @@ namespace WFCAD.View {
                 FSubPictureBox.Image?.Dispose();
                 FSubPictureBox.Image = null;
             };
-            FCanvas.Previewing += (Bitmap vBitmap) => {
+            FCanvas.Preview += (Bitmap vBitmap) => {
                 FSubPictureBox.Image = vBitmap;
             };
 
-            // 選択ボタン
-            FButtonSelect.Click += (sender, e) => {
-                this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FMouseDownAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.SelectShapes(vMouseEventArgs.Location, (ModifierKeys & Keys.Control) == Keys.Control);
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.EditShapes(vMouseEventArgs.Location);
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.ShowPreview(vMouseEventArgs.Location);
-            };
             // 矩形ボタン
             FButtonRectangle.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FCanvasController.UnselectShapes();
-                FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.AddShape(new Model.Rectangle(FCanvasController.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.ShowPreview(new Model.Rectangle(FCanvasController.Color), vMouseEventArgs.Location);
+                FModeCommand = new AddCommand(FCanvas) {
+                    Shape = new Model.Rectangle(FColor),
+                };
             };
             // 円ボタン
             FButtonEllipse.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FCanvasController.UnselectShapes();
-                FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.AddShape(new Ellipse(FCanvasController.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.ShowPreview(new Ellipse(FCanvasController.Color), vMouseEventArgs.Location);
+                FModeCommand = new AddCommand(FCanvas) {
+                    Shape = new Ellipse(FColor),
+                };
             };
             // 線ボタン
             FButtonLine.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FCanvasController.UnselectShapes();
-                FMouseDownAction = null;
-                FMouseUpAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.AddShape(new Line(FCanvasController.Color));
-                FMouseMoveAction = (MouseEventArgs vMouseEventArgs) => FCanvasController.ShowPreview(new Line(FCanvasController.Color), vMouseEventArgs.Location);
+                FModeCommand = new AddCommand(FCanvas) {
+                    Shape = new Line(FColor),
+                };
             };
             // 色の設定ボタン
             FButtonColor.Click += (sender, e) => {
                 using (var wColorDialog = new ColorDialog()) {
-                    wColorDialog.Color = FCanvasController.Color;
+                    wColorDialog.Color = FColor;
                     wColorDialog.AllowFullOpen = false;
                     if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
 
-                    this.SetColor(FCanvasController.Color, wColorDialog.Color);
-                    FCanvasController.Color = wColorDialog.Color;
+                    this.SetColor(FColor, wColorDialog.Color);
+                    FColor = wColorDialog.Color;
                 }
             };
 
@@ -112,19 +99,29 @@ namespace WFCAD.View {
             FButtonReset.Click += (sender, e) => FCanvasController.Clear();
 
             // マウスイベントは前面に配置している FSubPictureBox で処理する
+            var wSelectCommand = new SelectCommand(FCanvas);
             FSubPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                FCanvasController.MouseDownLocation = e.Location;
-                FMouseDownAction?.Invoke(e);
+                if (FModeCommand == null) {
+                    wSelectCommand.Point = e.Location;
+                    wSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
+                    wSelectCommand.Execute();
+                } else {
+                    FModeCommand.StartPoint = e.Location;
+                }
             };
             FSubPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                FCanvasController.MouseUpLocation = e.Location;
-                FMouseUpAction?.Invoke(e);
+                if (FModeCommand == null) return;
+                FModeCommand.EndPoint = e.Location;
+                FModeCommand.Execute();
+                foreach (ToolStripButton wButton in FGroupButtons) {
+                    wButton.Checked = false;
+                }
+                FModeCommand = null;
             };
             FSubPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                FMouseMoveAction?.Invoke(e);
             };
 
             // キー入力をハンドリング

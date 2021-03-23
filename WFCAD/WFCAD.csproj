@@ -92,6 +92,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\CanvasController.cs" />
+    <Compile Include="Controller\Command\AddCommand.cs" />
+    <Compile Include="Controller\Command\Command.cs" />
+    <Compile Include="Controller\Command\ICommand.cs" />
+    <Compile Include="Controller\Command\IModeCommand.cs" />
+    <Compile Include="Controller\Command\ModeCommand.cs" />
+    <Compile Include="Controller\Command\SelectCommand.cs" />
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />

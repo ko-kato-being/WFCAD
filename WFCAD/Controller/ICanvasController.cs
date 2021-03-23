@@ -7,31 +7,7 @@ namespace WFCAD.Controller {
     /// </summary>
     public interface ICanvasController {
 
-        #region プロパティ
-
-        /// <summary>
-        /// マウスダウン位置
-        /// </summary>
-        Point MouseDownLocation { get; set; }
-
-        /// <summary>
-        /// マウスアップ位置
-        /// </summary>
-        Point MouseUpLocation { get; set; }
-
-        /// <summary>
-        /// 描画色
-        /// </summary>
-        Color Color { get; set; }
-
-        #endregion プロパティ
-
         #region メソッド
-
-        /// <summary>
-        /// 図形を選択します
-        /// </summary>
-        void SelectShapes(Point vMouseLocation, bool vIsMultiple);
 
         /// <summary>
         /// すべての図形を選択します
@@ -52,11 +28,6 @@ namespace WFCAD.Controller {
         /// 図形のプレビューを表示します
         /// </summary>
         void ShowPreview(IShape vShape, Point vMouseLocation);
-
-        /// <summary>
-        /// 図形を追加します
-        /// </summary>
-        void AddShape(IShape vShape);
 
         /// <summary>
         /// 図形を編集します

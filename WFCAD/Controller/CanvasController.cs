@@ -23,48 +23,24 @@ namespace WFCAD.Controller {
 
         #endregion コンストラクタ
 
-        #region プロパティ
-
-        /// <summary>
-        /// マウスダウン位置
-        /// </summary>
-        public Point MouseDownLocation { get; set; }
-
-        /// <summary>
-        /// マウスアップ位置
-        /// </summary>
-        public Point MouseUpLocation { get; set; }
-
-        /// <summary>
-        /// 描画色
-        /// </summary>
-        public Color Color { get; set; } = Color.Orange;
-
-        #endregion プロパティ
-
         #region メソッド
 
         /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
         public void ShowPreview(Point vMouseLocation) {
-            FCanvas.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y), true);
+            //FCanvas.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y), true);
         }
 
         /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
         public void ShowPreview(IShape vShape, Point vMouseLocation) {
-            IShape wShape = vShape.DeepClone();
-            wShape.SetPoints(this.MouseDownLocation, vMouseLocation);
-            wShape.Color = this.Color;
-            FCanvas.Add(wShape, true);
+            //IShape wShape = vShape.DeepClone();
+            //wShape.SetPoints(this.MouseDownLocation, vMouseLocation);
+            //wShape.Color = this.Color;
+            //FCanvas.Add(wShape, true);
         }
-
-        /// <summary>
-        /// 図形を選択します
-        /// </summary>
-        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) => FCanvas.Select(vMouseLocation, vIsMultiple);
 
         /// <summary>
         /// すべての図形を選択します
@@ -77,26 +53,12 @@ namespace WFCAD.Controller {
         public void UnselectShapes() => FCanvas.Unselect();
 
         /// <summary>
-        /// 図形を追加します
-        /// </summary>
-        public void AddShape(IShape vShape) {
-            // 二点間の距離が10以下の図形は意図していないとみなして追加しない。
-            double wDistance = Utilities.GetDistance(this.MouseDownLocation, this.MouseUpLocation);
-            if (wDistance > 10) {
-                IShape wShape = vShape.DeepClone();
-                wShape.SetPoints(this.MouseDownLocation, this.MouseUpLocation);
-                wShape.Color = this.Color;
-                FCanvas.Add(wShape);
-            }
-        }
-
-        /// <summary>
         /// 図形を編集します
         /// </summary>
         public void EditShapes(Point vMouseLocation) {
-            var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
-            if (wSize.IsEmpty) return;
-            FCanvas.Edit(wSize);
+            //var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
+            //if (wSize.IsEmpty) return;
+            //FCanvas.Edit(wSize);
         }
 
         /// <summary>

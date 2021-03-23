@@ -18,7 +18,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// プレビューイベント
         /// </summary>
-        event Action<Bitmap> Previewing;
+        event Action<Bitmap> Preview;
 
         #endregion イベント
 
