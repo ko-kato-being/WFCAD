@@ -10,22 +10,23 @@ namespace WFCAD.View {
     /// <summary>
     /// キャンバスフォーム
     /// </summary>
-    public partial class CanvasForm : Form, ICanvasView {
+    public partial class CanvasForm : Form {
+        private readonly Canvas FCanvas;
         private readonly ICanvasController FCanvasController;
         private readonly List<ToolStripButton> FGroupButtons;
         private Action<MouseEventArgs> FMouseDownAction;
         private Action<MouseEventArgs> FMouseUpAction;
         private Action<MouseEventArgs> FMouseMoveAction;
 
-        int ICanvasView.Width => FMainPictureBox.Width;
-        int ICanvasView.Height => FMainPictureBox.Height;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvasController = new CanvasController(this);
+            FCanvas = new Canvas {
+                Bitmap = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height)
+            };
+            FCanvasController = new CanvasController(FCanvas);
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColor(Color.Black, FCanvasController.Color);
             FGroupButtons = new List<ToolStripButton> {
@@ -36,6 +37,19 @@ namespace WFCAD.View {
             };
 
             #region イベントハンドラの設定
+
+            // キャンバス更新
+            FCanvas.Updated += (Bitmap vBitmap) => {
+                FMainPictureBox.Image = vBitmap;
+
+                // プレビューをクリアする
+                // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
+                FSubPictureBox.Image?.Dispose();
+                FSubPictureBox.Image = null;
+            };
+            FCanvas.Previewing += (Bitmap vBitmap) => {
+                FSubPictureBox.Image = vBitmap;
+            };
 
             // 選択ボタン
             FButtonSelect.Click += (sender, e) => {
@@ -152,25 +166,6 @@ namespace WFCAD.View {
 
             #endregion イベントハンドラの設定
 
-        }
-
-        /// <summary>
-        /// すべて再描画します
-        /// </summary>
-        public void RefreshAll(Bitmap vBitmap) {
-            FMainPictureBox.Image = vBitmap;
-
-            // プレビューをクリアする
-            // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
-            FSubPictureBox.Image?.Dispose();
-            FSubPictureBox.Image = null;
-        }
-
-        /// <summary>
-        /// プレビューを再描画します
-        /// </summary>
-        public void RefreshPreview(Bitmap vBitmap) {
-            FSubPictureBox.Image = vBitmap;
         }
 
         /// <summary>

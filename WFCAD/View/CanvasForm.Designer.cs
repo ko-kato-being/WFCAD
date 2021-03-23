@@ -83,6 +83,7 @@
             // 
             // FButtonUndo
             // 
+            this.FButtonUndo.Enabled = false;
             this.FButtonUndo.Image = global::WFCAD.Properties.Resources.元に戻す;
             this.FButtonUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FButtonUndo.Name = "FButtonUndo";
@@ -92,6 +93,7 @@
             // 
             // FButtonRedo
             // 
+            this.FButtonRedo.Enabled = false;
             this.FButtonRedo.Image = global::WFCAD.Properties.Resources.やり直し;
             this.FButtonRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FButtonRedo.Name = "FButtonRedo";

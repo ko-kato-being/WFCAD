@@ -15,6 +15,20 @@ namespace WFCAD.Model {
 
         #endregion 定数
 
+        #region イベント
+
+        /// <summary>
+        /// 更新イベント
+        /// </summary>
+        public event Action<Bitmap> Updated;
+
+        /// <summary>
+        /// プレビューイベント
+        /// </summary>
+        public event Action<Bitmap> Previewing;
+
+        #endregion イベント
+
         #region フィールド
 
         private List<IShape> FShapes = new List<IShape>();
@@ -25,9 +39,9 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
-        /// 表示状態
+        /// ビットマップ
         /// </summary>
-        public bool IsPreviewing { get; set; }
+        public Bitmap Bitmap { get; set; }
 
         /// <summary>
         /// クリップボード
@@ -41,13 +55,15 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        public Bitmap Draw(Bitmap vBitmap) {
-            if (this.IsPreviewing) return vBitmap;
-            FShapes.ForEach(x => x.Draw(vBitmap));
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.DrawFrame(vBitmap);
+        public void Draw() {
+            this.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height); ;
+            foreach (IShape wShape in FShapes) {
+                wShape.Draw(this.Bitmap);
+                if (wShape.IsSelected) {
+                    wShape.DrawFrame(this.Bitmap);
+                }
             }
-            return vBitmap;
+            this.Updated?.Invoke(this.Bitmap);
         }
 
         /// <summary>
@@ -83,6 +99,7 @@ namespace WFCAD.Model {
                 wIsAlreadyHit |= wIsHit;
             }
             if (!wIsAlreadyHit) this.Unselect();
+            this.Draw();
         }
 
         /// <summary>
@@ -115,32 +132,70 @@ namespace WFCAD.Model {
         /// <summary>
         /// 全選択します
         /// </summary>
-        public void AllSelect() => FShapes.ForEach(x => x.IsSelected = true);
+        public void AllSelect() {
+            FShapes.ForEach(x => x.IsSelected = true);
+            this.Draw();
+        }
 
         /// <summary>
         /// 選択を解除します
         /// </summary>
-        public void Unselect() => FShapes.ForEach(x => x.IsSelected = false);
+        public void Unselect() {
+            FShapes.ForEach(x => x.IsSelected = false);
+            this.Draw();
+        }
 
         /// <summary>
         /// 追加します
         /// </summary>
-        public void Add(IShape vShape) => FShapes.Add(vShape);
-
+        public void Add(IShape vShape, bool vIsPreview = false) {
+            if (vIsPreview) {
+                var wBitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
+                vShape.Draw(wBitmap);
+                this.Previewing?.Invoke(wBitmap);
+            } else {
+                FShapes.Add(vShape);
+                this.Draw();
+            }
+        }
 
         /// <summary>
         /// 編集します
         /// </summary>
-        public void Edit(Size vSize) {
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                if (FIsFramePointSelected) {
-                    // 拡大・縮小
-                    wShape.ChangeScale(vSize);
-                } else {
-                    // 移動
-                    wShape.Move(vSize);
+        public void Edit(Size vSize, bool vIsPreview = false) {
+            if (vIsPreview) {
+                var wShapes = FShapes.Select(x => x.DeepClone()).ToList();
+                var wBitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
+                foreach (IShape wShape in wShapes.Where(x => !x.IsSelected)) {
+                    wShape.Draw(wBitmap);
                 }
+                this.Updated?.Invoke(wBitmap);
+
+                foreach (IShape wShape in wShapes.Where(x => x.IsSelected)) {
+                    if (FIsFramePointSelected) {
+                        // 拡大・縮小
+                        wShape.ChangeScale(vSize);
+                    } else {
+                        // 移動
+                        wShape.Move(vSize);
+                    }
+                    wShape.Draw(wBitmap);
+                    wShape.DrawFrame(wBitmap);
+                }
+                this.Previewing?.Invoke(wBitmap);
+            } else {
+                foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                    if (FIsFramePointSelected) {
+                        // 拡大・縮小
+                        wShape.ChangeScale(vSize);
+                    } else {
+                        // 移動
+                        wShape.Move(vSize);
+                    }
+                }
+                this.Draw();
             }
+
         }
 
         /// <summary>
@@ -150,17 +205,24 @@ namespace WFCAD.Model {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
                 wShape.RotateRight();
             }
+            this.Draw();
         }
 
         /// <summary>
         /// 最前面に移動します
         /// </summary>
-        public void MoveToFront() => FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
+        public void MoveToFront() {
+            FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
+            this.Draw();
+        }
 
         /// <summary>
         /// 最背面に移動します
         /// </summary>
-        public void MoveToBack() => FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
+        public void MoveToBack() {
+            FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
+            this.Draw();
+        }
 
         /// <summary>
         /// 複製します
@@ -178,6 +240,7 @@ namespace WFCAD.Model {
                 wClonedShapes.Add(wClone);
             }
             FShapes.AddRange(wClonedShapes);
+            this.Draw();
         }
 
         /// <summary>
@@ -198,6 +261,7 @@ namespace WFCAD.Model {
                 wCopy.Move(C_DefaultMovingSize);
                 this.Clipboard.Add(wCopy);
             }
+            if (vIsCut) this.Draw();
         }
 
         /// <summary>
@@ -209,23 +273,31 @@ namespace WFCAD.Model {
 
             // 貼り付け位置を更新しておく
             this.Clipboard.ForEach(x => x.Move(C_DefaultMovingSize));
+            this.Draw();
         }
 
         /// <summary>
         /// 削除します
         /// </summary>
-        public void Remove() => FShapes.RemoveAll(x => x.IsSelected);
+        public void Remove() {
+            FShapes.RemoveAll(x => x.IsSelected);
+            this.Draw();
+        }
 
         /// <summary>
         /// クリアします
         /// </summary>
-        public void Clear() => FShapes.Clear();
+        public void Clear() {
+            FShapes.Clear();
+            this.Draw();
+        }
 
         /// <summary>
         /// 自身のインスタンスを複製します
         /// </summary>
         public ICanvas DeepClone() {
             var wClone = new Canvas();
+            wClone.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
             wClone.FIsFramePointSelected = FIsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
@@ -233,6 +305,7 @@ namespace WFCAD.Model {
             foreach (IShape wShape in FShapes) {
                 wClone.Add(wShape.DeepClone());
             }
+            wClone.Draw();
             return wClone;
         }
 

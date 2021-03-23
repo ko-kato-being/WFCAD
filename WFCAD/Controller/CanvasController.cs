@@ -2,14 +2,12 @@
 using System.Drawing;
 using System.Linq;
 using WFCAD.Model;
-using WFCAD.View;
 
 namespace WFCAD.Controller {
     /// <summary>
     /// キャンバスコントローラー
     /// </summary>
     public class CanvasController : ICanvasController {
-        private ICanvasView FCanvasView;
         private ICanvas FCanvas;
         private readonly ISnapshots FSnapshots;
 
@@ -18,9 +16,8 @@ namespace WFCAD.Controller {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CanvasController(ICanvasView vCanvasView) {
-            FCanvasView = vCanvasView;
-            FCanvas = new Canvas();
+        public CanvasController(ICanvas vCanvas) {
+            FCanvas = vCanvas;
             FSnapshots = new Snapshots();
         }
 
@@ -48,25 +45,10 @@ namespace WFCAD.Controller {
         #region メソッド
 
         /// <summary>
-        /// 描画します
-        /// </summary>
-        private void Draw(bool vTakeSnapshot = true) {
-            Bitmap wBitmap = FCanvas.Draw(new Bitmap(FCanvasView.Width, FCanvasView.Height));
-            if (vTakeSnapshot) FSnapshots.Add(new Snapshot(wBitmap, FCanvas.DeepClone()));
-            FCanvasView.RefreshAll(wBitmap);
-        }
-
-        /// <summary>
         /// 図形のプレビューを表示します
         /// </summary>
         public void ShowPreview(Point vMouseLocation) {
-            ICanvas wCanvas = FCanvas.DeepClone();
-            if (!FCanvas.IsPreviewing) {
-                FCanvas.IsPreviewing = true;
-                this.Draw(false);
-            }
-            wCanvas.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y));
-            FCanvasView.RefreshPreview(wCanvas.Draw(new Bitmap(FCanvasView.Width, FCanvasView.Height)));
+            FCanvas.Edit(new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y), true);
         }
 
         /// <summary>
@@ -76,32 +58,23 @@ namespace WFCAD.Controller {
             IShape wShape = vShape.DeepClone();
             wShape.SetPoints(this.MouseDownLocation, vMouseLocation);
             wShape.Color = this.Color;
-            FCanvasView.RefreshPreview(wShape.Draw(new Bitmap(FCanvasView.Width, FCanvasView.Height)));
+            FCanvas.Add(wShape, true);
         }
 
         /// <summary>
         /// 図形を選択します
         /// </summary>
-        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) {
-            FCanvas.Select(vMouseLocation, vIsMultiple);
-            this.Draw(false);
-        }
+        public void SelectShapes(Point vMouseLocation, bool vIsMultiple) => FCanvas.Select(vMouseLocation, vIsMultiple);
 
         /// <summary>
         /// すべての図形を選択します
         /// </summary>
-        public void AllSelectShapes() {
-            FCanvas.AllSelect();
-            this.Draw(false);
-        }
+        public void AllSelectShapes() => FCanvas.AllSelect();
 
         /// <summary>
         /// すべての図形の選択を解除します
         /// </summary>
-        public void UnselectShapes() {
-            FCanvas.Unselect();
-            this.Draw(false);
-        }
+        public void UnselectShapes() => FCanvas.Unselect();
 
         /// <summary>
         /// 図形を追加します
@@ -115,7 +88,6 @@ namespace WFCAD.Controller {
                 wShape.Color = this.Color;
                 FCanvas.Add(wShape);
             }
-            this.Draw();
         }
 
         /// <summary>
@@ -125,41 +97,27 @@ namespace WFCAD.Controller {
             var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
             if (wSize.IsEmpty) return;
             FCanvas.Edit(wSize);
-            FCanvas.IsPreviewing = false;
-            this.Draw();
         }
 
         /// <summary>
         /// 図形を右に回転させます
         /// </summary>
-        public void RotateRightShapes() {
-            FCanvas.RotateRight();
-            this.Draw();
-        }
+        public void RotateRightShapes() => FCanvas.RotateRight();
 
         /// <summary>
         /// 図形を最前面に移動します
         /// </summary>
-        public void MoveToFrontShapes() {
-            FCanvas.MoveToFront();
-            this.Draw();
-        }
+        public void MoveToFrontShapes() => FCanvas.MoveToFront();
 
         /// <summary>
         /// 図形を最背面に移動します
         /// </summary>
-        public void MoveToBackShapes() {
-            FCanvas.MoveToBack();
-            this.Draw();
-        }
+        public void MoveToBackShapes() => FCanvas.MoveToBack();
 
         /// <summary>
         /// 図形を複製します
         /// </summary>
-        public void CloneShapes() {
-            FCanvas.Clone();
-            this.Draw();
-        }
+        public void CloneShapes() => FCanvas.Clone();
 
         /// <summary>
         /// 図形をクリップボードにコピーします
@@ -170,7 +128,6 @@ namespace WFCAD.Controller {
             if (wSnapshot == null) return;
             wSnapshot.Canvas.Clipboard = new List<IShape>();
             wSnapshot.Canvas.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
-            if (vIsCut) this.Draw(false);
         }
 
         /// <summary>
@@ -179,44 +136,27 @@ namespace WFCAD.Controller {
         public void PasteShapes() {
             if (FCanvas.Clipboard.Count == 0) return;
             FCanvas.Paste();
-            this.Draw();
         }
 
         /// <summary>
         /// 元に戻します
         /// </summary>
-        public void Undo() {
-            ISnapshot wSnapshot = FSnapshots.GetBefore();
-            if (wSnapshot == null) return;
-            FCanvasView.RefreshAll(wSnapshot.Bitmap);
-            FCanvas = wSnapshot.Canvas.DeepClone();
-        }
+        public void Undo() {}
 
         /// <summary>
         /// やり直します
         /// </summary>
-        public void Redo() {
-            ISnapshot wSnapshot = FSnapshots.GetAfter();
-            if (wSnapshot == null) return;
-            FCanvasView.RefreshAll(wSnapshot.Bitmap);
-            FCanvas = wSnapshot.Canvas.DeepClone();
-        }
+        public void Redo() {}
 
         /// <summary>
         /// 選択中の図形を削除します
         /// </summary>
-        public void RemoveShapes() {
-            FCanvas.Remove();
-            this.Draw();
-        }
+        public void RemoveShapes() => FCanvas.Remove();
 
         /// <summary>
         /// キャンバスをクリアします
         /// </summary>
-        public void Clear() {
-            FCanvas.Clear();
-            this.Draw();
-        }
+        public void Clear() => FCanvas.Clear();
 
         #endregion メソッド
 

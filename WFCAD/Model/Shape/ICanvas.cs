@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace WFCAD.Model {
@@ -7,12 +8,26 @@ namespace WFCAD.Model {
     /// </summary>
     public interface ICanvas {
 
+        #region イベント
+
+        /// <summary>
+        /// 更新イベント
+        /// </summary>
+        event Action<Bitmap> Updated;
+
+        /// <summary>
+        /// プレビューイベント
+        /// </summary>
+        event Action<Bitmap> Previewing;
+
+        #endregion イベント
+
         #region プロパティ
 
         /// <summary>
-        /// プレビュー中か
+        /// ビットマップ
         /// </summary>
-        bool IsPreviewing { get; set; }
+        Bitmap Bitmap { get; set; }
 
         /// <summary>
         /// クリップボード
@@ -26,7 +41,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        Bitmap Draw(Bitmap vBitmap);
+        void Draw();
 
         /// <summary>
         /// 選択します
@@ -46,12 +61,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 追加します
         /// </summary>
-        void Add(IShape vShape);
+        void Add(IShape vShape, bool vIsPreview = false);
 
         /// <summary>
         /// 編集します
         /// </summary>
-        void Edit(Size vSize);
+        void Edit(Size vSize, bool vIsPreview = false);
 
         /// <summary>
         /// 右に回転させます
