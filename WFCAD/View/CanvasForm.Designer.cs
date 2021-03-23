@@ -26,7 +26,7 @@
             this.FToolStrip2 = new System.Windows.Forms.ToolStrip();
             this.FButtonUndo = new System.Windows.Forms.ToolStripButton();
             this.FButtonRedo = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonClone = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonRotate = new System.Windows.Forms.ToolStripButton();
@@ -34,21 +34,19 @@
             this.FButtonForeground = new System.Windows.Forms.ToolStripButton();
             this.FButtonBackground = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.FButtonSave = new System.Windows.Forms.ToolStripButton();
+            this.FButtonLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonRemove = new System.Windows.Forms.ToolStripButton();
             this.FButtonReset = new System.Windows.Forms.ToolStripButton();
             this.FToolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.FButtonSelect = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonRectangle = new System.Windows.Forms.ToolStripButton();
             this.FButtonEllipse = new System.Windows.Forms.ToolStripButton();
             this.FButtonLine = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonColor = new System.Windows.Forms.ToolStripButton();
             this.FMainPictureBox = new System.Windows.Forms.PictureBox();
             this.FSubPictureBox = new System.Windows.Forms.PictureBox();
-            this.FButtonSave = new System.Windows.Forms.ToolStripButton();
-            this.FButtonLoad = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
@@ -62,17 +60,17 @@
             this.FToolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FButtonUndo,
             this.FButtonRedo,
-            this.toolStripSeparator3,
+            this.toolStripSeparator2,
             this.FButtonClone,
-            this.toolStripSeparator4,
+            this.toolStripSeparator3,
             this.FButtonRotate,
-            this.toolStripSeparator5,
+            this.toolStripSeparator4,
             this.FButtonForeground,
             this.FButtonBackground,
-            this.toolStripSeparator6,
+            this.toolStripSeparator5,
             this.FButtonSave,
             this.FButtonLoad,
-            this.toolStripSeparator7,
+            this.toolStripSeparator6,
             this.FButtonRemove,
             this.FButtonReset});
             this.FToolStrip2.Location = new System.Drawing.Point(0, 54);
@@ -101,10 +99,10 @@
             this.FButtonRedo.Text = "やり直し";
             this.FButtonRedo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // toolStripSeparator6
+            // toolStripSeparator2
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 54);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 54);
             // 
             // FButtonClone
             // 
@@ -157,6 +155,32 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 54);
             // 
+            // FButtonSave
+            // 
+            this.FButtonSave.Enabled = false;
+            this.FButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonSave.Name = "FButtonSave";
+            this.FButtonSave.Size = new System.Drawing.Size(35, 51);
+            this.FButtonSave.Text = "保存";
+            this.FButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonSave.Visible = false;
+            // 
+            // FButtonLoad
+            // 
+            this.FButtonLoad.Enabled = false;
+            this.FButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FButtonLoad.Name = "FButtonLoad";
+            this.FButtonLoad.Size = new System.Drawing.Size(35, 51);
+            this.FButtonLoad.Text = "読込";
+            this.FButtonLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonLoad.Visible = false;
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 54);
+            this.toolStripSeparator6.Visible = false;
+            // 
             // FButtonRemove
             // 
             this.FButtonRemove.Image = global::WFCAD.Properties.Resources.削除;
@@ -179,32 +203,16 @@
             // 
             this.FToolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.FToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FButtonSelect,
-            this.toolStripSeparator1,
             this.FButtonRectangle,
             this.FButtonEllipse,
             this.FButtonLine,
-            this.toolStripSeparator2,
+            this.toolStripSeparator1,
             this.FButtonColor});
             this.FToolStrip1.Location = new System.Drawing.Point(0, 0);
             this.FToolStrip1.Name = "FToolStrip1";
             this.FToolStrip1.Size = new System.Drawing.Size(558, 54);
             this.FToolStrip1.TabIndex = 0;
             this.FToolStrip1.Text = "toolStrip1";
-            // 
-            // FButtonSelect
-            // 
-            this.FButtonSelect.Image = global::WFCAD.Properties.Resources.選択;
-            this.FButtonSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonSelect.Name = "FButtonSelect";
-            this.FButtonSelect.Size = new System.Drawing.Size(36, 51);
-            this.FButtonSelect.Text = "選択";
-            this.FButtonSelect.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 54);
             // 
             // FButtonRectangle
             // 
@@ -233,10 +241,10 @@
             this.FButtonLine.Text = "線";
             this.FButtonLine.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // toolStripSeparator2
+            // toolStripSeparator1
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 54);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 54);
             // 
             // FButtonColor
             // 
@@ -268,32 +276,6 @@
             this.FSubPictureBox.Size = new System.Drawing.Size(556, 481);
             this.FSubPictureBox.TabIndex = 1;
             this.FSubPictureBox.TabStop = false;
-            // 
-            // FButtonSave
-            // 
-            this.FButtonSave.Enabled = false;
-            this.FButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonSave.Name = "FButtonSave";
-            this.FButtonSave.Size = new System.Drawing.Size(35, 51);
-            this.FButtonSave.Text = "保存";
-            this.FButtonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.FButtonSave.Visible = false;
-            // 
-            // FButtonLoad
-            // 
-            this.FButtonLoad.Enabled = false;
-            this.FButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FButtonLoad.Name = "FButtonLoad";
-            this.FButtonLoad.Size = new System.Drawing.Size(35, 51);
-            this.FButtonLoad.Text = "読込";
-            this.FButtonLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.FButtonLoad.Visible = false;
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 54);
-            this.toolStripSeparator7.Visible = false;
             // 
             // CanvasForm
             // 
@@ -332,20 +314,18 @@
         private System.Windows.Forms.ToolStripButton FButtonRemove;
         private System.Windows.Forms.ToolStripButton FButtonReset;
         private System.Windows.Forms.ToolStrip FToolStrip1;
-        private System.Windows.Forms.ToolStripButton FButtonSelect;
         private System.Windows.Forms.ToolStripButton FButtonRectangle;
         private System.Windows.Forms.ToolStripButton FButtonEllipse;
         private System.Windows.Forms.ToolStripButton FButtonLine;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton FButtonColor;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton FButtonSave;
         private System.Windows.Forms.ToolStripButton FButtonLoad;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     }
 }
 
