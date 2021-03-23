@@ -51,15 +51,6 @@ namespace WFCAD.Controller {
         public void UnselectShapes() => FCanvas.Unselect();
 
         /// <summary>
-        /// 図形を編集します
-        /// </summary>
-        public void EditShapes(Point vMouseLocation) {
-            //var wSize = new Size(vMouseLocation.X - this.MouseDownLocation.X, vMouseLocation.Y - this.MouseDownLocation.Y);
-            //if (wSize.IsEmpty) return;
-            //FCanvas.Edit(wSize);
-        }
-
-        /// <summary>
         /// 図形を右に回転させます
         /// </summary>
         public void RotateRightShapes() => FCanvas.RotateRight();

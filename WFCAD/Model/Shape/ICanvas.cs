@@ -61,12 +61,17 @@ namespace WFCAD.Model {
         /// <summary>
         /// 追加します
         /// </summary>
-        void Add(IShape vShape, bool vIsPreview = false);
+        void Add(IShape vShape);
 
         /// <summary>
-        /// 編集します
+        /// 移動します
         /// </summary>
-        void Edit(Size vSize, bool vIsPreview = false);
+        void Move(Size vSize);
+
+        /// <summary>
+        /// 拡大・縮小します
+        /// </summary>
+        void Zoom(Size vSize);
 
         /// <summary>
         /// 右に回転させます

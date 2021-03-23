@@ -66,7 +66,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void ChangeScale(Size vSize);
+        void Zoom(Size vSize);
 
         /// <summary>
         /// 右に回転させます

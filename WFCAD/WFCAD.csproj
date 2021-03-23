@@ -95,7 +95,10 @@
     <Compile Include="Controller\Command\AddCommand.cs" />
     <Compile Include="Controller\Command\Command.cs" />
     <Compile Include="Controller\Command\ICommand.cs" />
+    <Compile Include="Controller\Command\EditCommand.cs" />
+    <Compile Include="Controller\Command\MoveCommand.cs" />
     <Compile Include="Controller\Command\SelectCommand.cs" />
+    <Compile Include="Controller\Command\ZoomCommand.cs" />
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />

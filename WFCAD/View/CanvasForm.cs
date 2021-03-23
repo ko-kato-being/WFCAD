@@ -14,7 +14,7 @@ namespace WFCAD.View {
         private readonly ICanvasController FCanvasController;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
-        private AddCommand FAddCommand;
+        private EditCommand FEditCommand;
 
         /// <summary>
         /// コンストラクタ
@@ -51,7 +51,7 @@ namespace WFCAD.View {
             void SetShapeButton(ToolStripButton vButton, IShape vShape) {
                 vButton.Click += (sender, e) => {
                     this.SetGroupButtonsChecked(sender as ToolStripButton);
-                    FAddCommand = new AddCommand(FCanvas) { Shape = vShape };
+                    FEditCommand = new AddCommand(FCanvas) { Shape = vShape };
                 };
             }
             SetShapeButton(FButtonRectangle, new Model.Rectangle(FColor));
@@ -91,23 +91,27 @@ namespace WFCAD.View {
             var wSelectCommand = new SelectCommand(FCanvas);
             FSubPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FAddCommand == null) {
+                if (FEditCommand == null) {
                     wSelectCommand.Point = e.Location;
                     wSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
                     wSelectCommand.Execute();
-                } else {
-                    FAddCommand.StartPoint = e.Location;
+                    if (FCanvas.IsFramePointSelected) {
+                        FEditCommand = new ZoomCommand(FCanvas);
+                    } else {
+                        FEditCommand = new MoveCommand(FCanvas);
+                    }
                 }
+                FEditCommand.StartPoint = e.Location;
             };
             FSubPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FAddCommand == null) return;
-                FAddCommand.EndPoint = e.Location;
-                FAddCommand.Execute();
+                if (FEditCommand == null) return;
+                FEditCommand.EndPoint = e.Location;
+                FEditCommand.Execute();
                 foreach (ToolStripButton wButton in FGroupButtons) {
                     wButton.Checked = false;
                 }
-                FAddCommand = null;
+                FEditCommand = null;
             };
             FSubPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;

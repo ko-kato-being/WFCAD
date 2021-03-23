@@ -30,11 +30,6 @@ namespace WFCAD.Controller {
         void ShowPreview(IShape vShape, Point vMouseLocation);
 
         /// <summary>
-        /// 図形を編集します
-        /// </summary>
-        void EditShapes(Point vMouseLocation);
-
-        /// <summary>
         /// 図形を右に回転させます
         /// </summary>
         void RotateRightShapes();

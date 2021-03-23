@@ -115,7 +115,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void ChangeScale(Size vSize) {
+        public void Zoom(Size vSize) {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
