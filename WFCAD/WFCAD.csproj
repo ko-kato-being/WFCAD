@@ -91,22 +91,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\CanvasController.cs" />
     <Compile Include="Controller\Command\AddCommand.cs" />
+    <Compile Include="Controller\Command\AllSelectCommand.cs" />
+    <Compile Include="Controller\Command\ClearCommand.cs" />
+    <Compile Include="Controller\Command\CloneCommand.cs" />
     <Compile Include="Controller\Command\Command.cs" />
     <Compile Include="Controller\Command\ICommand.cs" />
     <Compile Include="Controller\Command\EditCommand.cs" />
     <Compile Include="Controller\Command\MoveCommand.cs" />
+    <Compile Include="Controller\Command\MoveToBackCommand.cs" />
+    <Compile Include="Controller\Command\MoveToFrontCommand.cs" />
+    <Compile Include="Controller\Command\RemoveCommand.cs" />
     <Compile Include="Controller\Command\SelectCommand.cs" />
+    <Compile Include="Controller\Command\UnselectCommand.cs" />
     <Compile Include="Controller\Command\ZoomCommand.cs" />
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />
-    <Compile Include="Model\Shape\ICanvas.cs" />
+    <Compile Include="Model\ICanvas.cs" />
     <Compile Include="Model\Shape\Shape1D.cs" />
     <Compile Include="Model\Shape\Shape2D.cs" />
     <Compile Include="Model\Shape\Line.cs" />
-    <Compile Include="Model\Shape\Canvas.cs" />
+    <Compile Include="Model\Canvas.cs" />
     <Compile Include="Test\Model\CanvasTest.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="View\CanvasForm.cs">
@@ -116,7 +122,6 @@
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Shape\Ellipse.cs" />
-    <Compile Include="Controller\ICanvasController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Shape\IShape.cs" />

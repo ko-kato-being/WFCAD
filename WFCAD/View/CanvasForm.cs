@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -11,10 +12,16 @@ namespace WFCAD.View {
     /// </summary>
     public partial class CanvasForm : Form {
         private readonly Canvas FCanvas;
-        private readonly ICanvasController FCanvasController;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
         private EditCommand FEditCommand;
+        private Command FCloneCommand;
+        private Command FMoveToFrontCommand;
+        private Command FMoveToBackCommand;
+        private Command FRemoveCommand;
+        private Command FClearCommand;
+        private Command FAllSelectCommand;
+        private Command FUnselectCommand;
 
         /// <summary>
         /// コンストラクタ
@@ -24,7 +31,14 @@ namespace WFCAD.View {
             FCanvas = new Canvas {
                 Bitmap = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height)
             };
-            FCanvasController = new CanvasController(FCanvas);
+            FCloneCommand = new CloneCommand(FCanvas);
+            FRemoveCommand = new RemoveCommand(FCanvas);
+            FClearCommand = new ClearCommand(FCanvas);
+            FMoveToFrontCommand = new MoveToFrontCommand(FCanvas);
+            FMoveToBackCommand = new MoveToBackCommand(FCanvas);
+            FAllSelectCommand = new AllSelectCommand(FCanvas);
+            FUnselectCommand = new UnselectCommand(FCanvas);
+
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColor(Color.Black, FColor);
             FGroupButtons = new List<ToolStripButton> {
@@ -48,15 +62,16 @@ namespace WFCAD.View {
                 FSubPictureBox.Image = vBitmap;
             };
 
-            void SetShapeButton(ToolStripButton vButton, IShape vShape) {
+            void SetShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
                 vButton.Click += (sender, e) => {
                     this.SetGroupButtonsChecked(sender as ToolStripButton);
-                    FEditCommand = new AddCommand(FCanvas) { Shape = vShape };
+                    FUnselectCommand.Execute();
+                    FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
                 };
             }
-            SetShapeButton(FButtonRectangle, new Model.Rectangle(FColor));
-            SetShapeButton(FButtonEllipse, new Ellipse(FColor));
-            SetShapeButton(FButtonLine, new Line(FColor));
+            SetShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
+            SetShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
+            SetShapeButton(FButtonLine, (Color vColor) => new Line(vColor));
 
             // 色の設定ボタン
             FButtonColor.Click += (sender, e) => {
@@ -71,21 +86,21 @@ namespace WFCAD.View {
             };
 
             // Undo
-            FButtonUndo.Click += (sender, e) => FCanvasController.Undo();
+            FButtonUndo.Click += (sender, e) => { };
             // Redo
-            FButtonRedo.Click += (sender, e) => FCanvasController.Redo();
+            FButtonRedo.Click += (sender, e) => { };
             // 複製ボタン
-            FButtonClone.Click += (sender, e) => FCanvasController.CloneShapes();
+            FButtonClone.Click += (sender, e) => FCloneCommand.Execute();
             // 回転
-            FButtonRotate.Click += (sender, e) => FCanvasController.RotateRightShapes();
+            FButtonRotate.Click += (sender, e) => { };
             // 最前面に移動
-            FButtonForeground.Click += (sender, e) => FCanvasController.MoveToFrontShapes();
+            FButtonForeground.Click += (sender, e) => FMoveToFrontCommand.Execute();
             // 最背面に移動
-            FButtonBackground.Click += (sender, e) => FCanvasController.MoveToBackShapes();
+            FButtonBackground.Click += (sender, e) => FMoveToBackCommand.Execute();
             // 削除ボタン
-            FButtonRemove.Click += (sender, e) => FCanvasController.RemoveShapes();
+            FButtonRemove.Click += (sender, e) => FRemoveCommand.Execute();
             // リセットボタン
-            FButtonReset.Click += (sender, e) => FCanvasController.Clear();
+            FButtonReset.Click += (sender, e) => FClearCommand.Execute();
 
             // マウスイベントは前面に配置している FSubPictureBox で処理する
             var wSelectCommand = new SelectCommand(FCanvas);
@@ -123,17 +138,13 @@ namespace WFCAD.View {
                 if (e.Control) {
                     switch (e.KeyCode) {
                         case Keys.A:
-                            FButtonSelect.PerformClick();
-                            FCanvasController.AllSelectShapes();
+                            FAllSelectCommand.Execute();
                             break;
                         case Keys.C:
-                            FCanvasController.CopyShapes();
                             break;
                         case Keys.V:
-                            FCanvasController.PasteShapes();
                             break;
                         case Keys.X:
-                            FCanvasController.CopyShapes(true);
                             break;
                         case Keys.Y:
                             FButtonRedo.PerformClick();
@@ -148,7 +159,7 @@ namespace WFCAD.View {
                             FButtonRemove.PerformClick();
                             break;
                         case Keys.Escape:
-                            FCanvasController.UnselectShapes();
+                            FUnselectCommand.Execute();
                             break;
                     }
                 }
