@@ -9,7 +9,6 @@ namespace WFCAD.Controller {
     /// </summary>
     public class CanvasController : ICanvasController {
         private ICanvas FCanvas;
-        private readonly ISnapshots FSnapshots;
 
         #region コンストラクタ
 
@@ -18,7 +17,6 @@ namespace WFCAD.Controller {
         /// </summary>
         public CanvasController(ICanvas vCanvas) {
             FCanvas = vCanvas;
-            FSnapshots = new Snapshots();
         }
 
         #endregion コンストラクタ
@@ -85,11 +83,11 @@ namespace WFCAD.Controller {
         /// 図形をクリップボードにコピーします
         /// </summary>
         public void CopyShapes(bool vIsCut = false) {
-            FCanvas.Copy(vIsCut);
-            ISnapshot wSnapshot = FSnapshots.GetLatest();
-            if (wSnapshot == null) return;
-            wSnapshot.Canvas.Clipboard = new List<IShape>();
-            wSnapshot.Canvas.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
+            //FCanvas.Copy(vIsCut);
+            //ISnapshot wSnapshot = FSnapshots.GetLatest();
+            //if (wSnapshot == null) return;
+            //wSnapshot.Canvas.Clipboard = new List<IShape>();
+            //wSnapshot.Canvas.Clipboard.AddRange(FCanvas.Clipboard.Select(x => x.DeepClone()));
         }
 
         /// <summary>

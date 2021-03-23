@@ -95,8 +95,6 @@
     <Compile Include="Controller\Command\AddCommand.cs" />
     <Compile Include="Controller\Command\Command.cs" />
     <Compile Include="Controller\Command\ICommand.cs" />
-    <Compile Include="Controller\Command\IModeCommand.cs" />
-    <Compile Include="Controller\Command\ModeCommand.cs" />
     <Compile Include="Controller\Command\SelectCommand.cs" />
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
@@ -104,12 +102,8 @@
     <Compile Include="Model\Shape\ICanvas.cs" />
     <Compile Include="Model\Shape\Shape1D.cs" />
     <Compile Include="Model\Shape\Shape2D.cs" />
-    <Compile Include="Model\Snapshot\ISnapshot.cs" />
-    <Compile Include="Model\Snapshot\ISnapshots.cs" />
     <Compile Include="Model\Shape\Line.cs" />
     <Compile Include="Model\Shape\Canvas.cs" />
-    <Compile Include="Model\Snapshot\Snapshot.cs" />
-    <Compile Include="Model\Snapshot\Snapshots.cs" />
     <Compile Include="Test\Model\CanvasTest.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="View\CanvasForm.cs">

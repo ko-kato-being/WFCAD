@@ -1,10 +1,19 @@
-﻿using WFCAD.Model;
+﻿using System.Drawing;
+using WFCAD.Model;
 
 namespace WFCAD.Controller {
     /// <summary>
     /// 追加コマンド
     /// </summary>
-    public class AddCommand : ModeCommand {
+    public class AddCommand : Command {
+        /// <summary>
+        /// 始点
+        /// </summary>
+        public Point StartPoint { get; set; }
+        /// <summary>
+        /// 終点
+        /// </summary>
+        public Point EndPoint { get; set; }
         /// <summary>
         /// 現在の図形
         /// </summary>

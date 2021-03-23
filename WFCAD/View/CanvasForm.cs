@@ -13,8 +13,8 @@ namespace WFCAD.View {
         private readonly Canvas FCanvas;
         private readonly ICanvasController FCanvasController;
         private readonly List<ToolStripButton> FGroupButtons;
-        private IModeCommand FModeCommand;
         private Color FColor = Color.Orange;
+        private AddCommand FAddCommand;
 
         /// <summary>
         /// コンストラクタ
@@ -48,27 +48,16 @@ namespace WFCAD.View {
                 FSubPictureBox.Image = vBitmap;
             };
 
-            // 矩形ボタン
-            FButtonRectangle.Click += (sender, e) => {
-                this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FModeCommand = new AddCommand(FCanvas) {
-                    Shape = new Model.Rectangle(FColor),
+            void SetShapeButton(ToolStripButton vButton, IShape vShape) {
+                vButton.Click += (sender, e) => {
+                    this.SetGroupButtonsChecked(sender as ToolStripButton);
+                    FAddCommand = new AddCommand(FCanvas) { Shape = vShape };
                 };
-            };
-            // 円ボタン
-            FButtonEllipse.Click += (sender, e) => {
-                this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FModeCommand = new AddCommand(FCanvas) {
-                    Shape = new Ellipse(FColor),
-                };
-            };
-            // 線ボタン
-            FButtonLine.Click += (sender, e) => {
-                this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FModeCommand = new AddCommand(FCanvas) {
-                    Shape = new Line(FColor),
-                };
-            };
+            }
+            SetShapeButton(FButtonRectangle, new Model.Rectangle(FColor));
+            SetShapeButton(FButtonEllipse, new Ellipse(FColor));
+            SetShapeButton(FButtonLine, new Line(FColor));
+
             // 色の設定ボタン
             FButtonColor.Click += (sender, e) => {
                 using (var wColorDialog = new ColorDialog()) {
@@ -102,23 +91,23 @@ namespace WFCAD.View {
             var wSelectCommand = new SelectCommand(FCanvas);
             FSubPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FModeCommand == null) {
+                if (FAddCommand == null) {
                     wSelectCommand.Point = e.Location;
                     wSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
                     wSelectCommand.Execute();
                 } else {
-                    FModeCommand.StartPoint = e.Location;
+                    FAddCommand.StartPoint = e.Location;
                 }
             };
             FSubPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FModeCommand == null) return;
-                FModeCommand.EndPoint = e.Location;
-                FModeCommand.Execute();
+                if (FAddCommand == null) return;
+                FAddCommand.EndPoint = e.Location;
+                FAddCommand.Execute();
                 foreach (ToolStripButton wButton in FGroupButtons) {
                     wButton.Checked = false;
                 }
-                FModeCommand = null;
+                FAddCommand = null;
             };
             FSubPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
