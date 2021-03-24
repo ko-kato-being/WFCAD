@@ -29,7 +29,7 @@ namespace WFCAD.View {
         public CanvasForm() {
             InitializeComponent();
             FCanvas = new Canvas {
-                Bitmap = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height)
+                Bitmap = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height),
             };
             FCloneCommand = new CloneCommand(FCanvas);
             FRemoveCommand = new RemoveCommand(FCanvas);
@@ -40,7 +40,7 @@ namespace WFCAD.View {
             FUnselectCommand = new UnselectCommand(FCanvas);
 
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
-            this.SetColor(Color.Black, FColor);
+            this.SetColorIcon(Color.Black, FColor);
             FGroupButtons = new List<ToolStripButton> {
                 FButtonRectangle,
                 FButtonEllipse,
@@ -58,9 +58,9 @@ namespace WFCAD.View {
                 FSubPictureBox.Image?.Dispose();
                 FSubPictureBox.Image = null;
             };
-            FCanvas.Preview += (Bitmap vBitmap) => {
-                FSubPictureBox.Image = vBitmap;
-            };
+            //FCanvas.Preview += (Bitmap vBitmap) => {
+            //    FSubPictureBox.Image = vBitmap;
+            //};
 
             void SetShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
                 vButton.Click += (sender, e) => {
@@ -80,7 +80,7 @@ namespace WFCAD.View {
                     wColorDialog.AllowFullOpen = false;
                     if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
 
-                    this.SetColor(FColor, wColorDialog.Color);
+                    this.SetColorIcon(FColor, wColorDialog.Color);
                     FColor = wColorDialog.Color;
                 }
             };
@@ -130,6 +130,19 @@ namespace WFCAD.View {
             };
             FSubPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+                Canvas wPreviewCanvas = FCanvas.DeepClone();
+                wPreviewCanvas.Updated += (Bitmap vBitmap) => {
+                    FSubPictureBox.Image = vBitmap;
+                };
+                EditCommand wPreviewCommand;
+                if (wPreviewCanvas.IsFramePointSelected) {
+                    wPreviewCommand = new ZoomCommand(wPreviewCanvas);
+                } else {
+                    wPreviewCommand = new MoveCommand(wPreviewCanvas);
+                }
+                wPreviewCommand.StartPoint = FEditCommand.StartPoint;
+                wPreviewCommand.EndPoint = e.Location;
+                wPreviewCommand.Execute();
             };
 
             // キー入力をハンドリング
@@ -176,7 +189,7 @@ namespace WFCAD.View {
         /// ボタンのImageには一色の画像を設定しています。
         /// その色を置換することで画像自体を加工してアイコンが変わったように見せています
         /// </remarks>
-        private void SetColor(Color vOldColor, Color vNewColor) {
+        private void SetColorIcon(Color vOldColor, Color vNewColor) {
             using (var wGraphics = Graphics.FromImage(FButtonColor.Image)) {
                 var wRectangle = new System.Drawing.Rectangle(0, 0, FButtonColor.Image.Width, FButtonColor.Image.Height);
                 using (var wImageAttributes = new ImageAttributes()) {

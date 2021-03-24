@@ -274,10 +274,10 @@ namespace WFCAD.Model {
         /// <summary>
         /// 自身のインスタンスを複製します
         /// </summary>
-        public ICanvas DeepClone() {
+        public Canvas DeepClone() {
             var wClone = new Canvas();
             wClone.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
-            wClone.IsFramePointSelected = IsFramePointSelected;
+            wClone.IsFramePointSelected = this.IsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
             }

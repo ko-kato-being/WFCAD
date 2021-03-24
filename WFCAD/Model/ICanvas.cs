@@ -116,7 +116,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 自身のインスタンスを複製します
         /// </summary>
-        ICanvas DeepClone();
+        Canvas DeepClone();
 
         #endregion　メソッド
 
