@@ -11,6 +11,9 @@ namespace WFCAD.View {
     /// キャンバスフォーム
     /// </summary>
     public partial class CanvasForm : Form {
+
+        #region フィールド
+
         private readonly Canvas FCanvas;
         private Canvas FPreviewCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
@@ -26,12 +29,17 @@ namespace WFCAD.View {
         private ICommand FAllSelectCommand;
         private ICommand FUnselectCommand;
 
+        #endregion フィールド
+
+        #region コンストラクタ
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
             FCanvas = new Canvas(FPictureBox.Width, FPictureBox.Height);
+            FCanvas.Updated += this.CanvasRefresh;
             FPreviewCanvas = FCanvas.DeepClone();
             FSelectCommand = new SelectCommand(FCanvas);
             FCloneCommand = new CloneCommand(FCanvas);
@@ -42,6 +50,10 @@ namespace WFCAD.View {
             FAllSelectCommand = new AllSelectCommand(FCanvas);
             FUnselectCommand = new UnselectCommand(FCanvas);
 
+            this.InitializeShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
+            this.InitializeShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
+            this.InitializeShapeButton(FButtonLine, (Color vColor) => new Line(vColor));
+
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColorIcon(Color.Black, FColor);
             FGroupButtons = new List<ToolStripButton> {
@@ -49,132 +61,116 @@ namespace WFCAD.View {
                 FButtonEllipse,
                 FButtonLine,
             };
-
-            #region イベントハンドラの設定
-
-            // キャンバス更新
-            FCanvas.Updated += this.CanvasRefresh;
-
-            void InitializeShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
-                vButton.Click += (sender, e) => {
-                    this.SetGroupButtonsChecked(sender as ToolStripButton);
-                    FUnselectCommand.Execute();
-                    FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
-                };
-            }
-            InitializeShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
-            InitializeShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
-            InitializeShapeButton(FButtonLine, (Color vColor) => new Line(vColor));
-
-            // 色の設定ボタン
-            FButtonColor.Click += (sender, e) => {
-                using (var wColorDialog = new ColorDialog()) {
-                    wColorDialog.Color = FColor;
-                    wColorDialog.AllowFullOpen = false;
-                    if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
-
-                    this.SetColorIcon(FColor, wColorDialog.Color);
-                    FColor = wColorDialog.Color;
-                }
-            };
-
-            // Undo
-            FButtonUndo.Click += (sender, e) => { };
-            // Redo
-            FButtonRedo.Click += (sender, e) => { };
-            // 複製ボタン
-            FButtonClone.Click += (sender, e) => FCloneCommand.Execute();
-            // 回転
-            FButtonRotate.Click += (sender, e) => { };
-            // 最前面に移動
-            FButtonForeground.Click += (sender, e) => FMoveToFrontCommand.Execute();
-            // 最背面に移動
-            FButtonBackground.Click += (sender, e) => FMoveToBackCommand.Execute();
-            // 削除ボタン
-            FButtonRemove.Click += (sender, e) => FRemoveCommand.Execute();
-            // リセットボタン
-            FButtonReset.Click += (sender, e) => FClearCommand.Execute();
-
-            FPictureBox.MouseDown += (sender, e) => {
-                if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-
-                if (FEditCommand == null) {
-                    FSelectCommand.Point = e.Location;
-                    FSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
-                    FSelectCommand.Execute();
-                    if (FCanvas.IsFramePointSelected) {
-                        FEditCommand = new ZoomCommand(FCanvas);
-                    } else {
-                        FEditCommand = new MoveCommand(FCanvas);
-                    }
-                }
-                FEditCommand.StartPoint = e.Location;
-            };
-            FPictureBox.MouseUp += (sender, e) => {
-                if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FEditCommand == null) return;
-
-                FEditCommand.EndPoint = e.Location;
-                FEditCommand.Execute();
-                FEditCommand = null;
-                this.SetGroupButtonsChecked(null);
-            };
-            FPictureBox.MouseMove += (sender, e) => {
-                if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-
-                FPreviewCanvas.Dispose();
-                FPreviewCanvas = FCanvas.DeepClone();
-                FPreviewCanvas.Updated += this.CanvasRefresh;
-                FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
-                FPreviewCommand.EndPoint = e.Location;
-                FPreviewCommand.Execute();
-            };
-            FPictureBox.Resize += (sender, e) => {
-                FCanvas.Width = FPictureBox.Width;
-                FCanvas.Height = FPictureBox.Height;
-            };
-
-            #region キー入力
-
-            // キー入力をハンドリング
-            this.KeyDown += (sender, e) => {
-                if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) return;
-
-                if (e.Control) {
-                    switch (e.KeyCode) {
-                        case Keys.A:
-                            FAllSelectCommand.Execute();
-                            break;
-                        case Keys.C:
-                            break;
-                        case Keys.V:
-                            break;
-                        case Keys.X:
-                            break;
-                        case Keys.Y:
-                            FButtonRedo.PerformClick();
-                            break;
-                        case Keys.Z:
-                            FButtonUndo.PerformClick();
-                            break;
-                    }
-                } else {
-                    switch (e.KeyCode) {
-                        case Keys.Delete:
-                            FButtonRemove.PerformClick();
-                            break;
-                        case Keys.Escape:
-                            FUnselectCommand.Execute();
-                            break;
-                    }
-                }
-            };
-
-            #endregion キー入力
-
-            #endregion イベントハンドラの設定
-
         }
+
+        #endregion コンストラクタ
+
+        #region イベントハンドラ
+
+        private void InitializeShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
+            vButton.Click += (sender, e) => {
+                this.SetGroupButtonsChecked(sender as ToolStripButton);
+                FUnselectCommand.Execute();
+                FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
+            };
+        }
+
+        private void FButtonUndo_Click(object sender, EventArgs e) { }
+        private void FButtonRedo_Click(object sender, EventArgs e) { }
+        private void FButtonClone_Click(object sender, EventArgs e) => FCloneCommand.Execute();
+        private void FButtonRotate_Click(object sender, EventArgs e) { }
+        private void FButtonForeground_Click(object sender, EventArgs e) => FMoveToFrontCommand.Execute();
+        private void FButtonBackground_Click(object sender, EventArgs e) => FMoveToBackCommand.Execute();
+        private void FButtonRemove_Click(object sender, EventArgs e) => FRemoveCommand.Execute();
+        private void FButtonReset_Click(object sender, EventArgs e) => FClearCommand.Execute();
+
+        private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
+            if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+
+            if (FEditCommand == null) {
+                FSelectCommand.Point = e.Location;
+                FSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
+                FSelectCommand.Execute();
+                if (FCanvas.IsFramePointSelected) {
+                    FEditCommand = new ZoomCommand(FCanvas);
+                } else {
+                    FEditCommand = new MoveCommand(FCanvas);
+                }
+            }
+            FEditCommand.StartPoint = e.Location;
+        }
+
+        private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
+            if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+            if (FEditCommand == null) return;
+
+            FEditCommand.EndPoint = e.Location;
+            FEditCommand.Execute();
+            FEditCommand = null;
+            this.SetGroupButtonsChecked(null);
+        }
+
+        private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
+            if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+
+            FPreviewCanvas.Dispose();
+            FPreviewCanvas = FCanvas.DeepClone();
+            FPreviewCanvas.Updated += this.CanvasRefresh;
+            FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
+            FPreviewCommand.EndPoint = e.Location;
+            FPreviewCommand.Execute();
+        }
+        private void FButtonColor_Click(object sender, EventArgs e) {
+            using (var wColorDialog = new ColorDialog()) {
+                wColorDialog.Color = FColor;
+                wColorDialog.AllowFullOpen = false;
+                if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
+
+                this.SetColorIcon(FColor, wColorDialog.Color);
+                FColor = wColorDialog.Color;
+            }
+        }
+        private void FPictureBox_Resize(object sender, EventArgs e) {
+            FCanvas.Width = FPictureBox.Width;
+            FCanvas.Height = FPictureBox.Height;
+        }
+
+        private void CanvasForm_KeyDown(object sender, KeyEventArgs e) {
+            if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) return;
+
+            if (e.Control) {
+                switch (e.KeyCode) {
+                    case Keys.A:
+                        FAllSelectCommand.Execute();
+                        break;
+                    case Keys.C:
+                        break;
+                    case Keys.V:
+                        break;
+                    case Keys.X:
+                        break;
+                    case Keys.Y:
+                        FButtonRedo.PerformClick();
+                        break;
+                    case Keys.Z:
+                        FButtonUndo.PerformClick();
+                        break;
+                }
+            } else {
+                switch (e.KeyCode) {
+                    case Keys.Delete:
+                        FButtonRemove.PerformClick();
+                        break;
+                    case Keys.Escape:
+                        FUnselectCommand.Execute();
+                        break;
+                }
+            }
+        }
+
+        #endregion イベントハンドラ
+
+        #region メソッド
 
         /// <summary>
         /// キャンバスの更新
@@ -219,5 +215,8 @@ namespace WFCAD.View {
                 }
             }
         }
+
+        #endregion メソッド
+
     }
 }

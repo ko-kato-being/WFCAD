@@ -85,6 +85,7 @@
             this.FButtonUndo.Size = new System.Drawing.Size(54, 51);
             this.FButtonUndo.Text = "元に戻す";
             this.FButtonUndo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonUndo.Click += new System.EventHandler(this.FButtonUndo_Click);
             // 
             // FButtonRedo
             // 
@@ -95,6 +96,7 @@
             this.FButtonRedo.Size = new System.Drawing.Size(49, 51);
             this.FButtonRedo.Text = "やり直し";
             this.FButtonRedo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonRedo.Click += new System.EventHandler(this.FButtonRedo_Click);
             // 
             // toolStripSeparator2
             // 
@@ -109,6 +111,7 @@
             this.FButtonClone.Size = new System.Drawing.Size(36, 51);
             this.FButtonClone.Text = "複製";
             this.FButtonClone.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonClone.Click += new System.EventHandler(this.FButtonClone_Click);
             // 
             // toolStripSeparator3
             // 
@@ -123,6 +126,7 @@
             this.FButtonRotate.Size = new System.Drawing.Size(36, 51);
             this.FButtonRotate.Text = "回転";
             this.FButtonRotate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonRotate.Click += new System.EventHandler(this.FButtonRotate_Click);
             // 
             // toolStripSeparator4
             // 
@@ -137,6 +141,7 @@
             this.FButtonForeground.Size = new System.Drawing.Size(47, 51);
             this.FButtonForeground.Text = "最前面";
             this.FButtonForeground.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonForeground.Click += new System.EventHandler(this.FButtonForeground_Click);
             // 
             // FButtonBackground
             // 
@@ -146,6 +151,7 @@
             this.FButtonBackground.Size = new System.Drawing.Size(47, 51);
             this.FButtonBackground.Text = "最背面";
             this.FButtonBackground.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonBackground.Click += new System.EventHandler(this.FButtonBackground_Click);
             // 
             // toolStripSeparator5
             // 
@@ -186,6 +192,7 @@
             this.FButtonRemove.Size = new System.Drawing.Size(36, 51);
             this.FButtonRemove.Text = "削除";
             this.FButtonRemove.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonRemove.Click += new System.EventHandler(this.FButtonRemove_Click);
             // 
             // FButtonReset
             // 
@@ -195,6 +202,7 @@
             this.FButtonReset.Size = new System.Drawing.Size(45, 51);
             this.FButtonReset.Text = "リセット";
             this.FButtonReset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonReset.Click += new System.EventHandler(this.FButtonReset_Click);
             // 
             // FToolStrip1
             // 
@@ -251,17 +259,22 @@
             this.FButtonColor.Size = new System.Drawing.Size(57, 51);
             this.FButtonColor.Text = "色の設定";
             this.FButtonColor.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonColor.Click += new System.EventHandler(this.FButtonColor_Click);
             // 
-            // FMainPictureBox
+            // FPictureBox
             // 
             this.FPictureBox.BackColor = System.Drawing.Color.White;
             this.FPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.FPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FPictureBox.Location = new System.Drawing.Point(0, 108);
-            this.FPictureBox.Name = "FMainPictureBox";
+            this.FPictureBox.Name = "FPictureBox";
             this.FPictureBox.Size = new System.Drawing.Size(558, 375);
             this.FPictureBox.TabIndex = 0;
             this.FPictureBox.TabStop = false;
+            this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
+            this.FPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
+            this.FPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
+            this.FPictureBox.Resize += new System.EventHandler(this.FPictureBox_Resize);
             // 
             // CanvasForm
             // 
@@ -274,6 +287,7 @@
             this.KeyPreview = true;
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CanvasForm_KeyDown);
             this.FToolStrip2.ResumeLayout(false);
             this.FToolStrip2.PerformLayout();
             this.FToolStrip1.ResumeLayout(false);
