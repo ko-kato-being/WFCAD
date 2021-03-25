@@ -55,9 +55,11 @@ namespace WFCAD.View {
             // キャンバス更新
             FCanvas.Updated += (Bitmap vBitmap) => {
                 FMainPictureBox.Image = vBitmap;
+                FMainPictureBox.Refresh();
             };
             FPreviewCanvas.Updated += (Bitmap vBitmap) => {
                 FMainPictureBox.Image = vBitmap;
+                FMainPictureBox.Refresh();
             };
 
             void SetShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
