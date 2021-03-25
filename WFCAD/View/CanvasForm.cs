@@ -32,7 +32,7 @@ namespace WFCAD.View {
         public CanvasForm() {
             InitializeComponent();
             FCanvas = new Canvas(FMainPictureBox.Width, FMainPictureBox.Height);
-            FPreviewCanvas = new Canvas(FMainPictureBox.Width, FMainPictureBox.Height);
+            FPreviewCanvas = FCanvas.DeepClone();
             FSelectCommand = new SelectCommand(FCanvas);
             FCloneCommand = new CloneCommand(FCanvas);
             FRemoveCommand = new RemoveCommand(FCanvas);
@@ -54,10 +54,6 @@ namespace WFCAD.View {
 
             // キャンバス更新
             FCanvas.Updated += (Bitmap vBitmap) => {
-                FMainPictureBox.Image = vBitmap;
-                FMainPictureBox.Refresh();
-            };
-            FPreviewCanvas.Updated += (Bitmap vBitmap) => {
                 FMainPictureBox.Image = vBitmap;
                 FMainPictureBox.Refresh();
             };
@@ -115,11 +111,6 @@ namespace WFCAD.View {
                     }
                 }
                 FEditCommand.StartPoint = e.Location;
-                FPreviewCanvas.Bitmap?.Dispose();
-                FPreviewCanvas.Bitmap = new Bitmap((Image)FCanvas.Bitmap.Clone());
-                FPreviewCanvas.Width = FMainPictureBox.Width;
-                FPreviewCanvas.Height = FMainPictureBox.Height;
-                FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
             };
             FMainPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
@@ -128,11 +119,16 @@ namespace WFCAD.View {
                 FEditCommand.Execute();
                 this.SetGroupButtonsChecked(null);
                 FEditCommand = null;
-                FPreviewCanvas.Bitmap.Dispose();
-                FPreviewCanvas.Bitmap = null;
             };
             FMainPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+                FPreviewCanvas.Bitmap.Dispose();
+                FPreviewCanvas = FCanvas.DeepClone();
+                FPreviewCanvas.Updated += (Bitmap vBitmap) => {
+                    FMainPictureBox.Image = vBitmap;
+                    FMainPictureBox.Refresh();
+                };
+                FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
                 FPreviewCommand.EndPoint = e.Location;
                 FPreviewCommand.Execute();
             };

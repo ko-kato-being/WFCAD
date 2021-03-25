@@ -58,7 +58,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// ビットマップ
         /// </summary>
-        public Bitmap Bitmap { get; set; }
+        public Bitmap Bitmap { get; private set; }
 
         /// <summary>
         /// 枠点が選択されているか
