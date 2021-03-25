@@ -15,7 +15,7 @@ namespace WFCAD.View {
         private Canvas FPreviewCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
-        private EditCommand FEditUpCommand;
+        private EditCommand FEditCommand;
         private EditCommand FPreviewCommand;
         private SelectCommand FSelectCommand;
         private ICommand FCloneCommand;
@@ -66,7 +66,7 @@ namespace WFCAD.View {
                 vButton.Click += (sender, e) => {
                     this.SetGroupButtonsChecked(sender as ToolStripButton);
                     FUnselectCommand.Execute();
-                    FEditUpCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
+                    FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
                 };
             }
             SetShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
@@ -104,28 +104,30 @@ namespace WFCAD.View {
 
             FMainPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FEditUpCommand == null) {
+                if (FEditCommand == null) {
                     FSelectCommand.Point = e.Location;
                     FSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
                     FSelectCommand.Execute();
                     if (FCanvas.IsFramePointSelected) {
-                        FEditUpCommand = new ZoomCommand(FCanvas);
+                        FEditCommand = new ZoomCommand(FCanvas);
                     } else {
-                        FEditUpCommand = new MoveCommand(FCanvas);
+                        FEditCommand = new MoveCommand(FCanvas);
                     }
                 }
-                FEditUpCommand.StartPoint = e.Location;
+                FEditCommand.StartPoint = e.Location;
                 FPreviewCanvas.Bitmap?.Dispose();
                 FPreviewCanvas.Bitmap = new Bitmap((Image)FCanvas.Bitmap.Clone());
-                FPreviewCommand = FEditUpCommand.DeepClone(FPreviewCanvas);
+                FPreviewCanvas.Width = FMainPictureBox.Width;
+                FPreviewCanvas.Height = FMainPictureBox.Height;
+                FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
             };
             FMainPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FEditUpCommand == null) return;
-                FEditUpCommand.EndPoint = e.Location;
-                FEditUpCommand.Execute();
+                if (FEditCommand == null) return;
+                FEditCommand.EndPoint = e.Location;
+                FEditCommand.Execute();
                 this.SetGroupButtonsChecked(null);
-                FEditUpCommand = null;
+                FEditCommand = null;
                 FPreviewCanvas.Bitmap.Dispose();
                 FPreviewCanvas.Bitmap = null;
             };
@@ -137,8 +139,6 @@ namespace WFCAD.View {
             FMainPictureBox.Resize += (sender, e) => {
                 FCanvas.Width = FMainPictureBox.Width;
                 FCanvas.Height = FMainPictureBox.Height;
-                FPreviewCanvas.Width = FMainPictureBox.Width;
-                FPreviewCanvas.Height = FMainPictureBox.Height;
             };
 
             #region キー入力
