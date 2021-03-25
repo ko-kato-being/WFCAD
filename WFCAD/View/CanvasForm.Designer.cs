@@ -46,12 +46,9 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonColor = new System.Windows.Forms.ToolStripButton();
             this.FMainPictureBox = new System.Windows.Forms.PictureBox();
-            this.FSubPictureBox = new System.Windows.Forms.PictureBox();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
-            this.FMainPictureBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FSubPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // FToolStrip2
@@ -259,32 +256,21 @@
             // 
             this.FMainPictureBox.BackColor = System.Drawing.Color.White;
             this.FMainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FMainPictureBox.Controls.Add(this.FSubPictureBox);
             this.FMainPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FMainPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.FMainPictureBox.Location = new System.Drawing.Point(0, 108);
             this.FMainPictureBox.Name = "FMainPictureBox";
-            this.FMainPictureBox.Size = new System.Drawing.Size(558, 483);
+            this.FMainPictureBox.Size = new System.Drawing.Size(558, 375);
             this.FMainPictureBox.TabIndex = 0;
             this.FMainPictureBox.TabStop = false;
-            // 
-            // FSubPictureBox
-            // 
-            this.FSubPictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.FSubPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FSubPictureBox.Location = new System.Drawing.Point(0, 0);
-            this.FSubPictureBox.Name = "FSubPictureBox";
-            this.FSubPictureBox.Size = new System.Drawing.Size(556, 481);
-            this.FSubPictureBox.TabIndex = 1;
-            this.FSubPictureBox.TabStop = false;
             // 
             // CanvasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(558, 483);
+            this.Controls.Add(this.FMainPictureBox);
             this.Controls.Add(this.FToolStrip2);
             this.Controls.Add(this.FToolStrip1);
-            this.Controls.Add(this.FMainPictureBox);
             this.KeyPreview = true;
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
@@ -293,8 +279,6 @@
             this.FToolStrip1.ResumeLayout(false);
             this.FToolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).EndInit();
-            this.FMainPictureBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.FSubPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,7 +287,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox FMainPictureBox;
-        private System.Windows.Forms.PictureBox FSubPictureBox;
         private System.Windows.Forms.ToolStrip FToolStrip2;
         private System.Windows.Forms.ToolStripButton FButtonClone;
         private System.Windows.Forms.ToolStripButton FButtonRotate;

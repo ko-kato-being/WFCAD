@@ -31,8 +31,8 @@ namespace WFCAD.View {
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvas = new Canvas(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
-            FPreviewCanvas = new Canvas(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
+            FCanvas = new Canvas(FMainPictureBox.Width, FMainPictureBox.Height);
+            FPreviewCanvas = new Canvas(FMainPictureBox.Width, FMainPictureBox.Height);
             FSelectCommand = new SelectCommand(FCanvas);
             FCloneCommand = new CloneCommand(FCanvas);
             FRemoveCommand = new RemoveCommand(FCanvas);
@@ -55,11 +55,9 @@ namespace WFCAD.View {
             // キャンバス更新
             FCanvas.Updated += (Bitmap vBitmap) => {
                 FMainPictureBox.Image = vBitmap;
-                FMainPictureBox.Refresh();
             };
             FPreviewCanvas.Updated += (Bitmap vBitmap) => {
-                FSubPictureBox.Image = vBitmap;
-                FSubPictureBox.Refresh();
+                FMainPictureBox.Image = vBitmap;
             };
 
             void SetShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
@@ -102,7 +100,7 @@ namespace WFCAD.View {
             // リセットボタン
             FButtonReset.Click += (sender, e) => FClearCommand.Execute();
 
-            FSubPictureBox.MouseDown += (sender, e) => {
+            FMainPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
                 if (FEditUpCommand == null) {
                     FSelectCommand.Point = e.Location;
@@ -115,22 +113,30 @@ namespace WFCAD.View {
                     }
                 }
                 FEditUpCommand.StartPoint = e.Location;
-                FPreviewCanvas.Bitmap = new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height);
+                FPreviewCanvas.Bitmap?.Dispose();
+                FPreviewCanvas.Bitmap = new Bitmap((Image)FCanvas.Bitmap.Clone());
                 FPreviewCommand = FEditUpCommand.DeepClone(FPreviewCanvas);
             };
-            FSubPictureBox.MouseUp += (sender, e) => {
+            FMainPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
                 if (FEditUpCommand == null) return;
                 FEditUpCommand.EndPoint = e.Location;
                 FEditUpCommand.Execute();
                 this.SetGroupButtonsChecked(null);
                 FEditUpCommand = null;
+                FPreviewCanvas.Bitmap.Dispose();
                 FPreviewCanvas.Bitmap = null;
             };
-            FSubPictureBox.MouseMove += (sender, e) => {
+            FMainPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
                 FPreviewCommand.EndPoint = e.Location;
                 FPreviewCommand.Execute();
+            };
+            FMainPictureBox.Resize += (sender, e) => {
+                FCanvas.Width = FMainPictureBox.Width;
+                FCanvas.Height = FMainPictureBox.Height;
+                FPreviewCanvas.Width = FMainPictureBox.Width;
+                FPreviewCanvas.Height = FMainPictureBox.Height;
             };
 
             #region キー入力

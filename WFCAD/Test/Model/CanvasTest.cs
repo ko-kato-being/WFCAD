@@ -19,7 +19,7 @@ namespace WFCAD.Test.Model {
         }
 
         private void SelectTest(bool vIsMultiple, List<(IShape Shape, bool Result)> vTestDatas) {
-            var wCanvas = new Canvas(new Bitmap(1, 1));
+            var wCanvas = new Canvas(1, 1);
             vTestDatas.ForEach(x => wCanvas.Add(x.Shape));
             wCanvas.Select(new Point(), vIsMultiple);
             for (int i = 0; i < vTestDatas.Count; i++) {
