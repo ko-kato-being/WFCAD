@@ -45,10 +45,10 @@
             this.FButtonLine = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonColor = new System.Windows.Forms.ToolStripButton();
-            this.FMainPictureBox = new System.Windows.Forms.PictureBox();
+            this.FPictureBox = new System.Windows.Forms.PictureBox();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // FToolStrip2
@@ -254,21 +254,21 @@
             // 
             // FMainPictureBox
             // 
-            this.FMainPictureBox.BackColor = System.Drawing.Color.White;
-            this.FMainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FMainPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FMainPictureBox.Location = new System.Drawing.Point(0, 108);
-            this.FMainPictureBox.Name = "FMainPictureBox";
-            this.FMainPictureBox.Size = new System.Drawing.Size(558, 375);
-            this.FMainPictureBox.TabIndex = 0;
-            this.FMainPictureBox.TabStop = false;
+            this.FPictureBox.BackColor = System.Drawing.Color.White;
+            this.FPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FPictureBox.Location = new System.Drawing.Point(0, 108);
+            this.FPictureBox.Name = "FMainPictureBox";
+            this.FPictureBox.Size = new System.Drawing.Size(558, 375);
+            this.FPictureBox.TabIndex = 0;
+            this.FPictureBox.TabStop = false;
             // 
             // CanvasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(558, 483);
-            this.Controls.Add(this.FMainPictureBox);
+            this.Controls.Add(this.FPictureBox);
             this.Controls.Add(this.FToolStrip2);
             this.Controls.Add(this.FToolStrip1);
             this.KeyPreview = true;
@@ -278,7 +278,7 @@
             this.FToolStrip2.PerformLayout();
             this.FToolStrip1.ResumeLayout(false);
             this.FToolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FMainPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,7 +286,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox FMainPictureBox;
+        private System.Windows.Forms.PictureBox FPictureBox;
         private System.Windows.Forms.ToolStrip FToolStrip2;
         private System.Windows.Forms.ToolStripButton FButtonClone;
         private System.Windows.Forms.ToolStripButton FButtonRotate;

@@ -31,7 +31,7 @@ namespace WFCAD.View {
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvas = new Canvas(FMainPictureBox.Width, FMainPictureBox.Height);
+            FCanvas = new Canvas(FPictureBox.Width, FPictureBox.Height);
             FPreviewCanvas = FCanvas.DeepClone();
             FSelectCommand = new SelectCommand(FCanvas);
             FCloneCommand = new CloneCommand(FCanvas);
@@ -53,21 +53,18 @@ namespace WFCAD.View {
             #region イベントハンドラの設定
 
             // キャンバス更新
-            FCanvas.Updated += (Bitmap vBitmap) => {
-                FMainPictureBox.Image = vBitmap;
-                FMainPictureBox.Refresh();
-            };
+            FCanvas.Updated += this.CanvasRefresh;
 
-            void SetShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
+            void InitializeShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
                 vButton.Click += (sender, e) => {
                     this.SetGroupButtonsChecked(sender as ToolStripButton);
                     FUnselectCommand.Execute();
                     FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
                 };
             }
-            SetShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
-            SetShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
-            SetShapeButton(FButtonLine, (Color vColor) => new Line(vColor));
+            InitializeShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
+            InitializeShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
+            InitializeShapeButton(FButtonLine, (Color vColor) => new Line(vColor));
 
             // 色の設定ボタン
             FButtonColor.Click += (sender, e) => {
@@ -98,8 +95,9 @@ namespace WFCAD.View {
             // リセットボタン
             FButtonReset.Click += (sender, e) => FClearCommand.Execute();
 
-            FMainPictureBox.MouseDown += (sender, e) => {
+            FPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+
                 if (FEditCommand == null) {
                     FSelectCommand.Point = e.Location;
                     FSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
@@ -112,29 +110,28 @@ namespace WFCAD.View {
                 }
                 FEditCommand.StartPoint = e.Location;
             };
-            FMainPictureBox.MouseUp += (sender, e) => {
+            FPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
                 if (FEditCommand == null) return;
+
                 FEditCommand.EndPoint = e.Location;
                 FEditCommand.Execute();
-                this.SetGroupButtonsChecked(null);
                 FEditCommand = null;
+                this.SetGroupButtonsChecked(null);
             };
-            FMainPictureBox.MouseMove += (sender, e) => {
+            FPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                FPreviewCanvas.Bitmap.Dispose();
+
+                FPreviewCanvas.Dispose();
                 FPreviewCanvas = FCanvas.DeepClone();
-                FPreviewCanvas.Updated += (Bitmap vBitmap) => {
-                    FMainPictureBox.Image = vBitmap;
-                    FMainPictureBox.Refresh();
-                };
+                FPreviewCanvas.Updated += this.CanvasRefresh;
                 FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
                 FPreviewCommand.EndPoint = e.Location;
                 FPreviewCommand.Execute();
             };
-            FMainPictureBox.Resize += (sender, e) => {
-                FCanvas.Width = FMainPictureBox.Width;
-                FCanvas.Height = FMainPictureBox.Height;
+            FPictureBox.Resize += (sender, e) => {
+                FCanvas.Width = FPictureBox.Width;
+                FCanvas.Height = FPictureBox.Height;
             };
 
             #region キー入力
@@ -142,6 +139,7 @@ namespace WFCAD.View {
             // キー入力をハンドリング
             this.KeyDown += (sender, e) => {
                 if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) return;
+
                 if (e.Control) {
                     switch (e.KeyCode) {
                         case Keys.A:
@@ -176,6 +174,14 @@ namespace WFCAD.View {
 
             #endregion イベントハンドラの設定
 
+        }
+
+        /// <summary>
+        /// キャンバスの更新
+        /// </summary>
+        private void CanvasRefresh(Bitmap vBitmap) {
+            FPictureBox.Image = vBitmap;
+            FPictureBox.Refresh();
         }
 
         /// <summary>

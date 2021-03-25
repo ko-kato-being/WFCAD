@@ -7,7 +7,7 @@ namespace WFCAD.Model {
     /// <summary>
     /// キャンバスクラス
     /// </summary>
-    public class Canvas {
+    public class Canvas : IDisposable {
 
         #region 定数
 
@@ -27,6 +27,7 @@ namespace WFCAD.Model {
         #region フィールド
 
         private List<IShape> FShapes = new List<IShape>();
+        private Bitmap FBitmap;
 
         #endregion フィールド
 
@@ -38,7 +39,7 @@ namespace WFCAD.Model {
         public Canvas(int vWidth, int vHeight) {
             this.Width = vWidth;
             this.Height = vHeight;
-            this.Bitmap = new Bitmap(vWidth, vHeight);
+            FBitmap = new Bitmap(vWidth, vHeight);
         }
 
         #endregion コンストラクタ
@@ -56,11 +57,6 @@ namespace WFCAD.Model {
         public int Height { get; set; }
 
         /// <summary>
-        /// ビットマップ
-        /// </summary>
-        public Bitmap Bitmap { get; private set; }
-
-        /// <summary>
         /// 枠点が選択されているか
         /// </summary>
         public bool IsFramePointSelected { get; private set; }
@@ -75,18 +71,23 @@ namespace WFCAD.Model {
         #region メソッド
 
         /// <summary>
+        /// すべてのリソースを解放します
+        /// </summary>
+        public void Dispose() => FBitmap.Dispose();
+
+        /// <summary>
         /// 描画します
         /// </summary>
         public void Draw() {
-            this.Bitmap.Dispose();
-            this.Bitmap = new Bitmap(this.Width, this.Height);
+            FBitmap.Dispose();
+            FBitmap = new Bitmap(this.Width, this.Height);
             foreach (IShape wShape in FShapes) {
-                wShape.Draw(this.Bitmap);
+                wShape.Draw(FBitmap);
                 if (wShape.IsSelected) {
-                    wShape.DrawFrame(this.Bitmap);
+                    wShape.DrawFrame(FBitmap);
                 }
             }
-            this.Updated?.Invoke(this.Bitmap);
+            this.Updated?.Invoke(FBitmap);
         }
 
         /// <summary>
