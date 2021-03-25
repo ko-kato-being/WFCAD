@@ -12,9 +12,12 @@ namespace WFCAD.View {
     /// </summary>
     public partial class CanvasForm : Form {
         private readonly Canvas FCanvas;
+        private Canvas FPreviewCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
-        private EditCommand FEditCommand;
+        private EditCommand FEditUpCommand;
+        private EditCommand FPreviewCommand;
+        private SelectCommand FSelectCommand;
         private ICommand FCloneCommand;
         private ICommand FMoveToFrontCommand;
         private ICommand FMoveToBackCommand;
@@ -28,9 +31,9 @@ namespace WFCAD.View {
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvas = new Canvas {
-                Bitmap = new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height),
-            };
+            FCanvas = new Canvas(new Bitmap(FMainPictureBox.Width, FMainPictureBox.Height));
+            FPreviewCanvas = new Canvas(new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height));
+            FSelectCommand = new SelectCommand(FCanvas);
             FCloneCommand = new CloneCommand(FCanvas);
             FRemoveCommand = new RemoveCommand(FCanvas);
             FClearCommand = new ClearCommand(FCanvas);
@@ -52,21 +55,18 @@ namespace WFCAD.View {
             // キャンバス更新
             FCanvas.Updated += (Bitmap vBitmap) => {
                 FMainPictureBox.Image = vBitmap;
-
-                // プレビューをクリアする
-                // Image は Dispose されたままだと例外が発生するため null を設定しておく必要がある
-                FSubPictureBox.Image?.Dispose();
-                FSubPictureBox.Image = null;
+                FMainPictureBox.Refresh();
             };
-            //FCanvas.Preview += (Bitmap vBitmap) => {
-            //    FSubPictureBox.Image = vBitmap;
-            //};
+            FPreviewCanvas.Updated += (Bitmap vBitmap) => {
+                FSubPictureBox.Image = vBitmap;
+                FSubPictureBox.Refresh();
+            };
 
             void SetShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
                 vButton.Click += (sender, e) => {
                     this.SetGroupButtonsChecked(sender as ToolStripButton);
                     FUnselectCommand.Execute();
-                    FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
+                    FEditUpCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
                 };
             }
             SetShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
@@ -102,48 +102,38 @@ namespace WFCAD.View {
             // リセットボタン
             FButtonReset.Click += (sender, e) => FClearCommand.Execute();
 
-            // マウスイベントは前面に配置している FSubPictureBox で処理する
-            var wSelectCommand = new SelectCommand(FCanvas);
             FSubPictureBox.MouseDown += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FEditCommand == null) {
-                    wSelectCommand.Point = e.Location;
-                    wSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
-                    wSelectCommand.Execute();
+                if (FEditUpCommand == null) {
+                    FSelectCommand.Point = e.Location;
+                    FSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
+                    FSelectCommand.Execute();
                     if (FCanvas.IsFramePointSelected) {
-                        FEditCommand = new ZoomCommand(FCanvas);
+                        FEditUpCommand = new ZoomCommand(FCanvas);
                     } else {
-                        FEditCommand = new MoveCommand(FCanvas);
+                        FEditUpCommand = new MoveCommand(FCanvas);
                     }
                 }
-                FEditCommand.StartPoint = e.Location;
+                FEditUpCommand.StartPoint = e.Location;
+                FPreviewCanvas.Bitmap = new Bitmap(FSubPictureBox.Width, FSubPictureBox.Height);
+                FPreviewCommand = FEditUpCommand.DeepClone(FPreviewCanvas);
             };
             FSubPictureBox.MouseUp += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                if (FEditCommand == null) return;
-                FEditCommand.EndPoint = e.Location;
-                FEditCommand.Execute();
-                foreach (ToolStripButton wButton in FGroupButtons) {
-                    wButton.Checked = false;
-                }
-                FEditCommand = null;
+                if (FEditUpCommand == null) return;
+                FEditUpCommand.EndPoint = e.Location;
+                FEditUpCommand.Execute();
+                this.SetGroupButtonsChecked(null);
+                FEditUpCommand = null;
+                FPreviewCanvas.Bitmap = null;
             };
             FSubPictureBox.MouseMove += (sender, e) => {
                 if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-                Canvas wPreviewCanvas = FCanvas.DeepClone();
-                wPreviewCanvas.Updated += (Bitmap vBitmap) => {
-                    FSubPictureBox.Image = vBitmap;
-                };
-                EditCommand wPreviewCommand;
-                if (wPreviewCanvas.IsFramePointSelected) {
-                    wPreviewCommand = new ZoomCommand(wPreviewCanvas);
-                } else {
-                    wPreviewCommand = new MoveCommand(wPreviewCanvas);
-                }
-                wPreviewCommand.StartPoint = FEditCommand.StartPoint;
-                wPreviewCommand.EndPoint = e.Location;
-                wPreviewCommand.Execute();
+                FPreviewCommand.EndPoint = e.Location;
+                FPreviewCommand.Execute();
             };
+
+            #region キー入力
 
             // キー入力をハンドリング
             this.KeyDown += (sender, e) => {
@@ -177,6 +167,8 @@ namespace WFCAD.View {
                     }
                 }
             };
+
+            #endregion キー入力
 
             #endregion イベントハンドラの設定
 

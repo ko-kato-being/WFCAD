@@ -18,5 +18,10 @@ namespace WFCAD.Controller {
         /// コンストラクタ
         /// </summary>
         public EditCommand(Canvas vCanvas) : base(vCanvas) { }
+
+        /// <summary>
+        /// 複製を返します
+        /// </summary>
+        public abstract EditCommand DeepClone(Canvas vCanvas);
     }
 }

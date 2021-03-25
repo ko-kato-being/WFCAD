@@ -108,7 +108,6 @@
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />
-    <Compile Include="Model\ICanvas.cs" />
     <Compile Include="Model\Shape\Shape1D.cs" />
     <Compile Include="Model\Shape\Shape2D.cs" />
     <Compile Include="Model\Shape\Line.cs" />

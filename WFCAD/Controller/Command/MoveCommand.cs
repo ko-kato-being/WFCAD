@@ -18,5 +18,12 @@ namespace WFCAD.Controller {
             if (wSize.IsEmpty) return;
             FCanvas.Move(wSize);
         }
+        /// <summary>
+        /// 複製を返します
+        /// </summary>
+        public override EditCommand DeepClone(Canvas vCanvas) => new MoveCommand(vCanvas) {
+            StartPoint = this.StartPoint,
+            EndPoint = this.EndPoint,
+        };
     }
 }

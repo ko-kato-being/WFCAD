@@ -7,7 +7,7 @@ namespace WFCAD.Model {
     /// <summary>
     /// キャンバスクラス
     /// </summary>
-    public class Canvas : ICanvas {
+    public class Canvas {
 
         #region 定数
 
@@ -22,11 +22,6 @@ namespace WFCAD.Model {
         /// </summary>
         public event Action<Bitmap> Updated;
 
-        /// <summary>
-        /// プレビューイベント
-        /// </summary>
-        public event Action<Bitmap> Preview;
-
         #endregion イベント
 
         #region フィールド
@@ -35,12 +30,29 @@ namespace WFCAD.Model {
 
         #endregion フィールド
 
+        #region コンストラクタ
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Canvas(Bitmap vBitmap) => this.Bitmap = vBitmap;
+
+        #endregion コンストラクタ
+
         #region プロパティ
 
         /// <summary>
         /// ビットマップ
         /// </summary>
-        public Bitmap Bitmap { get; set; }
+        public Bitmap Bitmap { 
+            get => FBitmap;
+            set {
+                FBitmap?.Dispose();
+                FBitmap = value;
+                this.Updated?.Invoke(FBitmap);
+            }
+        }
+        private Bitmap FBitmap;
 
         /// <summary>
         /// 枠点が選択されているか
@@ -60,14 +72,14 @@ namespace WFCAD.Model {
         /// 描画します
         /// </summary>
         public void Draw() {
-            this.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
+            var wBitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
             foreach (IShape wShape in FShapes) {
-                wShape.Draw(this.Bitmap);
+                wShape.Draw(wBitmap);
                 if (wShape.IsSelected) {
-                    wShape.DrawFrame(this.Bitmap);
+                    wShape.DrawFrame(wBitmap);
                 }
             }
-            this.Updated?.Invoke(this.Bitmap);
+            this.Bitmap = wBitmap;
         }
 
         /// <summary>
@@ -275,8 +287,7 @@ namespace WFCAD.Model {
         /// 自身のインスタンスを複製します
         /// </summary>
         public Canvas DeepClone() {
-            var wClone = new Canvas();
-            wClone.Bitmap = new Bitmap(this.Bitmap.Width, this.Bitmap.Height);
+            var wClone = new Canvas(new Bitmap(this.Bitmap.Width, this.Bitmap.Height));
             wClone.IsFramePointSelected = this.IsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
