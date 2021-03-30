@@ -95,13 +95,13 @@
     <Compile Include="Controller\CommandHistory.cs" />
     <Compile Include="Controller\CommandState.cs" />
     <Compile Include="Model\Define.cs" />
+    <Compile Include="Model\ICanvas.cs" />
+    <Compile Include="Model\Canvas.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />
-    <Compile Include="Model\Shape\ICanvas.cs" />
     <Compile Include="Model\Shape\Shape1D.cs" />
     <Compile Include="Model\Shape\Shape2D.cs" />
     <Compile Include="Model\Shape\Line.cs" />
-    <Compile Include="Model\Shape\Canvas.cs" />
     <Compile Include="Test\Model\CanvasTest.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="View\CanvasForm.cs">
