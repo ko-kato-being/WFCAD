@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace WFCAD.Controller {
@@ -35,12 +34,14 @@ namespace WFCAD.Controller {
             this.AddNewState(wNewState);
         }
         public void Undo() {
-            if (this.CurrentState == null) return;
+            if (this.CurrentState?.PrevState == null) return;
+            if (this.CurrentState?.PrevCommand == null) return;
             this.CurrentState.PrevCommand.Undo();
             FCurrentStateIndex = FStates.IndexOf(this.CurrentState.PrevState);
         }
         public void Redo() {
-            if (this.CurrentState == null) return;
+            if (this.CurrentState?.NextState == null) return;
+            if (this.CurrentState?.NextCommand == null) return;
             this.CurrentState.NextCommand.Execute();
             FCurrentStateIndex = FStates.IndexOf(this.CurrentState.NextState);
         }

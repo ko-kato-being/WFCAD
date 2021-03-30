@@ -20,8 +20,10 @@ namespace WFCAD.View {
         private Color FColor = Color.Orange;
         private Point FMouseDownPoint;
         private Point FMouseUpPoint;
+        private Point FMouseCurrentPoint;
         private CommandHistory FCommandHistory;
         private Command FCurrentCommand;
+        private Command FPreviewCommand;
 
         #endregion フィールド
 
@@ -58,14 +60,16 @@ namespace WFCAD.View {
             vButton.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 IShape wShape = vCreateShape(FColor);
-                FCurrentCommand = new Command(
-                    () => {
-                        wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
-                        FCanvas.Add(wShape);
-                    },
-                    () => {
-                        FCanvas.Remove(wShape);
-                    });
+                FCurrentCommand = new Command(() => {
+                    wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
+                    FCanvas.Add(wShape);
+                }, () => {
+                    FCanvas.Remove(wShape);
+                });
+                FPreviewCommand = new Command(() => {
+                    wShape.SetPoints(FMouseDownPoint, FMouseCurrentPoint);
+                    FPreviewCanvas.Add(wShape);
+                }, null);
             };
         }
 
@@ -81,19 +85,66 @@ namespace WFCAD.View {
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
             FMouseDownPoint = e.Location;
+            if (FCurrentCommand == null) {
+                FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
+                if (FCanvas.IsFramePointSelected) {
+                    FCurrentCommand = new Command(() => {
+                        var wSize = new Size(FMouseUpPoint.X - FMouseDownPoint.X, FMouseUpPoint.Y - FMouseDownPoint.Y);
+                        if (wSize.IsEmpty) return;
+                        FCanvas.Zoom(wSize);
+                    }, () => {
+                        var wSize = new Size(FMouseDownPoint.X - FMouseUpPoint.X, FMouseDownPoint.Y - FMouseUpPoint.Y);
+                        if (wSize.IsEmpty) return;
+                        FCanvas.Zoom(wSize);
+                    });
+                    FPreviewCommand = new Command(() => {
+                        var wSize = new Size(FMouseCurrentPoint.X - FMouseDownPoint.X, FMouseCurrentPoint.Y - FMouseDownPoint.Y);
+                        if (wSize.IsEmpty) return;
+                        FPreviewCanvas.Zoom(wSize);
+                    }, null);
+                } else {
+                    FCurrentCommand = new Command(() => {
+                        var wSize = new Size(FMouseUpPoint.X - FMouseDownPoint.X, FMouseUpPoint.Y - FMouseDownPoint.Y);
+                        if (wSize.IsEmpty) return;
+                        FCanvas.Move(wSize);
+                    }, () => {
+                        var wSize = new Size(FMouseDownPoint.X - FMouseUpPoint.X, FMouseDownPoint.Y - FMouseUpPoint.Y);
+                        if (wSize.IsEmpty) return;
+                        FCanvas.Move(wSize);
+                    });
+                    FPreviewCommand = new Command(() => {
+                        var wSize = new Size(FMouseCurrentPoint.X - FMouseDownPoint.X, FMouseCurrentPoint.Y - FMouseDownPoint.Y);
+                        if (wSize.IsEmpty) return;
+                        FPreviewCanvas.Move(wSize);
+                    }, null);
+                }
+            }
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+            if (FCurrentCommand == null) return;
 
             FMouseUpPoint = e.Location;
             FCommandHistory.Record(FCurrentCommand);
+            FCurrentCommand = null;
             this.SetGroupButtonsChecked(null);
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+
+            FPreviewCanvas.Dispose();
+            FPreviewCanvas = FCanvas.DeepClone();
+            FPreviewCanvas.Updated += this.CanvasRefresh;
+            FMouseCurrentPoint = e.Location;
+            FPreviewCommand.Execute();
         }
+        private void FPictureBox_Resize(object sender, EventArgs e) {
+            FCanvas.Width = FPictureBox.Width;
+            FCanvas.Height = FPictureBox.Height;
+        }
+
         private void FButtonColor_Click(object sender, EventArgs e) {
             using (var wColorDialog = new ColorDialog()) {
                 wColorDialog.Color = FColor;
@@ -103,10 +154,6 @@ namespace WFCAD.View {
                 this.SetColorIcon(FColor, wColorDialog.Color);
                 FColor = wColorDialog.Color;
             }
-        }
-        private void FPictureBox_Resize(object sender, EventArgs e) {
-            FCanvas.Width = FPictureBox.Width;
-            FCanvas.Height = FPictureBox.Height;
         }
 
         private void CanvasForm_KeyDown(object sender, KeyEventArgs e) {

@@ -91,7 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Command\Command.cs" />
+    <Compile Include="Controller\Command.cs" />
     <Compile Include="Controller\CommandHistory.cs" />
     <Compile Include="Controller\CommandState.cs" />
     <Compile Include="Model\Define.cs" />
@@ -111,7 +111,6 @@
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Shape\Ellipse.cs" />
-    <Compile Include="Controller\ICanvasController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Shape\IShape.cs" />
