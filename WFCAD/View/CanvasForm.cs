@@ -18,16 +18,10 @@ namespace WFCAD.View {
         private Canvas FPreviewCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
-        private EditCommand FEditCommand;
-        private EditCommand FPreviewCommand;
-        private SelectCommand FSelectCommand;
-        private ICommand FCloneCommand;
-        private ICommand FMoveToFrontCommand;
-        private ICommand FMoveToBackCommand;
-        private ICommand FRemoveCommand;
-        private ICommand FClearCommand;
-        private ICommand FAllSelectCommand;
-        private ICommand FUnselectCommand;
+        private Point FMouseDownPoint;
+        private Point FMouseUpPoint;
+        private CommandHistory FCommandHistory;
+        private Command FCurrentCommand;
 
         #endregion フィールド
 
@@ -41,14 +35,7 @@ namespace WFCAD.View {
             FCanvas = new Canvas(FPictureBox.Width, FPictureBox.Height);
             FCanvas.Updated += this.CanvasRefresh;
             FPreviewCanvas = FCanvas.DeepClone();
-            FSelectCommand = new SelectCommand(FCanvas);
-            FCloneCommand = new CloneCommand(FCanvas);
-            FRemoveCommand = new RemoveCommand(FCanvas);
-            FClearCommand = new ClearCommand(FCanvas);
-            FMoveToFrontCommand = new MoveToFrontCommand(FCanvas);
-            FMoveToBackCommand = new MoveToBackCommand(FCanvas);
-            FAllSelectCommand = new AllSelectCommand(FCanvas);
-            FUnselectCommand = new UnselectCommand(FCanvas);
+            FCommandHistory = new CommandHistory();
 
             this.InitializeShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
             this.InitializeShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
@@ -70,55 +57,42 @@ namespace WFCAD.View {
         private void InitializeShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
             vButton.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FUnselectCommand.Execute();
-                FEditCommand = new AddCommand(FCanvas) { Shape = vCreateShape(FColor) };
+                IShape wShape = vCreateShape(FColor);
+                FCurrentCommand = new Command(
+                    () => {
+                        wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
+                        FCanvas.Add(wShape);
+                    },
+                    () => {
+                        FCanvas.Remove(wShape);
+                    });
             };
         }
 
-        private void FButtonUndo_Click(object sender, EventArgs e) { }
-        private void FButtonRedo_Click(object sender, EventArgs e) { }
-        private void FButtonClone_Click(object sender, EventArgs e) => FCloneCommand.Execute();
+        private void FButtonUndo_Click(object sender, EventArgs e) => FCommandHistory.Undo();
+        private void FButtonRedo_Click(object sender, EventArgs e) => FCommandHistory.Redo();
+        private void FButtonClone_Click(object sender, EventArgs e) { }
         private void FButtonRotate_Click(object sender, EventArgs e) { }
-        private void FButtonForeground_Click(object sender, EventArgs e) => FMoveToFrontCommand.Execute();
-        private void FButtonBackground_Click(object sender, EventArgs e) => FMoveToBackCommand.Execute();
-        private void FButtonRemove_Click(object sender, EventArgs e) => FRemoveCommand.Execute();
-        private void FButtonReset_Click(object sender, EventArgs e) => FClearCommand.Execute();
+        private void FButtonForeground_Click(object sender, EventArgs e) { }
+        private void FButtonBackground_Click(object sender, EventArgs e) { }
+        private void FButtonRemove_Click(object sender, EventArgs e) { }
+        private void FButtonReset_Click(object sender, EventArgs e) { }
 
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-
-            if (FEditCommand == null) {
-                FSelectCommand.Point = e.Location;
-                FSelectCommand.IsMultiple = (ModifierKeys & Keys.Control) == Keys.Control;
-                FSelectCommand.Execute();
-                if (FCanvas.IsFramePointSelected) {
-                    FEditCommand = new ZoomCommand(FCanvas);
-                } else {
-                    FEditCommand = new MoveCommand(FCanvas);
-                }
-            }
-            FEditCommand.StartPoint = e.Location;
+            FMouseDownPoint = e.Location;
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-            if (FEditCommand == null) return;
 
-            FEditCommand.EndPoint = e.Location;
-            FEditCommand.Execute();
-            FEditCommand = null;
+            FMouseUpPoint = e.Location;
+            FCommandHistory.Record(FCurrentCommand);
             this.SetGroupButtonsChecked(null);
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-
-            FPreviewCanvas.Dispose();
-            FPreviewCanvas = FCanvas.DeepClone();
-            FPreviewCanvas.Updated += this.CanvasRefresh;
-            FPreviewCommand = FEditCommand.DeepClone(FPreviewCanvas);
-            FPreviewCommand.EndPoint = e.Location;
-            FPreviewCommand.Execute();
         }
         private void FButtonColor_Click(object sender, EventArgs e) {
             using (var wColorDialog = new ColorDialog()) {
@@ -141,7 +115,6 @@ namespace WFCAD.View {
             if (e.Control) {
                 switch (e.KeyCode) {
                     case Keys.A:
-                        FAllSelectCommand.Execute();
                         break;
                     case Keys.C:
                         break;
@@ -162,7 +135,6 @@ namespace WFCAD.View {
                         FButtonRemove.PerformClick();
                         break;
                     case Keys.Escape:
-                        FUnselectCommand.Execute();
                         break;
                 }
             }

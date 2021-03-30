@@ -278,8 +278,8 @@ namespace WFCAD.Model {
         /// <summary>
         /// 削除します
         /// </summary>
-        public void Remove() {
-            FShapes.RemoveAll(x => x.IsSelected);
+        public void Remove(IShape vShape) {
+            FShapes.Remove(vShape);
             this.Draw();
         }
 

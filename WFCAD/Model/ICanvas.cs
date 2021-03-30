@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace WFCAD.Model {
@@ -8,26 +7,12 @@ namespace WFCAD.Model {
     /// </summary>
     public interface ICanvas {
 
-        #region イベント
-
-        /// <summary>
-        /// 更新イベント
-        /// </summary>
-        event Action<Bitmap> Updated;
-
-        /// <summary>
-        /// プレビューイベント
-        /// </summary>
-        event Action<Bitmap> Preview;
-
-        #endregion イベント
-
         #region プロパティ
 
         /// <summary>
-        /// ビットマップ
+        /// プレビュー中か
         /// </summary>
-        Bitmap Bitmap { get; set; }
+        bool IsPreviewing { get; set; }
 
         /// <summary>
         /// クリップボード
@@ -41,7 +26,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        void Draw();
+        Bitmap Draw(Bitmap vBitmap);
 
         /// <summary>
         /// 選択します
@@ -64,14 +49,9 @@ namespace WFCAD.Model {
         void Add(IShape vShape);
 
         /// <summary>
-        /// 移動します
+        /// 編集します
         /// </summary>
-        void Move(Size vSize);
-
-        /// <summary>
-        /// 拡大・縮小します
-        /// </summary>
-        void Zoom(Size vSize);
+        void Edit(Size vSize);
 
         /// <summary>
         /// 右に回転させます
@@ -116,7 +96,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 自身のインスタンスを複製します
         /// </summary>
-        Canvas DeepClone();
+        ICanvas DeepClone();
 
         #endregion　メソッド
 
