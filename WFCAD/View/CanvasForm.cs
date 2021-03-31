@@ -22,7 +22,7 @@ namespace WFCAD.View {
         private Point FMouseUpPoint;
         private Point FMouseCurrentPoint;
         private CommandHistory FCommandHistory;
-        private Command FCurrentCommand;
+        private Func<Command> FCurrentCommand;
         private Command FPreviewCommand;
 
         #endregion フィールド
@@ -59,14 +59,19 @@ namespace WFCAD.View {
         private void InitializeShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
             vButton.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
-                IShape wShape = vCreateShape(FColor);
-                FCurrentCommand = new Command(() => {
-                    wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
-                    FCanvas.Add(wShape);
-                }, () => {
-                    FCanvas.Remove(wShape);
-                });
+                FCurrentCommand = () => {
+                    IShape wShape = vCreateShape(FColor);
+                    Point wStartPoint = FMouseDownPoint;
+                    Point wEndPoint = FMouseUpPoint;
+                    return new Command(() => {
+                        wShape.SetPoints(wStartPoint, wEndPoint);
+                        FCanvas.Add(wShape);
+                    }, () => {
+                        FCanvas.Remove(wShape);
+                    });
+                };
                 FPreviewCommand = new Command(() => {
+                    IShape wShape = vCreateShape(FColor);
                     wShape.SetPoints(FMouseDownPoint, FMouseCurrentPoint);
                     FPreviewCanvas.Add(wShape);
                 }, null);
@@ -88,20 +93,28 @@ namespace WFCAD.View {
             if (FCurrentCommand == null) {
                 FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
                 if (FCanvas.IsFramePointSelected) {
-                    FCurrentCommand = new Command(() => {
-                        FCanvas.Zoom(FMouseDownPoint, FMouseUpPoint);
-                    }, () => {
-                        FCanvas.Zoom(FMouseUpPoint, FMouseDownPoint);
-                    });
+                    FCurrentCommand = () => {
+                        Point wStartPoint = FMouseDownPoint;
+                        Point wEndPoint = FMouseUpPoint;
+                        return new Command(() => {
+                            FCanvas.Zoom(wStartPoint, wEndPoint);
+                        }, () => {
+                            FCanvas.Zoom(wEndPoint, wStartPoint);
+                        });
+                    };
                     FPreviewCommand = new Command(() => {
                         FPreviewCanvas.Zoom(FMouseDownPoint, FMouseCurrentPoint);
                     }, null);
                 } else {
-                    FCurrentCommand = new Command(() => {
-                        FCanvas.Move(FMouseDownPoint, FMouseUpPoint);
-                    }, () => {
-                        FCanvas.Move(FMouseUpPoint, FMouseDownPoint);
-                    });
+                    FCurrentCommand = () => {
+                        Point wStartPoint = FMouseDownPoint;
+                        Point wEndPoint = FMouseUpPoint;
+                        return new Command(() => {
+                            FCanvas.Move(wStartPoint, wEndPoint);
+                        }, () => {
+                            FCanvas.Move(wEndPoint, wStartPoint);
+                        });
+                    };
                     FPreviewCommand = new Command(() => {
                         FPreviewCanvas.Move(FMouseDownPoint, FMouseCurrentPoint);
                     }, null);
@@ -114,7 +127,7 @@ namespace WFCAD.View {
             if (FCurrentCommand == null) return;
 
             FMouseUpPoint = e.Location;
-            FCommandHistory.Record(FCurrentCommand);
+            FCommandHistory.Record(FCurrentCommand.Invoke());
             FCurrentCommand = null;
             this.SetGroupButtonsChecked(null);
         }

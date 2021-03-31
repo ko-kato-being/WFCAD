@@ -6,8 +6,8 @@ namespace WFCAD.Controller {
     /// コマンドクラス
     /// </summary>
     public class Command {
-        protected event Action FDo;
-        protected event Action FUndo;
+        protected readonly Action FDo;
+        protected readonly Action FUndo;
 
         /// <summary>
         /// コンストラクタ
