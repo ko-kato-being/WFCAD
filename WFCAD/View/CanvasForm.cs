@@ -89,33 +89,21 @@ namespace WFCAD.View {
                 FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
                 if (FCanvas.IsFramePointSelected) {
                     FCurrentCommand = new Command(() => {
-                        var wSize = new Size(FMouseUpPoint.X - FMouseDownPoint.X, FMouseUpPoint.Y - FMouseDownPoint.Y);
-                        if (wSize.IsEmpty) return;
-                        FCanvas.Zoom(wSize);
+                        FCanvas.Zoom(FMouseDownPoint, FMouseUpPoint);
                     }, () => {
-                        var wSize = new Size(FMouseDownPoint.X - FMouseUpPoint.X, FMouseDownPoint.Y - FMouseUpPoint.Y);
-                        if (wSize.IsEmpty) return;
-                        FCanvas.Zoom(wSize);
+                        FCanvas.Zoom(FMouseUpPoint, FMouseDownPoint);
                     });
                     FPreviewCommand = new Command(() => {
-                        var wSize = new Size(FMouseCurrentPoint.X - FMouseDownPoint.X, FMouseCurrentPoint.Y - FMouseDownPoint.Y);
-                        if (wSize.IsEmpty) return;
-                        FPreviewCanvas.Zoom(wSize);
+                        FPreviewCanvas.Zoom(FMouseDownPoint, FMouseCurrentPoint);
                     }, null);
                 } else {
                     FCurrentCommand = new Command(() => {
-                        var wSize = new Size(FMouseUpPoint.X - FMouseDownPoint.X, FMouseUpPoint.Y - FMouseDownPoint.Y);
-                        if (wSize.IsEmpty) return;
-                        FCanvas.Move(wSize);
+                        FCanvas.Move(FMouseDownPoint, FMouseUpPoint);
                     }, () => {
-                        var wSize = new Size(FMouseDownPoint.X - FMouseUpPoint.X, FMouseDownPoint.Y - FMouseUpPoint.Y);
-                        if (wSize.IsEmpty) return;
-                        FCanvas.Move(wSize);
+                        FCanvas.Move(FMouseUpPoint, FMouseDownPoint);
                     });
                     FPreviewCommand = new Command(() => {
-                        var wSize = new Size(FMouseCurrentPoint.X - FMouseDownPoint.X, FMouseCurrentPoint.Y - FMouseDownPoint.Y);
-                        if (wSize.IsEmpty) return;
-                        FPreviewCanvas.Move(wSize);
+                        FPreviewCanvas.Move(FMouseDownPoint, FMouseCurrentPoint);
                     }, null);
                 }
             }

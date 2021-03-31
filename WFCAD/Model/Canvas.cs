@@ -180,9 +180,11 @@ namespace WFCAD.Model {
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(Size vSize) {
+        public void Move(Point vStartPoint, Point vEndPoint) {
+            var wSize = new Size(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            if (wSize.IsEmpty) return;
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Move(vSize);
+                wShape.Move(wSize);
             }
             this.Draw();
         }
@@ -190,9 +192,11 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(Size vSize) {
+        public void Zoom(Point vStartPoint, Point vEndPoint) {
+            var wSize = new Size(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            if (wSize.IsEmpty) return;
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Zoom(vSize);
+                wShape.Zoom(wSize);
             }
             this.Draw();
         }
