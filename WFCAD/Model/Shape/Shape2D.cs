@@ -10,11 +10,6 @@ namespace WFCAD.Model {
     public abstract class Shape2D : Shape {
 
         /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Shape2D(Color vColor) : base(vColor) { }
-
-        /// <summary>
         /// 次元数
         /// </summary>
         public override int Dimensionality => 2;

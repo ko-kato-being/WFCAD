@@ -17,15 +17,6 @@ namespace WFCAD.Model {
 
         #endregion 定数
 
-        #region コンストラクタ
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        protected Shape(Color vColor) => this.Color = vColor;
-
-        #endregion コンストラクタ
-
         #region プロパティ
 
         /// <summary>

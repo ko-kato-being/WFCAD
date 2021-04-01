@@ -7,11 +7,6 @@ namespace WFCAD.Model {
     /// </summary>
     public class Line : Shape1D {
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Line(Color vColor) : base(vColor) { }
-
         #region　メソッド
 
         /// <summary>
@@ -39,7 +34,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override Shape DeepCloneCore() => new Line(this.Color);
+        protected override Shape DeepCloneCore() => new Line();
 
         #endregion　メソッド
     }

@@ -7,11 +7,6 @@ namespace WFCAD.Model {
     /// </summary>
     public class Rectangle : Shape2D {
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Rectangle(Color vColor) : base(vColor) { }
-
         #region　メソッド
 
         /// <summary>
@@ -38,7 +33,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override Shape DeepCloneCore() => new Rectangle(this.Color);
+        protected override Shape DeepCloneCore() => new Rectangle();
 
         #endregion　メソッド
 

@@ -39,9 +39,9 @@ namespace WFCAD.View {
             FPreviewCanvas = FCanvas.DeepClone();
             FCommandHistory = new CommandHistory();
 
-            this.InitializeShapeButton(FButtonRectangle, (Color vColor) => new Model.Rectangle(vColor));
-            this.InitializeShapeButton(FButtonEllipse, (Color vColor) => new Ellipse(vColor));
-            this.InitializeShapeButton(FButtonLine, (Color vColor) => new Line(vColor));
+            this.InitializeShapeButton(FButtonRectangle, () => new Model.Rectangle());
+            this.InitializeShapeButton(FButtonEllipse, () => new Ellipse());
+            this.InitializeShapeButton(FButtonLine, () => new Line());
 
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColorIcon(Color.Black, FColor);
@@ -56,23 +56,23 @@ namespace WFCAD.View {
 
         #region イベントハンドラ
 
-        private void InitializeShapeButton(ToolStripButton vButton, Func<Color, IShape> vCreateShape) {
+        private void InitializeShapeButton(ToolStripButton vButton, Func<IShape> vCreateShape) {
             vButton.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCurrentCommand = () => {
-                    IShape wShape = vCreateShape(FColor);
-                    Point wStartPoint = FMouseDownPoint;
-                    Point wEndPoint = FMouseUpPoint;
+                    IShape wShape = vCreateShape();
+                    wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
+                    wShape.Color = FColor;
                     return new Command(() => {
-                        wShape.SetPoints(wStartPoint, wEndPoint);
                         FCanvas.Add(wShape);
                     }, () => {
                         FCanvas.Remove(wShape);
                     });
                 };
                 FPreviewCommand = new Command(() => {
-                    IShape wShape = vCreateShape(FColor);
+                    IShape wShape = vCreateShape();
                     wShape.SetPoints(FMouseDownPoint, FMouseCurrentPoint);
+                    wShape.Color = FColor;
                     FPreviewCanvas.Add(wShape);
                 }, null);
             };

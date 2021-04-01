@@ -7,11 +7,6 @@ namespace WFCAD.Model {
     /// </summary>
     public class Ellipse : Shape2D {
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Ellipse(Color vColor) : base(vColor) { }
-
         #region　メソッド
 
         /// <summary>
@@ -39,8 +34,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 自身のインスタンスを返します
         /// </summary>
-        protected override Shape DeepCloneCore() => new Ellipse(this.Color);
-
+        protected override Shape DeepCloneCore() => new Ellipse();
 
         #endregion　メソッド
 
