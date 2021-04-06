@@ -97,8 +97,11 @@ namespace WFCAD.View {
                         Point wStartPoint = FMouseDownPoint;
                         Point wEndPoint = FMouseUpPoint;
                         return new Command(() => {
+                            FCanvas.Select(e.Location, true);
                             FCanvas.Zoom(wStartPoint, wEndPoint);
                         }, () => {
+                            var wSize = new Size(wEndPoint.X - wStartPoint.X, wEndPoint.Y - wStartPoint.Y);
+                            FCanvas.Select(e.Location + wSize, true);
                             FCanvas.Zoom(wEndPoint, wStartPoint);
                         });
                     };
