@@ -24,7 +24,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        public override bool IsHit(Point vCoordinate) {
+        public override bool IsHit(PointF vCoordinate) {
             using (var wPath = new GraphicsPath()) {
                 wPath.AddEllipse(this.FrameRectangle);
                 return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);

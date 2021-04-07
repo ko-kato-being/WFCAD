@@ -27,22 +27,22 @@ namespace WFCAD.Model {
         /// <summary>
         /// 始点
         /// </summary>
-        public Point StartPoint { get; protected set; }
+        public PointF StartPoint { get; protected set; }
 
         /// <summary>
         /// 終点
         /// </summary>
-        public Point EndPoint { get; protected set; }
+        public PointF EndPoint { get; protected set; }
 
         /// <summary>
         /// 幅
         /// </summary>
-        protected int Width => Math.Abs(this.StartPoint.X - this.EndPoint.X);
+        protected float Width => Math.Abs(this.StartPoint.X - this.EndPoint.X);
 
         /// <summary>
         /// 高さ
         /// </summary>
-        protected int Height => Math.Abs(this.StartPoint.Y - this.EndPoint.Y);
+        protected float Height => Math.Abs(this.StartPoint.Y - this.EndPoint.Y);
 
         /// <summary>
         /// 選択されているか
@@ -66,7 +66,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 始点と終点を設定します
         /// </summary>
-        public abstract void SetPoints(Point vStartPoint, Point vEndPoint);
+        public abstract void SetPoints(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 描画します
@@ -101,16 +101,16 @@ namespace WFCAD.Model {
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(Size vSize) => this.SetPoints(this.StartPoint + vSize, this.EndPoint + vSize);
+        public void Move(SizeF vSize) => this.SetPoints(this.StartPoint + vSize, this.EndPoint + vSize);
 
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(Size vSize) {
+        public void Zoom(SizeF vSize) {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
-            (Point wStartPoint, Point wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
+            (PointF wStartPoint, PointF wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
             this.SetPoints(wStartPoint, wEndPoint);
             wFramePoint.IsSelected = false;
         }
@@ -118,20 +118,20 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小するための座標取得処理
         /// </summary>
-        protected abstract (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize);
+        protected abstract (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize);
 
         /// <summary>
         /// 右に回転させます
         /// </summary>
         public void RotateRight() {
-            var wOrigin = new Point(Math.Min(this.StartPoint.X, this.EndPoint.X) + this.Width / 2, Math.Min(this.StartPoint.Y, this.EndPoint.Y) + this.Height / 2);
+            var wOrigin = new PointF(Math.Min(this.StartPoint.X, this.EndPoint.X) + this.Width / 2, Math.Min(this.StartPoint.Y, this.EndPoint.Y) + this.Height / 2);
             this.SetPoints(Utilities.RotateRight90(this.StartPoint, wOrigin), Utilities.RotateRight90(this.EndPoint, wOrigin));
         }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        public abstract bool IsHit(Point vCoordinate);
+        public abstract bool IsHit(PointF vCoordinate);
 
         /// <summary>
         /// 複製します

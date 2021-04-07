@@ -16,14 +16,14 @@ namespace WFCAD.Model {
             using (var wBrush = new SolidBrush(this.Color))
             using (var wPen = new Pen(C_BorderColor, 2f)) {
                 vGraphics.FillRectangle(wBrush, this.FrameRectangle);
-                vGraphics.DrawRectangle(wPen, this.FrameRectangle);
+                vGraphics.DrawRectangle(wPen, this.FrameRectangle.X, this.FrameRectangle.Y, this.FrameRectangle.Width, this.FrameRectangle.Height);
             }
         }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        public override bool IsHit(Point vCoordinate) {
+        public override bool IsHit(PointF vCoordinate) {
             using (var wPath = new GraphicsPath()) {
                 wPath.AddRectangle(this.FrameRectangle);
                 return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);

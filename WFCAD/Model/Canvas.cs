@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace WFCAD.Model {
@@ -199,6 +200,18 @@ namespace WFCAD.Model {
                 wShape.Zoom(wSize);
             }
             this.Draw();
+            //using (var wMatrix = new Matrix()) {
+            //    float wScaleX = vEndPoint.X / (float)vStartPoint.X;
+            //    float wScaleY = vEndPoint.Y / (float)vStartPoint.Y;
+            //    wMatrix.Scale(wScaleX, wScaleY, MatrixOrder.Append);
+            //    //var wSize = new SizeF(wMatrix.OffsetX, wMatrix.OffsetY);
+            //    var wSize = new SizeF(wMatrix.Elements[0], wMatrix.Elements[3]);
+            //    if (wSize.IsEmpty) return;
+            //    foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+            //        wShape.Zoom(wSize);
+            //    }
+            //    this.Draw();
+            //}
         }
 
         /// <summary>

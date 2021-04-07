@@ -17,12 +17,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 始点
         /// </summary>
-        Point StartPoint { get; }
+        PointF StartPoint { get; }
 
         /// <summary>
         /// 終点
         /// </summary>
-        Point EndPoint { get; }
+        PointF EndPoint { get; }
 
         /// <summary>
         /// 選択されているか
@@ -46,7 +46,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 始点と終点を設定します
         /// </summary>
-        void SetPoints(Point vStartPoint, Point vEndPoint);
+        void SetPoints(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 描画します
@@ -61,12 +61,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 移動します
         /// </summary>
-        void Move(Size vSize);
+        void Move(SizeF vSize);
 
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void Zoom(Size vSize);
+        void Zoom(SizeF vSize);
 
         /// <summary>
         /// 右に回転させます
@@ -76,7 +76,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
-        bool IsHit(Point vCoordinate);
+        bool IsHit(PointF vCoordinate);
 
         /// <summary>
         /// 複製します

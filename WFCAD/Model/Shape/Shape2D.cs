@@ -17,25 +17,25 @@ namespace WFCAD.Model {
         /// <summary>
         /// 外枠
         /// </summary>
-        public System.Drawing.Rectangle FrameRectangle => new System.Drawing.Rectangle(this.StartPoint.X, this.StartPoint.Y, this.Width, this.Height);
+        public RectangleF FrameRectangle => new RectangleF(this.StartPoint.X, this.StartPoint.Y, this.Width, this.Height);
 
         /// <summary>
         /// 始点と終点を設定します
         /// </summary>
-        public override void SetPoints(Point vStartPoint, Point vEndPoint) {
+        public override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
             // 引数で受け取った始点と終点を対角線とする矩形に対して、
             // 左上の点と右下の点を始点と終点に設定します。
-            this.StartPoint = new Point(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
-            this.EndPoint = new Point(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
+            this.StartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
+            this.EndPoint = new PointF(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
 
             // 枠点の座標
             var wTopLeft = this.StartPoint;
-            var wTop = new Point(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.StartPoint.Y);
-            var wTopRight = new Point(this.EndPoint.X, this.StartPoint.Y);
-            var wLeft = new Point(this.StartPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
-            var wRight = new Point(this.EndPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
-            var wBottomLeft = new Point(this.StartPoint.X, this.EndPoint.Y);
-            var wBottom = new Point(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.EndPoint.Y);
+            var wTop = new PointF(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.StartPoint.Y);
+            var wTopRight = new PointF(this.EndPoint.X, this.StartPoint.Y);
+            var wLeft = new PointF(this.StartPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
+            var wRight = new PointF(this.EndPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
+            var wBottomLeft = new PointF(this.StartPoint.X, this.EndPoint.Y);
+            var wBottom = new PointF(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.EndPoint.Y);
             var wBottomRight = this.EndPoint;
 
             // 枠点と基準点の設定
@@ -56,7 +56,7 @@ namespace WFCAD.Model {
         /// </summary>
         protected override void DrawFrame(Graphics vGraphics) {
             using (var wPen = new Pen(C_FrameColor)) {
-                vGraphics.DrawRectangle(wPen, this.FrameRectangle);
+                vGraphics.DrawRectangle(wPen, this.FrameRectangle.X, this.FrameRectangle.Y, this.FrameRectangle.Width, this.FrameRectangle.Height);
                 foreach (IFramePoint wFramePoint in this.FramePoints) {
                     wFramePoint.Draw(vGraphics, wPen);
                 }
@@ -66,20 +66,20 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小するための座標取得処理
         /// </summary>
-        protected override (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize) {
+        protected override (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize) {
             var wPoints = vFramePoint.BasePoints.ToList();
-            Size wAdjustSize = vSize;
+            SizeF wAdjustSize = vSize;
             if (wPoints.Count == 2) {
                 // 基準点を結ぶ線分に対して水平方向には拡大・縮小できないように制限します
                 if (wPoints[0].X == wPoints[1].X) {
-                    wAdjustSize = new Size(vSize.Width, 0);
+                    wAdjustSize = new SizeF(vSize.Width, 0);
                 } else if (wPoints[0].Y == wPoints[1].Y) {
-                    wAdjustSize = new Size(0, vSize.Height);
+                    wAdjustSize = new SizeF(0, vSize.Height);
                 }
             }
             wPoints.Add(vFramePoint.Point + wAdjustSize);
-            var wStartPoint = new Point(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
-            var wEndPoint = new Point(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
+            var wStartPoint = new PointF(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
+            var wEndPoint = new PointF(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
             return (wStartPoint, wEndPoint);
         }
     }

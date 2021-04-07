@@ -16,7 +16,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 始点と終点を設定します
         /// </summary>
-        public override void SetPoints(Point vStartPoint, Point vEndPoint) {
+        public override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
             // 左に位置する点を始点にします
             bool wIsLeft = vStartPoint.X < vEndPoint.X;
             this.StartPoint = wIsLeft ? vStartPoint : vEndPoint;
@@ -42,7 +42,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小するための座標取得処理
         /// </summary>
-        protected override (Point StartPoint, Point EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, Size vSize)
+        protected override (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize)
             => (vFramePoint.Point + vSize, vFramePoint.BasePoints.First());
     }
 }

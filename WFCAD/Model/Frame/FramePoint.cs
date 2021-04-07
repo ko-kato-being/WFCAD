@@ -8,12 +8,12 @@ namespace WFCAD.Model {
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private System.Drawing.Rectangle FFrameRectangle;
+        private RectangleF FFrameRectangle;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public FramePoint(Point vPoint, FramePointLocationKindEnum vLocationKind, params Point[] vBasePoints) {
+        public FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, params PointF[] vBasePoints) {
             this.Point = vPoint;
             this.LocationKind = vLocationKind;
             this.BasePoints = vBasePoints.ToList();
@@ -22,7 +22,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        private FramePoint(Point vPoint, FramePointLocationKindEnum vLocationKind, IEnumerable<Point> vBasePoints, bool vIsSelected) {
+        private FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, IEnumerable<PointF> vBasePoints, bool vIsSelected) {
             this.Point = vPoint;
             this.LocationKind = vLocationKind;
             this.BasePoints = vBasePoints.ToList();
@@ -34,7 +34,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 座標
         /// </summary>
-        public Point Point { get; }
+        public PointF Point { get; }
 
         /// <summary>
         /// 位置種類
@@ -44,7 +44,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 基準点
         /// </summary>
-        public IEnumerable<Point> BasePoints { get; }
+        public IEnumerable<PointF> BasePoints { get; }
 
         /// <summary>
         /// 選択されているか
@@ -61,9 +61,9 @@ namespace WFCAD.Model {
         public void Draw(Graphics vGraphics, Pen vPen) {
             // 円の半径
             const int C_Radius = 4;
-            var wTopLeft = new Point(this.Point.X - C_Radius, this.Point.Y - C_Radius);
+            var wTopLeft = new PointF(this.Point.X - C_Radius, this.Point.Y - C_Radius);
 
-            FFrameRectangle = new System.Drawing.Rectangle(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
+            FFrameRectangle = new RectangleF(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
             using (var wBrush = new SolidBrush(Color.White)) {
                 vGraphics.FillEllipse(wBrush, FFrameRectangle);
             }
@@ -73,7 +73,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 指定した座標が円内に存在するか
         /// </summary>
-        public bool IsHit(Point vCoordinate) {
+        public bool IsHit(PointF vCoordinate) {
             using (var wPath = new GraphicsPath()) {
                 wPath.AddEllipse(FFrameRectangle);
                 return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);

@@ -12,7 +12,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 座標
         /// </summary>
-        Point Point { get; }
+        PointF Point { get; }
 
         /// <summary>
         /// 位置種類
@@ -22,7 +22,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 基準点
         /// </summary>
-        IEnumerable<Point> BasePoints { get; }
+        IEnumerable<PointF> BasePoints { get; }
 
         /// <summary>
         /// 選択されているか
@@ -41,7 +41,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 指定した座標が円内に存在するか
         /// </summary>
-        bool IsHit(Point vCoordinate);
+        bool IsHit(PointF vCoordinate);
 
         /// <summary>
         /// 複製します
