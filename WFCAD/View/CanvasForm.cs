@@ -136,6 +136,7 @@ namespace WFCAD.View {
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
+            FStatusLabelMouse.Text = $"Mouse : {e.Location}";
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
 
             FPreviewCanvas.Dispose();

@@ -46,9 +46,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FButtonColor = new System.Windows.Forms.ToolStripButton();
             this.FPictureBox = new System.Windows.Forms.PictureBox();
+            this.FStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.FStatusLabelMouse = new System.Windows.Forms.ToolStripStatusLabel();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
+            this.FStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // FToolStrip2
@@ -266,7 +269,7 @@
             this.FPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FPictureBox.Location = new System.Drawing.Point(0, 108);
             this.FPictureBox.Name = "FPictureBox";
-            this.FPictureBox.Size = new System.Drawing.Size(558, 375);
+            this.FPictureBox.Size = new System.Drawing.Size(558, 353);
             this.FPictureBox.TabIndex = 0;
             this.FPictureBox.TabStop = false;
             this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
@@ -274,12 +277,28 @@
             this.FPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
             this.FPictureBox.Resize += new System.EventHandler(this.FPictureBox_Resize);
             // 
+            // FStatusStrip
+            // 
+            this.FStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FStatusLabelMouse});
+            this.FStatusStrip.Location = new System.Drawing.Point(0, 461);
+            this.FStatusStrip.Name = "FStatusStrip";
+            this.FStatusStrip.Size = new System.Drawing.Size(558, 22);
+            this.FStatusStrip.TabIndex = 2;
+            // 
+            // FStatusLabelMouse
+            // 
+            this.FStatusLabelMouse.Name = "FStatusLabelMouse";
+            this.FStatusLabelMouse.Size = new System.Drawing.Size(105, 17);
+            this.FStatusLabelMouse.Text = "Mouse : {X=0,Y=0}";
+            // 
             // CanvasForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(558, 483);
             this.Controls.Add(this.FPictureBox);
+            this.Controls.Add(this.FStatusStrip);
             this.Controls.Add(this.FToolStrip2);
             this.Controls.Add(this.FToolStrip1);
             this.KeyPreview = true;
@@ -291,6 +310,8 @@
             this.FToolStrip1.ResumeLayout(false);
             this.FToolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).EndInit();
+            this.FStatusStrip.ResumeLayout(false);
+            this.FStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,5 +342,7 @@
         private System.Windows.Forms.ToolStripButton FButtonSave;
         private System.Windows.Forms.ToolStripButton FButtonLoad;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.StatusStrip FStatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel FStatusLabelMouse;
     }
 }
