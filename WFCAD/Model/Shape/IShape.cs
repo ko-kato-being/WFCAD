@@ -82,12 +82,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 移動します
         /// </summary>
-        void Move(SizeF vSize);
+        void Move(float vOffsetX, float vOffsetY);
 
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void Zoom(SizeF vSize);
+        void Zoom(float vScaleX, float vScaleY);
 
         /// <summary>
         /// 回転します

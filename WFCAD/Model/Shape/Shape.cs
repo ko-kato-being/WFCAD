@@ -91,25 +91,23 @@ namespace WFCAD.Model {
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(SizeF vSize) {
+        public void Move(float vOffsetX, float vOffsetY) {
             this.Matrix.Reset();
-            this.Matrix.Translate(vSize.Width, vSize.Height);
-            this.MainPath.Transform(this.Matrix);
-            this.SubPath.Transform(this.Matrix);
-            foreach (IFramePoint wPoint in this.FramePoints) {
-                wPoint.Path.Transform(this.Matrix);
-            }
+            this.Matrix.Translate(vOffsetX, vOffsetY);
+            this.AppleyAffine();
         }
 
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(SizeF vSize) {
+        public void Zoom(float vScaleX, float vScaleY) {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
-            (PointF wStartPoint, PointF wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
-            this.SetPoints(wStartPoint, wEndPoint);
+            this.Matrix.Reset();
+            var wBasePoints = wFramePoint.BasePoints.ToList();
+            this.Matrix.ScaleAt(vScaleX, vScaleY, wBasePoints.First());
+            this.AppleyAffine();
             wFramePoint.IsSelected = false;
         }
 
@@ -127,11 +125,7 @@ namespace WFCAD.Model {
             float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
             var wCenterPoint = new PointF(wCenterX, wCenterY);
             this.Matrix.RotateAt(vAngle, wCenterPoint, MatrixOrder.Append);
-            this.MainPath.Transform(this.Matrix);
-            this.SubPath.Transform(this.Matrix);
-            foreach (IFramePoint wPoint in this.FramePoints) {
-                wPoint.Path.Transform(this.Matrix);
-            }
+            this.AppleyAffine();
         }
 
         /// <summary>
@@ -149,6 +143,17 @@ namespace WFCAD.Model {
             wShape.Color = this.Color;
             wShape.FramePoints = this.FramePoints?.Select(x => x.DeepClone());
             return wShape;
+        }
+
+        /// <summary>
+        /// アフィン変換を適用します
+        /// </summary>
+        private void AppleyAffine() {
+            this.MainPath.Transform(this.Matrix);
+            this.SubPath.Transform(this.Matrix);
+            foreach (IFramePoint wPoint in this.FramePoints) {
+                wPoint.Path.Transform(this.Matrix);
+            }
         }
 
         /// <summary>

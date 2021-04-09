@@ -147,7 +147,7 @@ namespace WFCAD.View {
             FPreviewCanvas = FCanvas.DeepClone();
             FPreviewCanvas.Updated += this.CanvasRefresh;
             FMouseCurrentPoint = e.Location;
-            FPreviewCommand.Execute();
+            //FPreviewCommand.Execute();
         }
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
             if ((ModifierKeys & Keys.Control) != Keys.Control) return;

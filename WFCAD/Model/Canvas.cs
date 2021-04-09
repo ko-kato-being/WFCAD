@@ -185,11 +185,13 @@ namespace WFCAD.Model {
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(Point vStartPoint, Point vEndPoint) {
-            var wSize = new Size(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
-            if (wSize.IsEmpty) return;
+        public void Move(PointF vStartPoint, PointF vEndPoint) {
+            float wOffsetX = vEndPoint.X - vStartPoint.X;
+            float wOffsetY = vEndPoint.Y - vStartPoint.Y;
+            if (wOffsetX == 0 && wOffsetY == 0) return;
+
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Move(wSize);
+                wShape.Move(wOffsetX, wOffsetY);
             }
             this.Draw();
         }
@@ -197,20 +199,15 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(Point vStartPoint, Point vEndPoint) {
-            var wSize = new Size(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
-            if (wSize.IsEmpty) return;
+        public void Zoom(PointF vStartPoint, PointF vEndPoint) {
+            float wScaleX = vEndPoint.X / vStartPoint.X;
+            float wScaleY = vEndPoint.Y / vStartPoint.Y;
+            if (wScaleX == 0 && wScaleY == 0) return;
+
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Zoom(wSize);
+                wShape.Zoom(wScaleX, wScaleY);
             }
             this.Draw();
-        }
-
-        /// <summary>
-        /// 倍率を変更します
-        /// </summary>
-        public void ChangeScale(float vScale) {
-            FMatrix.Scale(vScale, vScale, MatrixOrder.Append);
         }
 
         /// <summary>
@@ -243,52 +240,52 @@ namespace WFCAD.Model {
         /// 複製します
         /// </summary>
         public void Clone() {
-            var wClonedShapes = new List<IShape>();
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                IShape wClone = wShape.DeepClone();
+            //var wClonedShapes = new List<IShape>();
+            //foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+            //    IShape wClone = wShape.DeepClone();
 
-                // 選択状態をスイッチします
-                wShape.IsSelected = false;
-                wClone.IsSelected = true;
+            //    // 選択状態をスイッチします
+            //    wShape.IsSelected = false;
+            //    wClone.IsSelected = true;
 
-                wClone.Move(C_DefaultMovingSize);
-                wClonedShapes.Add(wClone);
-            }
-            FShapes.AddRange(wClonedShapes);
-            this.Draw();
+            //    wClone.Move(C_DefaultMovingSize);
+            //    wClonedShapes.Add(wClone);
+            //}
+            //FShapes.AddRange(wClonedShapes);
+            //this.Draw();
         }
 
         /// <summary>
         /// コピーします
         /// </summary>
         public void Copy(bool vIsCut = false) {
-            var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
-            if (wSelectedShapes.Count == 0) return;
+            //var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
+            //if (wSelectedShapes.Count == 0) return;
 
-            this.Clipboard = new List<IShape>();
-            foreach (IShape wShape in wSelectedShapes) {
-                if (vIsCut) FShapes.Remove(wShape);
-                IShape wCopy = wShape.DeepClone();
+            //this.Clipboard = new List<IShape>();
+            //foreach (IShape wShape in wSelectedShapes) {
+            //    if (vIsCut) FShapes.Remove(wShape);
+            //    IShape wCopy = wShape.DeepClone();
 
-                // 選択状態にしておく
-                wCopy.IsSelected = true;
+            //    // 選択状態にしておく
+            //    wCopy.IsSelected = true;
 
-                wCopy.Move(C_DefaultMovingSize);
-                this.Clipboard.Add(wCopy);
-            }
-            if (vIsCut) this.Draw();
+            //    wCopy.Move(C_DefaultMovingSize);
+            //    this.Clipboard.Add(wCopy);
+            //}
+            //if (vIsCut) this.Draw();
         }
 
         /// <summary>
         /// 貼り付けます
         /// </summary>
         public void Paste() {
-            FShapes.ForEach(x => x.IsSelected = false);
-            FShapes.AddRange(this.Clipboard.Select(x => x.DeepClone()));
+            //FShapes.ForEach(x => x.IsSelected = false);
+            //FShapes.AddRange(this.Clipboard.Select(x => x.DeepClone()));
 
-            // 貼り付け位置を更新しておく
-            this.Clipboard.ForEach(x => x.Move(C_DefaultMovingSize));
-            this.Draw();
+            //// 貼り付け位置を更新しておく
+            //this.Clipboard.ForEach(x => x.Move(C_DefaultMovingSize));
+            //this.Draw();
         }
 
         /// <summary>
