@@ -8,8 +8,6 @@ namespace WFCAD.Model {
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private RectangleF FFrameRectangle;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -17,6 +15,11 @@ namespace WFCAD.Model {
             this.Point = vPoint;
             this.LocationKind = vLocationKind;
             this.BasePoints = vBasePoints.ToList();
+
+            // 円の半径
+            const int C_Radius = 4;
+            var wTopLeft = new PointF(this.Point.X - C_Radius, this.Point.Y - C_Radius);
+            this.Path.AddEllipse(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
         }
 
         /// <summary>
@@ -27,9 +30,19 @@ namespace WFCAD.Model {
             this.LocationKind = vLocationKind;
             this.BasePoints = vBasePoints.ToList();
             this.IsSelected = vIsSelected;
+
+            // 円の半径
+            const int C_Radius = 4;
+            var wTopLeft = new PointF(this.Point.X - C_Radius, this.Point.Y - C_Radius);
+            this.Path.AddEllipse(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
         }
 
         #region プロパティ
+
+        /// <summary>
+        /// パス
+        /// </summary>
+        public GraphicsPath Path { get; } = new GraphicsPath();
 
         /// <summary>
         /// 座標
@@ -58,27 +71,17 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します。
         /// </summary>
-        public void Draw(Graphics vGraphics, Pen vPen) {
-            // 円の半径
-            const int C_Radius = 4;
-            var wTopLeft = new PointF(this.Point.X - C_Radius, this.Point.Y - C_Radius);
-
-            FFrameRectangle = new RectangleF(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
+        public void Draw(Graphics vGraphics, Pen vPen, Matrix vMatrix) {
             using (var wBrush = new SolidBrush(Color.White)) {
-                vGraphics.FillEllipse(wBrush, FFrameRectangle);
+                vGraphics.FillPath(wBrush, this.Path);
+                vGraphics.DrawPath(vPen, this.Path);
             }
-            vGraphics.DrawEllipse(vPen, FFrameRectangle);
         }
 
         /// <summary>
         /// 指定した座標が円内に存在するか
         /// </summary>
-        public bool IsHit(PointF vCoordinate) {
-            using (var wPath = new GraphicsPath()) {
-                wPath.AddEllipse(FFrameRectangle);
-                return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);
-            }
-        }
+        public bool IsHit(PointF vCoordinate) => this.Path.IsVisible(vCoordinate.X, vCoordinate.Y);
 
         /// <summary>
         /// 複製します

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -20,6 +19,21 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
+        /// メインパス
+        /// </summary>
+        public GraphicsPath MainPath { get; } = new GraphicsPath();
+
+        /// <summary>
+        /// サブパス
+        /// </summary>
+        public GraphicsPath SubPath { get; } = new GraphicsPath();
+
+        /// <summary>
+        /// 変換行列
+        /// </summary>
+        public Matrix Matrix { get; set; } = new Matrix();
+
+        /// <summary>
         /// 次元数
         /// </summary>
         public abstract int Dimensionality { get; }
@@ -33,16 +47,6 @@ namespace WFCAD.Model {
         /// 終点
         /// </summary>
         public PointF EndPoint { get; protected set; }
-
-        /// <summary>
-        /// 幅
-        /// </summary>
-        protected float Width => Math.Abs(this.StartPoint.X - this.EndPoint.X);
-
-        /// <summary>
-        /// 高さ
-        /// </summary>
-        protected float Height => Math.Abs(this.StartPoint.Y - this.EndPoint.Y);
 
         /// <summary>
         /// 選択されているか
@@ -63,6 +67,12 @@ namespace WFCAD.Model {
 
         #region メソッド
 
+
+        /// <summary>
+        /// 初期化します
+        /// </summary>
+        public abstract void Initialize(PointF vStartPoint, PointF vEndPoint);
+
         /// <summary>
         /// 始点と終点を設定します
         /// </summary>
@@ -71,37 +81,25 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        public Bitmap Draw(Bitmap vBitmap) {
-            using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                this.DrawCore(wGraphics);
-            }
-            return vBitmap;
-        }
+        public abstract void Draw(Bitmap vBitmap, Graphics vGraphics);
 
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        public void DrawFrame(Bitmap vBitmap) {
-            using (var wGraphics = Graphics.FromImage(vBitmap)) {
-                wGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-                this.DrawFrame(wGraphics);
-            }
-        }
-
-        /// <summary>
-        /// 派生クラスごとの描画処理
-        /// </summary>
-        protected abstract void DrawCore(Graphics vGraphics);
-
-        /// <summary>
-        /// 枠を描画します
-        /// </summary>
-        protected abstract void DrawFrame(Graphics vGraphics);
+        public abstract void DrawFrame(Bitmap vBitmap, Graphics vGraphics);
 
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(SizeF vSize) => this.SetPoints(this.StartPoint + vSize, this.EndPoint + vSize);
+        public void Move(SizeF vSize) {
+            this.Matrix.Reset();
+            this.Matrix.Translate(vSize.Width, vSize.Height);
+            this.MainPath.Transform(this.Matrix);
+            this.SubPath.Transform(this.Matrix);
+            foreach (IFramePoint wPoint in this.FramePoints) {
+                wPoint.Path.Transform(this.Matrix);
+            }
+        }
 
         /// <summary>
         /// 拡大・縮小します
@@ -121,11 +119,19 @@ namespace WFCAD.Model {
         protected abstract (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize);
 
         /// <summary>
-        /// 右に回転させます
+        /// 回転します
         /// </summary>
-        public void RotateRight() {
-            var wOrigin = new PointF(Math.Min(this.StartPoint.X, this.EndPoint.X) + this.Width / 2, Math.Min(this.StartPoint.Y, this.EndPoint.Y) + this.Height / 2);
-            this.SetPoints(Utilities.RotateRight90(this.StartPoint, wOrigin), Utilities.RotateRight90(this.EndPoint, wOrigin));
+        public void Rotate(float vAngle) {
+            this.Matrix.Reset();
+            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
+            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
+            var wCenterPoint = new PointF(wCenterX, wCenterY);
+            this.Matrix.RotateAt(vAngle, wCenterPoint, MatrixOrder.Append);
+            this.MainPath.Transform(this.Matrix);
+            this.SubPath.Transform(this.Matrix);
+            foreach (IFramePoint wPoint in this.FramePoints) {
+                wPoint.Path.Transform(this.Matrix);
+            }
         }
 
         /// <summary>

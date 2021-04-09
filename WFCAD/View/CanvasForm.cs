@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using WFCAD.Controller;
@@ -34,7 +35,8 @@ namespace WFCAD.View {
         /// </summary>
         public CanvasForm() {
             InitializeComponent();
-            FCanvas = new Canvas(FPictureBox.Width, FPictureBox.Height);
+            FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
+            FCanvas = new Canvas(FPictureBox.Image, FPictureBox.BackColor);
             FCanvas.Updated += this.CanvasRefresh;
             FPreviewCanvas = FCanvas.DeepClone();
             FCommandHistory = new CommandHistory();
@@ -50,6 +52,8 @@ namespace WFCAD.View {
                 FButtonEllipse,
                 FButtonLine,
             };
+
+            FPictureBox.MouseWheel += this.FPictureBox_MouseWheel;
         }
 
         #endregion コンストラクタ
@@ -64,7 +68,7 @@ namespace WFCAD.View {
                     wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
                     wShape.Color = FColor;
                     return new Command(() => {
-                        FCanvas.Add(wShape);
+                        FCanvas.Add(wShape, FMouseDownPoint, FMouseUpPoint);
                     }, () => {
                         FCanvas.Remove(wShape);
                     });
@@ -73,7 +77,7 @@ namespace WFCAD.View {
                     IShape wShape = vCreateShape();
                     wShape.SetPoints(FMouseDownPoint, FMouseCurrentPoint);
                     wShape.Color = FColor;
-                    FPreviewCanvas.Add(wShape);
+                    FPreviewCanvas.Add(wShape, FMouseDownPoint, FMouseUpPoint);
                 }, null);
             };
         }
@@ -145,9 +149,10 @@ namespace WFCAD.View {
             FMouseCurrentPoint = e.Location;
             FPreviewCommand.Execute();
         }
-        private void FPictureBox_Resize(object sender, EventArgs e) {
-            FCanvas.Width = FPictureBox.Width;
-            FCanvas.Height = FPictureBox.Height;
+        private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
+            if ((ModifierKeys & Keys.Control) != Keys.Control) return;
+            float wAngle = e.Delta > 0 ? 15F : -15f;
+            FCanvas.Rotate(wAngle);
         }
 
         private void FButtonColor_Click(object sender, EventArgs e) {
@@ -159,6 +164,10 @@ namespace WFCAD.View {
                 this.SetColorIcon(FColor, wColorDialog.Color);
                 FColor = wColorDialog.Color;
             }
+        }
+
+        private void CanvasForm_Resize(object sender, EventArgs e) {
+
         }
 
         private void CanvasForm_KeyDown(object sender, KeyEventArgs e) {
@@ -199,10 +208,7 @@ namespace WFCAD.View {
         /// <summary>
         /// キャンバスの更新
         /// </summary>
-        private void CanvasRefresh(Bitmap vBitmap) {
-            FPictureBox.Image = vBitmap;
-            FPictureBox.Refresh();
-        }
+        private void CanvasRefresh() => FPictureBox.Refresh();
 
         /// <summary>
         /// 色の設定ボタンの画像を設定します

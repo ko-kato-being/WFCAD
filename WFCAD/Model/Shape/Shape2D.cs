@@ -15,11 +15,6 @@ namespace WFCAD.Model {
         public override int Dimensionality => 2;
 
         /// <summary>
-        /// 外枠
-        /// </summary>
-        public RectangleF FrameRectangle => new RectangleF(this.StartPoint.X, this.StartPoint.Y, this.Width, this.Height);
-
-        /// <summary>
         /// 始点と終点を設定します
         /// </summary>
         public override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
@@ -54,14 +49,19 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        protected override void DrawFrame(Graphics vGraphics) {
+        public override void DrawFrame(Bitmap vBitmap, Graphics vGraphics) {
             using (var wPen = new Pen(C_FrameColor)) {
-                vGraphics.DrawRectangle(wPen, this.FrameRectangle.X, this.FrameRectangle.Y, this.FrameRectangle.Width, this.FrameRectangle.Height);
+                vGraphics.DrawPath(wPen, this.SubPath);
                 foreach (IFramePoint wFramePoint in this.FramePoints) {
-                    wFramePoint.Draw(vGraphics, wPen);
+                    wFramePoint.Draw(vGraphics, wPen, this.Matrix);
                 }
             }
         }
+
+        /// <summary>
+        /// 指定した座標が図形内に存在するか
+        /// </summary>
+        public override bool IsHit(PointF vCoordinate) => this.MainPath.IsVisible(vCoordinate.X, vCoordinate.Y);
 
         /// <summary>
         /// 拡大・縮小するための座標取得処理

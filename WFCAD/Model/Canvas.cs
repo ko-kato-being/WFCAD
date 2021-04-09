@@ -21,14 +21,15 @@ namespace WFCAD.Model {
         /// <summary>
         /// 更新イベント
         /// </summary>
-        public event Action<Bitmap> Updated;
+        public event Action Updated;
 
         #endregion イベント
 
         #region フィールド
 
-        private List<IShape> FShapes = new List<IShape>();
         private Bitmap FBitmap;
+        private readonly Matrix FMatrix;
+        private List<IShape> FShapes = new List<IShape>();
 
         #endregion フィールド
 
@@ -37,10 +38,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Canvas(int vWidth, int vHeight) {
-            this.Width = vWidth;
-            this.Height = vHeight;
-            FBitmap = new Bitmap(vWidth, vHeight);
+        public Canvas(Image vImage, Color vCanvasColor) {
+            FBitmap = new Bitmap(vImage.Width, vImage.Height);
+            FMatrix = new Matrix();
+            this.Graphics = Graphics.FromImage(vImage);
+            this.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            this.CanvasColor = vCanvasColor;
         }
 
         #endregion コンストラクタ
@@ -48,14 +51,14 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
-        /// 幅
+        /// グラフィック
         /// </summary>
-        public int Width { get; set; }
+        public Graphics Graphics { get; set; }
 
         /// <summary>
-        /// 高さ
+        /// キャンバスの色
         /// </summary>
-        public int Height { get; set; }
+        public Color CanvasColor { get; set; }
 
         /// <summary>
         /// 枠点が選択されているか
@@ -74,21 +77,21 @@ namespace WFCAD.Model {
         /// <summary>
         /// すべてのリソースを解放します
         /// </summary>
-        public void Dispose() => FBitmap.Dispose();
+        public void Dispose() {
+            FBitmap.Dispose();
+            FMatrix.Dispose();
+            this.Graphics.Dispose();
+        }
 
         /// <summary>
         /// 描画します
         /// </summary>
         public void Draw() {
-            FBitmap.Dispose();
-            FBitmap = new Bitmap(this.Width, this.Height);
+            this.Graphics.Clear(this.CanvasColor);
             foreach (IShape wShape in FShapes) {
-                wShape.Draw(FBitmap);
-                if (wShape.IsSelected) {
-                    wShape.DrawFrame(FBitmap);
-                }
+                wShape.Draw(FBitmap, this.Graphics);
             }
-            this.Updated?.Invoke(FBitmap);
+            this.Updated?.Invoke();
         }
 
         /// <summary>
@@ -173,7 +176,8 @@ namespace WFCAD.Model {
         /// <summary>
         /// 追加します
         /// </summary>
-        public void Add(IShape vShape) {
+        public void Add(IShape vShape, Point vStartPoint, Point vEndPoint) {
+            vShape.Initialize(vStartPoint, vEndPoint);
             FShapes.Add(vShape);
             this.Draw();
         }
@@ -200,26 +204,21 @@ namespace WFCAD.Model {
                 wShape.Zoom(wSize);
             }
             this.Draw();
-            //using (var wMatrix = new Matrix()) {
-            //    float wScaleX = vEndPoint.X / (float)vStartPoint.X;
-            //    float wScaleY = vEndPoint.Y / (float)vStartPoint.Y;
-            //    wMatrix.Scale(wScaleX, wScaleY, MatrixOrder.Append);
-            //    //var wSize = new SizeF(wMatrix.OffsetX, wMatrix.OffsetY);
-            //    var wSize = new SizeF(wMatrix.Elements[0], wMatrix.Elements[3]);
-            //    if (wSize.IsEmpty) return;
-            //    foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-            //        wShape.Zoom(wSize);
-            //    }
-            //    this.Draw();
-            //}
         }
 
         /// <summary>
-        /// 右に回転させます
+        /// 倍率を変更します
         /// </summary>
-        public void RotateRight() {
+        public void ChangeScale(float vScale) {
+            FMatrix.Scale(vScale, vScale, MatrixOrder.Append);
+        }
+
+        /// <summary>
+        /// 回転させます
+        /// </summary>
+        public void Rotate(float vAngle) {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.RotateRight();
+                wShape.Rotate(vAngle);
             }
             this.Draw();
         }
@@ -312,13 +311,13 @@ namespace WFCAD.Model {
         /// 自身のインスタンスを複製します
         /// </summary>
         public Canvas DeepClone() {
-            var wClone = new Canvas(this.Width, this.Height);
+            var wClone = new Canvas(FBitmap, this.CanvasColor);
             wClone.IsFramePointSelected = this.IsFramePointSelected;
             foreach (IShape wShape in this.Clipboard) {
                 wClone.Clipboard.Add(wShape.DeepClone());
             }
             foreach (IShape wShape in FShapes) {
-                wClone.Add(wShape.DeepClone());
+                //wClone.Add(wShape.DeepClone());
             }
             wClone.Draw();
             return wClone;

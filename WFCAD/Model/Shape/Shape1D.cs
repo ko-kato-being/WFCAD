@@ -31,10 +31,10 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        protected override void DrawFrame(Graphics vGraphics) {
+        public override void DrawFrame(Bitmap vBitmap, Graphics vGraphics) {
             using (var wPen = new Pen(C_FrameColor)) {
                 foreach (IFramePoint wFramePoint in this.FramePoints) {
-                    wFramePoint.Draw(vGraphics, wPen);
+                    wFramePoint.Draw(vGraphics, wPen, this.Matrix);
                 }
             }
         }

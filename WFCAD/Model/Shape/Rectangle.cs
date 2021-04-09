@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -10,24 +9,25 @@ namespace WFCAD.Model {
         #region　メソッド
 
         /// <summary>
-        /// 描画します
+        /// 初期化します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics) {
-            using (var wBrush = new SolidBrush(this.Color))
-            using (var wPen = new Pen(C_BorderColor, 2f)) {
-                vGraphics.FillRectangle(wBrush, this.FrameRectangle);
-                vGraphics.DrawRectangle(wPen, this.FrameRectangle.X, this.FrameRectangle.Y, this.FrameRectangle.Width, this.FrameRectangle.Height);
-            }
+        public override void Initialize(PointF vStartPoint, PointF vEndPoint) {
+            var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            this.MainPath.AddRectangle(wRectangle);
+            this.SubPath.AddRectangle(wRectangle);
         }
 
         /// <summary>
-        /// 指定した座標が図形内に存在するか
+        /// 描画します
         /// </summary>
-        public override bool IsHit(PointF vCoordinate) {
-            using (var wPath = new GraphicsPath()) {
-                wPath.AddRectangle(this.FrameRectangle);
-                return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);
+        public override void Draw(Bitmap vBitmap, Graphics vGraphics) {
+            using (var wBrush = new SolidBrush(this.Color))
+            using (var wPen = new Pen(C_BorderColor, 2f)) {
+                vGraphics.FillPath(wBrush, this.MainPath);
+                vGraphics.DrawPath(wPen, this.MainPath);
             }
+            if (!this.IsSelected) return;
+            this.DrawFrame(vBitmap, vGraphics);
         }
 
         /// <summary>

@@ -10,25 +10,25 @@ namespace WFCAD.Model {
         #region　メソッド
 
         /// <summary>
-        /// 描画します
+        /// 初期化します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics) {
-            vGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-            using (var wBrush = new SolidBrush(this.Color))
-            using (var wPen = new Pen(C_BorderColor, 3f)) {
-                vGraphics.DrawEllipse(wPen, this.FrameRectangle);
-                vGraphics.FillEllipse(wBrush, this.FrameRectangle);
-            }
+        public override void Initialize(PointF vStartPoint, PointF vEndPoint) {
+            var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            this.MainPath.AddEllipse(wRectangle);
+            this.SubPath.AddRectangle(wRectangle);
         }
 
         /// <summary>
-        /// 指定した座標が図形内に存在するか
+        /// 描画します
         /// </summary>
-        public override bool IsHit(PointF vCoordinate) {
-            using (var wPath = new GraphicsPath()) {
-                wPath.AddEllipse(this.FrameRectangle);
-                return wPath.IsVisible(vCoordinate.X, vCoordinate.Y);
+        public override void Draw(Bitmap vBitmap, Graphics vGraphics) {
+            using (var wBrush = new SolidBrush(this.Color))
+            using (var wPen = new Pen(C_BorderColor, 2f)) {
+                vGraphics.FillPath(wBrush, this.MainPath);
+                vGraphics.DrawPath(wPen, this.MainPath);
             }
+            if (!this.IsSelected) return;
+            this.DrawFrame(vBitmap, vGraphics);
         }
 
         /// <summary>

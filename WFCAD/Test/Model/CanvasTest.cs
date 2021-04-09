@@ -19,8 +19,8 @@ namespace WFCAD.Test.Model {
         }
 
         private void SelectTest(bool vIsMultiple, List<(IShape Shape, bool Result)> vTestDatas) {
-            var wShapes = new Canvas(1, 1);
-            vTestDatas.ForEach(x => wShapes.Add(x.Shape));
+            var wShapes = new Canvas(new Bitmap(1, 1), Color.White);
+            vTestDatas.ForEach(x => wShapes.Add(x.Shape, new Point(0, 0), new Point(0, 0)));
             wShapes.Select(new Point(), vIsMultiple);
             for (int i = 0; i < vTestDatas.Count; i++) {
                 Assert.AreEqual(vTestDatas[i].Result, vTestDatas[i].Shape.IsSelected, message: $"図形{i + 1}");

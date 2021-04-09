@@ -48,6 +48,7 @@
             this.FPictureBox = new System.Windows.Forms.PictureBox();
             this.FStatusStrip = new System.Windows.Forms.StatusStrip();
             this.FStatusLabelMouse = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FStatusLabelDebug = new System.Windows.Forms.ToolStripStatusLabel();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
@@ -275,12 +276,12 @@
             this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
             this.FPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
             this.FPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
-            this.FPictureBox.Resize += new System.EventHandler(this.FPictureBox_Resize);
             // 
             // FStatusStrip
             // 
             this.FStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FStatusLabelMouse});
+            this.FStatusLabelMouse,
+            this.FStatusLabelDebug});
             this.FStatusStrip.Location = new System.Drawing.Point(0, 461);
             this.FStatusStrip.Name = "FStatusStrip";
             this.FStatusStrip.Size = new System.Drawing.Size(558, 22);
@@ -291,6 +292,12 @@
             this.FStatusLabelMouse.Name = "FStatusLabelMouse";
             this.FStatusLabelMouse.Size = new System.Drawing.Size(105, 17);
             this.FStatusLabelMouse.Text = "Mouse : {X=0,Y=0}";
+            // 
+            // FStatusLabelDebug
+            // 
+            this.FStatusLabelDebug.Name = "FStatusLabelDebug";
+            this.FStatusLabelDebug.Size = new System.Drawing.Size(67, 17);
+            this.FStatusLabelDebug.Text = "デバッグ情報";
             // 
             // CanvasForm
             // 
@@ -305,6 +312,7 @@
             this.Name = "CanvasForm";
             this.Text = "WFCAD";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CanvasForm_KeyDown);
+            this.Resize += new System.EventHandler(this.CanvasForm_Resize);
             this.FToolStrip2.ResumeLayout(false);
             this.FToolStrip2.PerformLayout();
             this.FToolStrip1.ResumeLayout(false);
@@ -344,5 +352,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.StatusStrip FStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel FStatusLabelMouse;
+        private System.Windows.Forms.ToolStripStatusLabel FStatusLabelDebug;
     }
 }

@@ -10,10 +10,16 @@ namespace WFCAD.Model {
         #region　メソッド
 
         /// <summary>
+        /// 初期化します
+        /// </summary>
+        public override void Initialize(PointF vStartPoint, PointF vEndPoint) {
+
+        }
+
+        /// <summary>
         /// 描画します
         /// </summary>
-        protected override void DrawCore(Graphics vGraphics) {
-            vGraphics.SmoothingMode = SmoothingMode.AntiAlias;
+        public override void Draw(Bitmap vBitmap, Graphics vGraphics) {
             using (var wPen = new Pen(this.Color, 2f)) {
                 vGraphics.DrawLine(wPen, this.StartPoint, this.EndPoint);
             }

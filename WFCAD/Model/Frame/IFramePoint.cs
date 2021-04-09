@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -8,6 +9,11 @@ namespace WFCAD.Model {
     public interface IFramePoint {
 
         #region プロパティ
+
+        /// <summary>
+        /// パス
+        /// </summary>
+        GraphicsPath Path { get; }
 
         /// <summary>
         /// 座標
@@ -36,7 +42,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します。
         /// </summary>
-        void Draw(Graphics vGraphics, Pen vPen);
+        void Draw(Graphics vGraphics, Pen vPen, Matrix vMatrix);
 
         /// <summary>
         /// 指定した座標が円内に存在するか
