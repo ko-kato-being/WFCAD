@@ -62,7 +62,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 初期化します
         /// </summary>
-        void Initialize(PointF vStartPoint, PointF vEndPoint);
+        void InitializePath(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 始点と終点を設定します
@@ -80,14 +80,19 @@ namespace WFCAD.Model {
         void DrawFrame(Graphics vGraphics);
 
         /// <summary>
+        /// アフィン変換を適用します
+        /// </summary>
+        void AppleyAffine();
+
+        /// <summary>
         /// 移動します
         /// </summary>
-        void Move(float vOffsetX, float vOffsetY);
+        void Move(SizeF vSize);
 
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void Zoom(float vScaleX, float vScaleY);
+        void Zoom(SizeF vSize);
 
         /// <summary>
         /// 回転します

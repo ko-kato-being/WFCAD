@@ -17,7 +17,7 @@ namespace WFCAD.Model {
             this.BasePoints = vBasePoints.ToList();
 
             // 円の半径
-            const int C_Radius = 4;
+            const int C_Radius = 5;
             var wTopLeft = new PointF(this.Point.X - C_Radius, this.Point.Y - C_Radius);
             this.Path.AddEllipse(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
         }
@@ -32,7 +32,7 @@ namespace WFCAD.Model {
             this.IsSelected = vIsSelected;
 
             // 円の半径
-            const int C_Radius = 4;
+            const int C_Radius = 5;
             var wTopLeft = new PointF(this.Point.X - C_Radius, this.Point.Y - C_Radius);
             this.Path.AddEllipse(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
         }
@@ -71,7 +71,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します。
         /// </summary>
-        public void Draw(Graphics vGraphics, Pen vPen, Matrix vMatrix) {
+        public void Draw(Graphics vGraphics, Pen vPen) {
             using (var wBrush = new SolidBrush(Color.White)) {
                 vGraphics.FillPath(wBrush, this.Path);
                 vGraphics.DrawPath(vPen, this.Path);

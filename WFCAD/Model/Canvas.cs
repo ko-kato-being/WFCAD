@@ -87,6 +87,7 @@ namespace WFCAD.Model {
             this.Graphics.Clear(this.CanvasColor);
             foreach (IShape wShape in FShapes) {
                 wShape.Draw(this.Graphics);
+                wShape.AppleyAffine();
             }
             this.Updated?.Invoke();
         }
@@ -174,7 +175,7 @@ namespace WFCAD.Model {
         /// 追加します
         /// </summary>
         public void Add(IShape vShape, Point vStartPoint, Point vEndPoint) {
-            vShape.Initialize(vStartPoint, vEndPoint);
+            vShape.InitializePath(vStartPoint, vEndPoint);
             FShapes.Add(vShape);
             this.Draw();
         }
@@ -183,12 +184,11 @@ namespace WFCAD.Model {
         /// 移動します
         /// </summary>
         public void Move(PointF vStartPoint, PointF vEndPoint) {
-            float wOffsetX = vEndPoint.X - vStartPoint.X;
-            float wOffsetY = vEndPoint.Y - vStartPoint.Y;
-            if (wOffsetX == 0 && wOffsetY == 0) return;
+            var wSize = new SizeF(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            if (wSize.IsEmpty) return;
 
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Move(wOffsetX, wOffsetY);
+                wShape.Move(wSize);
             }
             this.Draw();
         }
@@ -197,12 +197,11 @@ namespace WFCAD.Model {
         /// 拡大・縮小します
         /// </summary>
         public void Zoom(PointF vStartPoint, PointF vEndPoint) {
-            float wScaleX = vEndPoint.X / vStartPoint.X;
-            float wScaleY = vEndPoint.Y / vStartPoint.Y;
-            if (wScaleX == 0 && wScaleY == 0) return;
+            var wSize = new SizeF(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            if (wSize.IsEmpty) return;
 
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Zoom(wScaleX, wScaleY);
+                wShape.Zoom(wSize);
             }
             this.Draw();
         }

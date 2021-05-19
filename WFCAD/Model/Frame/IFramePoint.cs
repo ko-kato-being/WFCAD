@@ -42,7 +42,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します。
         /// </summary>
-        void Draw(Graphics vGraphics, Pen vPen, Matrix vMatrix);
+        void Draw(Graphics vGraphics, Pen vPen);
 
         /// <summary>
         /// 指定した座標が円内に存在するか

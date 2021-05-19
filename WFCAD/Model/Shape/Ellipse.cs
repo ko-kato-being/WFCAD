@@ -12,9 +12,11 @@ namespace WFCAD.Model {
         /// <summary>
         /// 初期化します
         /// </summary>
-        public override void Initialize(PointF vStartPoint, PointF vEndPoint) {
+        public override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
             var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            this.MainPath.Reset();
             this.MainPath.AddEllipse(wRectangle);
+            this.SubPath.Reset();
             this.SubPath.AddRectangle(wRectangle);
         }
 

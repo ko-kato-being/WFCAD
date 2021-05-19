@@ -12,7 +12,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 初期化します
         /// </summary>
-        public override void Initialize(PointF vStartPoint, PointF vEndPoint) {
+        public override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
 
         }
 

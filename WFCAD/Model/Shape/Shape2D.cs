@@ -23,6 +23,9 @@ namespace WFCAD.Model {
             this.StartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
             this.EndPoint = new PointF(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
 
+            // 初期化
+            this.InitializePath(this.StartPoint, this.EndPoint);
+
             // 枠点の座標
             var wTopLeft = this.StartPoint;
             var wTop = new PointF(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.StartPoint.Y);
@@ -53,7 +56,7 @@ namespace WFCAD.Model {
             using (var wPen = new Pen(C_FrameColor)) {
                 vGraphics.DrawPath(wPen, this.SubPath);
                 foreach (IFramePoint wFramePoint in this.FramePoints) {
-                    wFramePoint.Draw(vGraphics, wPen, this.Matrix);
+                    wFramePoint.Draw(vGraphics, wPen);
                 }
             }
         }

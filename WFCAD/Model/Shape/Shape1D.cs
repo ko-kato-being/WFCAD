@@ -34,7 +34,7 @@ namespace WFCAD.Model {
         public override void DrawFrame(Graphics vGraphics) {
             using (var wPen = new Pen(C_FrameColor)) {
                 foreach (IFramePoint wFramePoint in this.FramePoints) {
-                    wFramePoint.Draw(vGraphics, wPen, this.Matrix);
+                    wFramePoint.Draw(vGraphics, wPen);
                 }
             }
         }
