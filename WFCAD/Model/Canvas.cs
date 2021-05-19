@@ -27,7 +27,6 @@ namespace WFCAD.Model {
 
         #region フィールド
 
-        private Bitmap FBitmap;
         private readonly Matrix FMatrix;
         private List<IShape> FShapes = new List<IShape>();
 
@@ -39,7 +38,6 @@ namespace WFCAD.Model {
         /// コンストラクタ
         /// </summary>
         public Canvas(Image vImage, Color vCanvasColor) {
-            FBitmap = new Bitmap(vImage.Width, vImage.Height);
             FMatrix = new Matrix();
             this.Graphics = Graphics.FromImage(vImage);
             this.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -78,7 +76,6 @@ namespace WFCAD.Model {
         /// すべてのリソースを解放します
         /// </summary>
         public void Dispose() {
-            FBitmap.Dispose();
             FMatrix.Dispose();
             this.Graphics.Dispose();
         }
@@ -89,7 +86,7 @@ namespace WFCAD.Model {
         public void Draw() {
             this.Graphics.Clear(this.CanvasColor);
             foreach (IShape wShape in FShapes) {
-                wShape.Draw(FBitmap, this.Graphics);
+                wShape.Draw(this.Graphics);
             }
             this.Updated?.Invoke();
         }
@@ -302,22 +299,6 @@ namespace WFCAD.Model {
         public void Clear() {
             FShapes.Clear();
             this.Draw();
-        }
-
-        /// <summary>
-        /// 自身のインスタンスを複製します
-        /// </summary>
-        public Canvas DeepClone() {
-            var wClone = new Canvas(FBitmap, this.CanvasColor);
-            wClone.IsFramePointSelected = this.IsFramePointSelected;
-            foreach (IShape wShape in this.Clipboard) {
-                wClone.Clipboard.Add(wShape.DeepClone());
-            }
-            foreach (IShape wShape in FShapes) {
-                //wClone.Add(wShape.DeepClone());
-            }
-            wClone.Draw();
-            return wClone;
         }
 
         #endregion メソッド

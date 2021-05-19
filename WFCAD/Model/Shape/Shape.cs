@@ -81,12 +81,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        public abstract void Draw(Bitmap vBitmap, Graphics vGraphics);
+        public abstract void Draw(Graphics vGraphics);
 
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        public abstract void DrawFrame(Bitmap vBitmap, Graphics vGraphics);
+        public abstract void DrawFrame(Graphics vGraphics);
 
         /// <summary>
         /// 移動します

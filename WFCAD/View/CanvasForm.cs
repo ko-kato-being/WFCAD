@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using WFCAD.Controller;
@@ -16,7 +15,6 @@ namespace WFCAD.View {
         #region フィールド
 
         private readonly Canvas FCanvas;
-        private Canvas FPreviewCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
         private Point FMouseDownPoint;
@@ -24,7 +22,6 @@ namespace WFCAD.View {
         private Point FMouseCurrentPoint;
         private CommandHistory FCommandHistory;
         private Func<Command> FCurrentCommand;
-        private Command FPreviewCommand;
 
         #endregion フィールド
 
@@ -38,7 +35,6 @@ namespace WFCAD.View {
             FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
             FCanvas = new Canvas(FPictureBox.Image, FPictureBox.BackColor);
             FCanvas.Updated += this.CanvasRefresh;
-            FPreviewCanvas = FCanvas.DeepClone();
             FCommandHistory = new CommandHistory();
 
             this.InitializeShapeButton(FButtonRectangle, () => new Model.Rectangle());
@@ -73,12 +69,6 @@ namespace WFCAD.View {
                         FCanvas.Remove(wShape);
                     });
                 };
-                FPreviewCommand = new Command(() => {
-                    IShape wShape = vCreateShape();
-                    wShape.SetPoints(FMouseDownPoint, FMouseCurrentPoint);
-                    wShape.Color = FColor;
-                    FPreviewCanvas.Add(wShape, FMouseDownPoint, FMouseUpPoint);
-                }, null);
             };
         }
 
@@ -109,9 +99,6 @@ namespace WFCAD.View {
                             FCanvas.Zoom(wEndPoint, wStartPoint);
                         });
                     };
-                    FPreviewCommand = new Command(() => {
-                        FPreviewCanvas.Zoom(FMouseDownPoint, FMouseCurrentPoint);
-                    }, null);
                 } else {
                     FCurrentCommand = () => {
                         Point wStartPoint = FMouseDownPoint;
@@ -122,9 +109,6 @@ namespace WFCAD.View {
                             FCanvas.Move(wEndPoint, wStartPoint);
                         });
                     };
-                    FPreviewCommand = new Command(() => {
-                        FPreviewCanvas.Move(FMouseDownPoint, FMouseCurrentPoint);
-                    }, null);
                 }
             }
         }
@@ -142,12 +126,7 @@ namespace WFCAD.View {
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             FStatusLabelMouse.Text = $"Mouse : {e.Location}";
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-
-            FPreviewCanvas.Dispose();
-            FPreviewCanvas = FCanvas.DeepClone();
-            FPreviewCanvas.Updated += this.CanvasRefresh;
             FMouseCurrentPoint = e.Location;
-            //FPreviewCommand.Execute();
         }
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
             if ((ModifierKeys & Keys.Control) != Keys.Control) return;

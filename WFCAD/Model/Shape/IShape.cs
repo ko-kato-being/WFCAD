@@ -72,12 +72,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        void Draw(Bitmap vBitmap, Graphics vGraphics);
+        void Draw(Graphics vGraphics);
 
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        void DrawFrame(Bitmap vBitmap, Graphics vGraphics);
+        void DrawFrame(Graphics vGraphics);
 
         /// <summary>
         /// 移動します

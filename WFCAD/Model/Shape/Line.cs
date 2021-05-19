@@ -19,7 +19,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        public override void Draw(Bitmap vBitmap, Graphics vGraphics) {
+        public override void Draw(Graphics vGraphics) {
             using (var wPen = new Pen(this.Color, 2f)) {
                 vGraphics.DrawLine(wPen, this.StartPoint, this.EndPoint);
             }
