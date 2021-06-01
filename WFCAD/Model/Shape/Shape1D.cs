@@ -23,8 +23,8 @@ namespace WFCAD.Model {
             this.EndPoint = wIsLeft ? vEndPoint : vStartPoint;
 
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(this.StartPoint, FramePointLocationKindEnum.Start, this.EndPoint),
-                new FramePoint(this.EndPoint, FramePointLocationKindEnum.End, this.StartPoint),
+                new FramePoint(this.StartPoint, FramePointLocationKindEnum.Start, this.EndPoint, 1, 1),
+                new FramePoint(this.EndPoint, FramePointLocationKindEnum.End, this.StartPoint, 1, 1),
             };
         }
 
@@ -38,11 +38,5 @@ namespace WFCAD.Model {
                 }
             }
         }
-
-        /// <summary>
-        /// 拡大・縮小するための座標取得処理
-        /// </summary>
-        protected override (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize)
-            => (vFramePoint.Point + vSize, vFramePoint.BasePoints.First());
     }
 }

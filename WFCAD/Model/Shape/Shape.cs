@@ -91,41 +91,37 @@ namespace WFCAD.Model {
         /// <summary>
         /// アフィン変換を適用します
         /// </summary>
-        public void AppleyAffine() {
+        public void ApplyAffine() {
             this.MainPath.Transform(this.Matrix);
             this.SubPath.Transform(this.Matrix);
             foreach (IFramePoint wPoint in this.FramePoints) {
                 wPoint.Path.Transform(this.Matrix);
+                wPoint.TransformPoints(this.Matrix);
             }
+            this.Matrix.Reset();
         }
 
         /// <summary>
         /// 移動します
         /// </summary>
-        public void Move(SizeF vSize) => this.SetPoints(this.StartPoint + vSize, this.EndPoint + vSize);
+        public void Move(SizeF vSize) => this.Matrix.Translate(vSize.Width, vSize.Height, MatrixOrder.Append);
 
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(SizeF vSize) {
+        public void Zoom(PointF vStartPoint, PointF vEndPoint) {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
+            (float wScaleX, float wScaleY) = wFramePoint.GetScale(vStartPoint, vEndPoint);
 
-            (PointF wStartPoint, PointF wEndPoint) = this.GetChangeScalePoints(wFramePoint, vSize);
-            this.SetPoints(wStartPoint, wEndPoint);
+            this.Matrix.ScaleAt(wScaleX, wScaleY, wFramePoint.OppositePoint);
             wFramePoint.IsSelected = false;
         }
-
-        /// <summary>
-        /// 拡大・縮小するための座標取得処理
-        /// </summary>
-        protected abstract (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize);
 
         /// <summary>
         /// 回転します
         /// </summary>
         public void Rotate(float vAngle) {
-            this.Matrix.Reset();
             float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
             float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
             var wCenterPoint = new PointF(wCenterX, wCenterY);

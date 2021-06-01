@@ -82,7 +82,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// アフィン変換を適用します
         /// </summary>
-        void AppleyAffine();
+        void ApplyAffine();
 
         /// <summary>
         /// 移動します
@@ -92,7 +92,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void Zoom(SizeF vSize);
+        void Zoom(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 回転します

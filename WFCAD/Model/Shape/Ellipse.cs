@@ -13,11 +13,13 @@ namespace WFCAD.Model {
         /// 初期化します
         /// </summary>
         public override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
-            var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
             this.MainPath.Reset();
-            this.MainPath.AddEllipse(wRectangle);
             this.SubPath.Reset();
+            var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+            this.MainPath.AddEllipse(wRectangle);
             this.SubPath.AddRectangle(wRectangle);
+            this.MainPath.Transform(this.Matrix);
+            this.SubPath.Transform(this.Matrix);
         }
 
         /// <summary>

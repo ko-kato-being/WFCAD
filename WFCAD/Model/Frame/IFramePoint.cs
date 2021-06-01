@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model {
@@ -18,17 +17,18 @@ namespace WFCAD.Model {
         /// <summary>
         /// 座標
         /// </summary>
-        PointF Point { get; }
+        PointF MainPoint { get; }
+
+        /// <summary>
+        /// 基準点
+        /// </summary>
+        PointF OppositePoint { get; }
 
         /// <summary>
         /// 位置種類
         /// </summary>
         FramePointLocationKindEnum LocationKind { get; }
 
-        /// <summary>
-        /// 基準点
-        /// </summary>
-        IEnumerable<PointF> BasePoints { get; }
 
         /// <summary>
         /// 選択されているか
@@ -48,6 +48,16 @@ namespace WFCAD.Model {
         /// 指定した座標が円内に存在するか
         /// </summary>
         bool IsHit(PointF vCoordinate);
+
+        /// <summary>
+        /// 指定した変換行列をすべての点に適用します
+        /// </summary>
+        void TransformPoints(Matrix vMatrix);
+
+        /// <summary>
+        /// 拡大時の倍率を取得します。
+        /// </summary>
+        (float, float) GetScale(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 複製します

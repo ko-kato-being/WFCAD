@@ -86,8 +86,8 @@ namespace WFCAD.Model {
         public void Draw() {
             this.Graphics.Clear(this.CanvasColor);
             foreach (IShape wShape in FShapes) {
+                wShape.ApplyAffine();
                 wShape.Draw(this.Graphics);
-                wShape.AppleyAffine();
             }
             this.Updated?.Invoke();
         }
@@ -197,11 +197,10 @@ namespace WFCAD.Model {
         /// 拡大・縮小します
         /// </summary>
         public void Zoom(PointF vStartPoint, PointF vEndPoint) {
-            var wSize = new SizeF(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
-            if (wSize.IsEmpty) return;
+            if (vStartPoint == vEndPoint) return;
 
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Zoom(wSize);
+                wShape.Zoom(vStartPoint, vEndPoint);
             }
             this.Draw();
         }

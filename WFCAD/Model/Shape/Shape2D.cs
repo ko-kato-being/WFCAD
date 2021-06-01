@@ -23,9 +23,6 @@ namespace WFCAD.Model {
             this.StartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
             this.EndPoint = new PointF(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
 
-            // 初期化
-            this.InitializePath(this.StartPoint, this.EndPoint);
-
             // 枠点の座標
             var wTopLeft = this.StartPoint;
             var wTop = new PointF(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.StartPoint.Y);
@@ -38,14 +35,14 @@ namespace WFCAD.Model {
 
             // 枠点と基準点の設定
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(wTopLeft, FramePointLocationKindEnum.TopLeft, wBottomRight),
-                new FramePoint(wTop, FramePointLocationKindEnum.Top, wBottomLeft, wBottomRight),
-                new FramePoint(wTopRight, FramePointLocationKindEnum.TopRight, wBottomLeft),
-                new FramePoint(wLeft, FramePointLocationKindEnum.Left, wTopRight, wBottomRight),
-                new FramePoint(wRight, FramePointLocationKindEnum.Right, wTopLeft, wBottomLeft),
-                new FramePoint(wBottomLeft, FramePointLocationKindEnum.BottomLeft, wTopRight),
-                new FramePoint(wBottom, FramePointLocationKindEnum.Bottom, wTopLeft, wTopRight),
-                new FramePoint(wBottomRight, FramePointLocationKindEnum.BottomRight, wTopLeft),
+                new FramePoint(wTopLeft, FramePointLocationKindEnum.TopLeft, wBottomRight, -1, -1),
+                new FramePoint(wTop, FramePointLocationKindEnum.Top, wBottom, 0, -1),
+                new FramePoint(wTopRight, FramePointLocationKindEnum.TopRight, wBottomLeft, 1, -1),
+                new FramePoint(wLeft, FramePointLocationKindEnum.Left, wRight, -1, 0),
+                new FramePoint(wRight, FramePointLocationKindEnum.Right, wLeft, 1, 0),
+                new FramePoint(wBottomLeft, FramePointLocationKindEnum.BottomLeft, wTopRight, -1, 1),
+                new FramePoint(wBottom, FramePointLocationKindEnum.Bottom, wTop, 0, 1),
+                new FramePoint(wBottomRight, FramePointLocationKindEnum.BottomRight, wTopLeft, 1, 1),
             };
         }
 
@@ -65,25 +62,5 @@ namespace WFCAD.Model {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public override bool IsHit(PointF vCoordinate) => this.MainPath.IsVisible(vCoordinate.X, vCoordinate.Y);
-
-        /// <summary>
-        /// 拡大・縮小するための座標取得処理
-        /// </summary>
-        protected override (PointF StartPoint, PointF EndPoint) GetChangeScalePoints(IFramePoint vFramePoint, SizeF vSize) {
-            var wPoints = vFramePoint.BasePoints.ToList();
-            SizeF wAdjustSize = vSize;
-            if (wPoints.Count == 2) {
-                // 基準点を結ぶ線分に対して水平方向には拡大・縮小できないように制限します
-                if (wPoints[0].X == wPoints[1].X) {
-                    wAdjustSize = new SizeF(vSize.Width, 0);
-                } else if (wPoints[0].Y == wPoints[1].Y) {
-                    wAdjustSize = new SizeF(0, vSize.Height);
-                }
-            }
-            wPoints.Add(vFramePoint.Point + wAdjustSize);
-            var wStartPoint = new PointF(wPoints.Min(p => p.X), wPoints.Min(p => p.Y));
-            var wEndPoint = new PointF(wPoints.Max(p => p.X), wPoints.Max(p => p.Y));
-            return (wStartPoint, wEndPoint);
-        }
     }
 }
