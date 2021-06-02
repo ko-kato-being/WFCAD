@@ -8,6 +8,8 @@ namespace WFCAD.Model {
     /// 図形クラス
     /// </summary>
     public abstract class Shape : IShape {
+        protected PointF[] FPoints;
+        private float FCurrentAngle;
 
         #region 定数
 
@@ -39,14 +41,9 @@ namespace WFCAD.Model {
         public abstract int Dimensionality { get; }
 
         /// <summary>
-        /// 始点
+        /// 中心点
         /// </summary>
-        public PointF StartPoint { get; protected set; }
-
-        /// <summary>
-        /// 終点
-        /// </summary>
-        public PointF EndPoint { get; protected set; }
+        public PointF CenterPoint => FPoints[0];
 
         /// <summary>
         /// 選択されているか
@@ -66,7 +63,6 @@ namespace WFCAD.Model {
         #endregion プロパティ
 
         #region メソッド
-
 
         /// <summary>
         /// 初期化します
@@ -94,6 +90,7 @@ namespace WFCAD.Model {
         public void ApplyAffine() {
             this.MainPath.Transform(this.Matrix);
             this.SubPath.Transform(this.Matrix);
+            this.Matrix.TransformPoints(FPoints);
             foreach (IFramePoint wPoint in this.FramePoints) {
                 wPoint.Path.Transform(this.Matrix);
                 wPoint.TransformPoints(this.Matrix);
@@ -114,7 +111,10 @@ namespace WFCAD.Model {
             if (wFramePoint == null) return;
             (float wScaleX, float wScaleY) = wFramePoint.GetScale(vStartPoint, vEndPoint);
 
+            this.Matrix.RotateAt(FCurrentAngle * -1, this.CenterPoint, MatrixOrder.Append);
             this.Matrix.ScaleAt(wScaleX, wScaleY, wFramePoint.OppositePoint);
+            this.Matrix.RotateAt(FCurrentAngle, this.CenterPoint, MatrixOrder.Append);
+
             wFramePoint.IsSelected = false;
         }
 
@@ -122,33 +122,14 @@ namespace WFCAD.Model {
         /// 回転します
         /// </summary>
         public void Rotate(float vAngle) {
-            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
-            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
-            var wCenterPoint = new PointF(wCenterX, wCenterY);
-            this.Matrix.RotateAt(vAngle, wCenterPoint, MatrixOrder.Append);
+            FCurrentAngle += vAngle;
+            this.Matrix.RotateAt(vAngle, this.CenterPoint, MatrixOrder.Append);
         }
 
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public abstract bool IsHit(PointF vCoordinate);
-
-        /// <summary>
-        /// 複製します
-        /// </summary>
-        public IShape DeepClone() {
-            Shape wShape = this.DeepCloneCore();
-            wShape.SetPoints(this.StartPoint, this.EndPoint);
-            wShape.IsSelected = this.IsSelected;
-            wShape.Color = this.Color;
-            wShape.FramePoints = this.FramePoints?.Select(x => x.DeepClone());
-            return wShape;
-        }
-
-        /// <summary>
-        /// 派生クラスごとのインスタンスを返します
-        /// </summary>
-        protected abstract Shape DeepCloneCore();
 
         #endregion メソッド
     }

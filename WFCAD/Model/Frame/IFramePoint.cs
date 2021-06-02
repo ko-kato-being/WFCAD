@@ -29,7 +29,6 @@ namespace WFCAD.Model {
         /// </summary>
         FramePointLocationKindEnum LocationKind { get; }
 
-
         /// <summary>
         /// 選択されているか
         /// </summary>
@@ -58,11 +57,6 @@ namespace WFCAD.Model {
         /// 拡大時の倍率を取得します。
         /// </summary>
         (float, float) GetScale(PointF vStartPoint, PointF vEndPoint);
-
-        /// <summary>
-        /// 複製します
-        /// </summary>
-        IFramePoint DeepClone();
 
         #endregion メソッド
 

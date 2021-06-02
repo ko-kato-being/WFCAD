@@ -125,8 +125,6 @@ namespace WFCAD.Model {
             return (wScaleX, wScaleY);
         }
 
-        public IFramePoint DeepClone() => throw new System.NotImplementedException();
-
         #endregion メソッド
 
     }

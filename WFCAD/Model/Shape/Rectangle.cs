@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -15,6 +16,12 @@ namespace WFCAD.Model {
             var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
             this.MainPath.AddRectangle(wRectangle);
             this.SubPath.AddRectangle(wRectangle);
+
+            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
+            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
+            FPoints = new PointF[1] {
+                new PointF(wCenterX, wCenterY)
+            };
         }
 
         /// <summary>
@@ -29,11 +36,6 @@ namespace WFCAD.Model {
             if (!this.IsSelected) return;
             this.DrawFrame(vGraphics);
         }
-
-        /// <summary>
-        /// 自身のインスタンスを返します
-        /// </summary>
-        protected override Shape DeepCloneCore() => new Rectangle();
 
         #endregion　メソッド
 

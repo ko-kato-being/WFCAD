@@ -31,14 +31,9 @@ namespace WFCAD.Model {
         int Dimensionality { get; }
 
         /// <summary>
-        /// 始点
+        /// 中心点
         /// </summary>
-        PointF StartPoint { get; }
-
-        /// <summary>
-        /// 終点
-        /// </summary>
-        PointF EndPoint { get; }
+        PointF CenterPoint { get; }
 
         /// <summary>
         /// 選択されているか
@@ -103,11 +98,6 @@ namespace WFCAD.Model {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         bool IsHit(PointF vCoordinate);
-
-        /// <summary>
-        /// 複製します
-        /// </summary>
-        IShape DeepClone();
 
         #endregion メソッド
 

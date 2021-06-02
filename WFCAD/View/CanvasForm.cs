@@ -38,8 +38,8 @@ namespace WFCAD.View {
             FCommandHistory = new CommandHistory();
 
             this.InitializeShapeButton(FButtonRectangle, () => new Model.Rectangle());
-            this.InitializeShapeButton(FButtonEllipse, () => new Ellipse());
-            this.InitializeShapeButton(FButtonLine, () => new Line());
+            this.InitializeShapeButton(FButtonEllipse, () => throw new NotImplementedException());
+            this.InitializeShapeButton(FButtonLine, () => throw new NotImplementedException());
 
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColorIcon(Color.Black, FColor);
