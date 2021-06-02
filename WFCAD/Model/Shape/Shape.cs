@@ -24,6 +24,9 @@ namespace WFCAD.Model {
         /// コンストラクタ
         /// </summary>
         public Shape(PointF vStartPoint, PointF vEndPoint, Color vColor) {
+            this.InitializePath(vStartPoint, vEndPoint);
+            this.CreateFrame(vStartPoint, vEndPoint);
+            this.SetPoints(vStartPoint, vEndPoint);
             this.Color = vColor;
         }
 
@@ -84,6 +87,11 @@ namespace WFCAD.Model {
         /// 枠を生成します
         /// </summary>
         protected abstract void CreateFrame(PointF vStartPoint, PointF vEndPoint);
+
+        /// <summary>
+        /// 点を設定します
+        /// </summary>
+        protected abstract void SetPoints(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 描画します

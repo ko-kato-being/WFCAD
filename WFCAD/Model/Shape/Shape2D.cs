@@ -10,22 +10,14 @@ namespace WFCAD.Model {
     public abstract class Shape2D : Shape {
 
         /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Shape2D(PointF vStartPoint, PointF vEndPoint, Color vColor) : base(vStartPoint, vEndPoint, vColor) { }
+
+        /// <summary>
         /// 次元数
         /// </summary>
         public override int Dimensionality => 2;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Shape2D(PointF vStartPoint, PointF vEndPoint, Color vColor) : base(vStartPoint, vEndPoint, vColor) {
-            this.InitializePath(vStartPoint, vEndPoint);
-            this.CreateFrame(vStartPoint, vEndPoint);
-            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
-            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
-            FPoints = new PointF[1] {
-                new PointF(wCenterX, wCenterY)
-            };
-        }
 
         /// <summary>
         /// 始点と終点を設定します
@@ -56,6 +48,17 @@ namespace WFCAD.Model {
                 new FramePoint(wBottomLeft, FramePointLocationKindEnum.BottomLeft, wTopRight),
                 new FramePoint(wBottom, FramePointLocationKindEnum.Bottom, wTop, vScalingX:false),
                 new FramePoint(wBottomRight, FramePointLocationKindEnum.BottomRight, wTopLeft),
+            };
+        }
+
+        /// <summary>
+        /// 点を設定します
+        /// </summary>
+        protected override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
+            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
+            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
+            FPoints = new PointF[1] {
+                new PointF(wCenterX, wCenterY)
             };
         }
 
