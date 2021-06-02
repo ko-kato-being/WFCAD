@@ -56,7 +56,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大時の倍率を取得します。
         /// </summary>
-        (float, float) GetScale(PointF vStartPoint, PointF vEndPoint);
+        void Zoom(Matrix vMatrix, PointF vStartPoint, PointF vEndPoint, PointF vCenterPoint, float vCurrentAngle);
 
         #endregion メソッド
 

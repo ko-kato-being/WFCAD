@@ -126,7 +126,7 @@ namespace WFCAD.View {
         }
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
             if ((ModifierKeys & Keys.Control) != Keys.Control) return;
-            float wAngle = e.Delta > 0 ? 15F : -15f;
+            float wAngle = e.Delta > 0 ? 10F : -10f;
             FCanvas.Rotate(wAngle);
         }
 

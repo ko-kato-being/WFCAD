@@ -6,7 +6,7 @@ namespace WFCAD.Model {
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private PointF[] FPoints;
+        private readonly PointF[] FPoints;
         private readonly bool FScalingX;
         private readonly bool FScalingY;
 
@@ -67,7 +67,7 @@ namespace WFCAD.Model {
         /// </summary>
         public void Draw(Graphics vGraphics, Pen vPen) {
             Color wColor = Color.White;
-            
+
             #region デバッグ用
             switch (this.LocationKind) {
                 case FramePointLocationKindEnum.TopLeft:
@@ -118,12 +118,24 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
-        /// 拡大時の倍率を取得します。
+        /// 拡大縮小します
         /// </summary>
-        public (float, float) GetScale(PointF vStartPoint, PointF vEndPoint) {
-            float wScaleX = FScalingX ? (vEndPoint.X - this.OppositePoint.X) / (vStartPoint.X - this.OppositePoint.X) : 1;
-            float wScaleY = FScalingY ? (vEndPoint.Y - this.OppositePoint.Y) / (vStartPoint.Y - this.OppositePoint.Y) : 1;
-            return (wScaleX, wScaleY);
+        public void Zoom(Matrix vMatrix, PointF vStartPoint, PointF vEndPoint, PointF vCenterPoint, float vCurrentAngle) {
+            // 角度がついていると正しく座標計算ができないので一旦角度を無くす
+            var wInvertedPoints = new PointF[3] {
+                vStartPoint,
+                vEndPoint,
+                this.OppositePoint
+            };
+
+            vMatrix.RotateAt(vCurrentAngle * -1, vCenterPoint, MatrixOrder.Append); // 角度を0度にする
+            vMatrix.TransformPoints(wInvertedPoints); // 使用する座標すべてに反転行列を適用する
+
+            float wScaleX = FScalingX ? (wInvertedPoints[1].X - wInvertedPoints[2].X) / (wInvertedPoints[0].X - wInvertedPoints[2].X) : 1;
+            float wScaleY = FScalingY ? (wInvertedPoints[1].Y - wInvertedPoints[2].Y) / (wInvertedPoints[0].Y - wInvertedPoints[2].Y) : 1;
+
+            vMatrix.ScaleAt(wScaleX, wScaleY, wInvertedPoints[2]); 
+            vMatrix.RotateAt(vCurrentAngle, vCenterPoint, MatrixOrder.Append); // 角度を元に戻す
         }
 
         #endregion メソッド

@@ -8,8 +8,8 @@ namespace WFCAD.Model {
     /// 図形クラス
     /// </summary>
     public abstract class Shape : IShape {
-        protected PointF[] FPoints;
         private float FCurrentAngle;
+        protected PointF[] FPoints;
 
         #region 定数
 
@@ -127,12 +127,8 @@ namespace WFCAD.Model {
         public void Zoom(PointF vStartPoint, PointF vEndPoint) {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
-            (float wScaleX, float wScaleY) = wFramePoint.GetScale(vStartPoint, vEndPoint);
 
-            this.Matrix.RotateAt(FCurrentAngle * -1, this.CenterPoint, MatrixOrder.Append);
-            this.Matrix.ScaleAt(wScaleX, wScaleY, wFramePoint.OppositePoint);
-            this.Matrix.RotateAt(FCurrentAngle, this.CenterPoint, MatrixOrder.Append);
-
+            wFramePoint.Zoom(this.Matrix, vStartPoint, vEndPoint, this.CenterPoint, FCurrentAngle);
             wFramePoint.IsSelected = false;
         }
 

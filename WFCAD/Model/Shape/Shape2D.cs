@@ -20,7 +20,7 @@ namespace WFCAD.Model {
         public override int Dimensionality => 2;
 
         /// <summary>
-        /// 始点と終点を設定します
+        /// 枠を生成します
         /// </summary>
         protected override void CreateFrame(PointF vStartPoint, PointF vEndPoint) {
             // 引数で受け取った始点と終点を対角線とする矩形に対して、
