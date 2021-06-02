@@ -27,7 +27,6 @@ namespace WFCAD.Model {
 
         #region フィールド
 
-        private readonly Matrix FMatrix;
         private List<IShape> FShapes = new List<IShape>();
 
         #endregion フィールド
@@ -38,7 +37,6 @@ namespace WFCAD.Model {
         /// コンストラクタ
         /// </summary>
         public Canvas(Image vImage, Color vCanvasColor) {
-            FMatrix = new Matrix();
             this.Graphics = Graphics.FromImage(vImage);
             this.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             this.CanvasColor = vCanvasColor;
@@ -63,11 +61,6 @@ namespace WFCAD.Model {
         /// </summary>
         public bool IsFramePointSelected { get; private set; }
 
-        /// <summary>
-        /// クリップボード
-        /// </summary>
-        public List<IShape> Clipboard { get; set; } = new List<IShape>();
-
         #endregion プロパティ
 
         #region メソッド
@@ -76,7 +69,6 @@ namespace WFCAD.Model {
         /// すべてのリソースを解放します
         /// </summary>
         public void Dispose() {
-            FMatrix.Dispose();
             this.Graphics.Dispose();
         }
 
@@ -163,14 +155,6 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
-        /// 全選択します
-        /// </summary>
-        public void AllSelect() {
-            FShapes.ForEach(x => x.IsSelected = true);
-            this.Draw();
-        }
-
-        /// <summary>
         /// 選択を解除します
         /// </summary>
         public void Unselect() {
@@ -181,8 +165,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 追加します
         /// </summary>
-        public void Add(IShape vShape, Point vStartPoint, Point vEndPoint) {
-            vShape.InitializePath(vStartPoint, vEndPoint);
+        public void Add(IShape vShape) {
             FShapes.Add(vShape);
             this.Draw();
         }
@@ -219,90 +202,6 @@ namespace WFCAD.Model {
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
                 wShape.Rotate(vAngle);
             }
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 最前面に移動します
-        /// </summary>
-        public void MoveToFront() {
-            FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 最背面に移動します
-        /// </summary>
-        public void MoveToBack() {
-            FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 複製します
-        /// </summary>
-        public void Clone() {
-            //var wClonedShapes = new List<IShape>();
-            //foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-            //    IShape wClone = wShape.DeepClone();
-
-            //    // 選択状態をスイッチします
-            //    wShape.IsSelected = false;
-            //    wClone.IsSelected = true;
-
-            //    wClone.Move(C_DefaultMovingSize);
-            //    wClonedShapes.Add(wClone);
-            //}
-            //FShapes.AddRange(wClonedShapes);
-            //this.Draw();
-        }
-
-        /// <summary>
-        /// コピーします
-        /// </summary>
-        public void Copy(bool vIsCut = false) {
-            //var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
-            //if (wSelectedShapes.Count == 0) return;
-
-            //this.Clipboard = new List<IShape>();
-            //foreach (IShape wShape in wSelectedShapes) {
-            //    if (vIsCut) FShapes.Remove(wShape);
-            //    IShape wCopy = wShape.DeepClone();
-
-            //    // 選択状態にしておく
-            //    wCopy.IsSelected = true;
-
-            //    wCopy.Move(C_DefaultMovingSize);
-            //    this.Clipboard.Add(wCopy);
-            //}
-            //if (vIsCut) this.Draw();
-        }
-
-        /// <summary>
-        /// 貼り付けます
-        /// </summary>
-        public void Paste() {
-            //FShapes.ForEach(x => x.IsSelected = false);
-            //FShapes.AddRange(this.Clipboard.Select(x => x.DeepClone()));
-
-            //// 貼り付け位置を更新しておく
-            //this.Clipboard.ForEach(x => x.Move(C_DefaultMovingSize));
-            //this.Draw();
-        }
-
-        /// <summary>
-        /// 削除します
-        /// </summary>
-        public void Remove(IShape vShape) {
-            FShapes.Remove(vShape);
-            this.Draw();
-        }
-
-        /// <summary>
-        /// クリアします
-        /// </summary>
-        public void Clear() {
-            FShapes.Clear();
             this.Draw();
         }
 

@@ -55,16 +55,6 @@ namespace WFCAD.Model {
         #region メソッド
 
         /// <summary>
-        /// 初期化します
-        /// </summary>
-        void InitializePath(PointF vStartPoint, PointF vEndPoint);
-
-        /// <summary>
-        /// 始点と終点を設定します
-        /// </summary>
-        void SetPoints(PointF vStartPoint, PointF vEndPoint);
-
-        /// <summary>
         /// 描画します
         /// </summary>
         void Draw(Graphics vGraphics);

@@ -15,9 +15,22 @@ namespace WFCAD.Model {
         public override int Dimensionality => 2;
 
         /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Shape2D(PointF vStartPoint, PointF vEndPoint, Color vColor) : base(vStartPoint, vEndPoint, vColor) {
+            this.InitializePath(vStartPoint, vEndPoint);
+            this.CreateFrame(vStartPoint, vEndPoint);
+            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
+            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
+            FPoints = new PointF[1] {
+                new PointF(wCenterX, wCenterY)
+            };
+        }
+
+        /// <summary>
         /// 始点と終点を設定します
         /// </summary>
-        public override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
+        protected override void CreateFrame(PointF vStartPoint, PointF vEndPoint) {
             // 引数で受け取った始点と終点を対角線とする矩形に対して、
             // 左上の点と右下の点を始点と終点に設定します。
             var wStartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));

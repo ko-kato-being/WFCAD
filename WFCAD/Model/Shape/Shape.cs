@@ -18,6 +18,17 @@ namespace WFCAD.Model {
 
         #endregion 定数
 
+        #region コンストラクタ
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Shape(PointF vStartPoint, PointF vEndPoint, Color vColor) {
+            this.Color = vColor;
+        }
+
+        #endregion コンストラクタ
+
         #region プロパティ
 
         /// <summary>
@@ -65,14 +76,14 @@ namespace WFCAD.Model {
         #region メソッド
 
         /// <summary>
-        /// 初期化します
+        /// パスを初期化します
         /// </summary>
-        public abstract void InitializePath(PointF vStartPoint, PointF vEndPoint);
+        protected abstract void InitializePath(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
-        /// 始点と終点を設定します
+        /// 枠を生成します
         /// </summary>
-        public abstract void SetPoints(PointF vStartPoint, PointF vEndPoint);
+        protected abstract void CreateFrame(PointF vStartPoint, PointF vEndPoint);
 
         /// <summary>
         /// 描画します

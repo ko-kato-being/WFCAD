@@ -37,9 +37,9 @@ namespace WFCAD.View {
             FCanvas.Updated += this.CanvasRefresh;
             FCommandHistory = new CommandHistory();
 
-            this.InitializeShapeButton(FButtonRectangle, () => new Model.Rectangle());
-            this.InitializeShapeButton(FButtonEllipse, () => throw new NotImplementedException());
-            this.InitializeShapeButton(FButtonLine, () => throw new NotImplementedException());
+            this.InitializeShapeButton(FButtonRectangle, (PointF vStartPoint, PointF vEndPoint, Color vColor) => new Model.Rectangle(vStartPoint, vEndPoint, vColor));
+            this.InitializeShapeButton(FButtonEllipse, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
+            this.InitializeShapeButton(FButtonLine, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
 
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColorIcon(Color.Black, FColor);
@@ -56,17 +56,13 @@ namespace WFCAD.View {
 
         #region イベントハンドラ
 
-        private void InitializeShapeButton(ToolStripButton vButton, Func<IShape> vCreateShape) {
+        private void InitializeShapeButton(ToolStripButton vButton, Func<PointF, PointF, Color, IShape> vCreateShape) {
             vButton.Click += (sender, e) => {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCurrentCommand = () => {
-                    IShape wShape = vCreateShape();
-                    wShape.SetPoints(FMouseDownPoint, FMouseUpPoint);
-                    wShape.Color = FColor;
                     return new Command(() => {
-                        FCanvas.Add(wShape, FMouseDownPoint, FMouseUpPoint);
+                        FCanvas.Add(vCreateShape(FMouseDownPoint, FMouseUpPoint, FColor));
                     }, () => {
-                        FCanvas.Remove(wShape);
                     });
                 };
             };

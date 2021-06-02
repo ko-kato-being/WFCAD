@@ -14,13 +14,13 @@ namespace WFCAD.Test.Model {
             var wShape = new Mock<IShape>();
             wShape.SetupAllProperties();
             wShape.Setup(m => m.IsSelected).Returns(vIsSelected);
-            wShape.Setup(m => m.IsHit(It.IsAny<Point>())).Returns(vIsHit);
+            wShape.Setup(m => m.IsHit(It.IsAny<PointF>())).Returns(vIsHit);
             return (wShape.Object, vResult);
         }
 
         private void SelectTest(bool vIsMultiple, List<(IShape Shape, bool Result)> vTestDatas) {
             var wShapes = new Canvas(new Bitmap(1, 1), Color.White);
-            vTestDatas.ForEach(x => wShapes.Add(x.Shape, new Point(0, 0), new Point(0, 0)));
+            vTestDatas.ForEach(x => wShapes.Add(x.Shape));
             wShapes.Select(new Point(), vIsMultiple);
             for (int i = 0; i < vTestDatas.Count; i++) {
                 Assert.AreEqual(vTestDatas[i].Result, vTestDatas[i].Shape.IsSelected, message: $"図形{i + 1}");

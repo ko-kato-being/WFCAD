@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Linq;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -7,21 +6,20 @@ namespace WFCAD.Model {
     /// </summary>
     public class Rectangle : Shape2D {
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Rectangle(PointF vStartPoint, PointF vEndPoint, Color vColor) : base(vStartPoint, vEndPoint, vColor) { }
+
         #region　メソッド
 
         /// <summary>
-        /// 初期化します
+        /// パスを初期化します
         /// </summary>
-        public override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
+        protected override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
             var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
             this.MainPath.AddRectangle(wRectangle);
             this.SubPath.AddRectangle(wRectangle);
-
-            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
-            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
-            FPoints = new PointF[1] {
-                new PointF(wCenterX, wCenterY)
-            };
         }
 
         /// <summary>
