@@ -68,6 +68,7 @@ namespace WFCAD.Model {
         public void UpdateGraphics(Image vImage) {
             FGraphics.Dispose();
             FGraphics = Graphics.FromImage(vImage);
+            this.Draw();
         }
 
         /// <summary>

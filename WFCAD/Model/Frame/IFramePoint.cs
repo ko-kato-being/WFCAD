@@ -49,9 +49,9 @@ namespace WFCAD.Model {
         bool IsHit(PointF vCoordinate);
 
         /// <summary>
-        /// 指定した変換行列をすべての点に適用します
+        /// アフィン変換を適用します
         /// </summary>
-        void TransformPoints(Matrix vMatrix);
+        void ApplyAffine(Matrix vMatrix);
 
         /// <summary>
         /// 拡大時の倍率を取得します。

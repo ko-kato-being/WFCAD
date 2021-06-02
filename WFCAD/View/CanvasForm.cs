@@ -145,7 +145,6 @@ namespace WFCAD.View {
             FPictureBox.Image.Dispose();
             FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
             FCanvas.UpdateGraphics(FPictureBox.Image);
-            FCanvas.Draw();
         }
 
         private void CanvasForm_KeyDown(object sender, KeyEventArgs e) {

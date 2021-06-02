@@ -109,9 +109,10 @@ namespace WFCAD.Model {
         public bool IsHit(PointF vCoordinate) => this.Path.IsVisible(vCoordinate.X, vCoordinate.Y);
 
         /// <summary>
-        /// 指定した変換行列をすべての点に適用します
+        /// アフィン変換を適用します
         /// </summary>
-        public void TransformPoints(Matrix vMatrix) {
+        public void ApplyAffine(Matrix vMatrix) {
+            this.Path.Transform(vMatrix);
             vMatrix.TransformPoints(FPoints);
             this.InitializePath();
         }

@@ -111,8 +111,7 @@ namespace WFCAD.Model {
             this.SubPath.Transform(this.Matrix);
             this.Matrix.TransformPoints(FPoints);
             foreach (IFramePoint wPoint in this.FramePoints) {
-                wPoint.Path.Transform(this.Matrix);
-                wPoint.TransformPoints(this.Matrix);
+                wPoint.ApplyAffine(this.Matrix);
             }
             this.Matrix.Reset();
         }
