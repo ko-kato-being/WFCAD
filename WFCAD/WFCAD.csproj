@@ -95,7 +95,6 @@
     <Compile Include="Controller\CommandHistory.cs" />
     <Compile Include="Controller\CommandState.cs" />
     <Compile Include="Model\Define.cs" />
-    <Compile Include="Model\ICanvas.cs" />
     <Compile Include="Model\Canvas.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />

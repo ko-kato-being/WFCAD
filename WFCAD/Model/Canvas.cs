@@ -8,7 +8,7 @@ namespace WFCAD.Model {
     /// <summary>
     /// キャンバスクラス
     /// </summary>
-    public class Canvas : IDisposable {
+    public class Canvas {
 
         #region 定数
 
@@ -27,7 +27,9 @@ namespace WFCAD.Model {
 
         #region フィールド
 
+        private Graphics FGraphics;
         private List<IShape> FShapes = new List<IShape>();
+
 
         #endregion フィールド
 
@@ -37,19 +39,14 @@ namespace WFCAD.Model {
         /// コンストラクタ
         /// </summary>
         public Canvas(Image vImage, Color vCanvasColor) {
-            this.Graphics = Graphics.FromImage(vImage);
-            this.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            FGraphics = Graphics.FromImage(vImage);
+            FGraphics.SmoothingMode = SmoothingMode.AntiAlias;
             this.CanvasColor = vCanvasColor;
         }
 
         #endregion コンストラクタ
 
         #region プロパティ
-
-        /// <summary>
-        /// グラフィック
-        /// </summary>
-        public Graphics Graphics { get; set; }
 
         /// <summary>
         /// キャンバスの色
@@ -66,22 +63,23 @@ namespace WFCAD.Model {
         #region メソッド
 
         /// <summary>
-        /// すべてのリソースを解放します
+        /// グラフィックを更新します
         /// </summary>
-        public void Dispose() {
-            this.Graphics.Dispose();
+        public void UpdateGraphics(Image vImage) {
+            FGraphics.Dispose();
+            FGraphics = Graphics.FromImage(vImage);
         }
 
         /// <summary>
         /// 描画します
         /// </summary>
         public void Draw() {
-            this.Graphics.Clear(this.CanvasColor);
+            FGraphics.Clear(this.CanvasColor);
             foreach (IShape wShape in FShapes) {
                 wShape.ApplyAffine();
                 try {
                     checked {
-                        wShape.Draw(this.Graphics);
+                        wShape.Draw(FGraphics);
                     }
                 } catch (OverflowException e) {
                     // TODO:オーバーフローの原因調査 (とりあえず無視)

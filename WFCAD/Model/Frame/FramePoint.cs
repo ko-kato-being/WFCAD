@@ -37,7 +37,7 @@ namespace WFCAD.Model {
         public PointF MainPoint => FPoints[0];
 
         /// <summary>
-        /// 基準点
+        /// 対極の座標
         /// </summary>
         public PointF OppositePoint => FPoints[1];
 
