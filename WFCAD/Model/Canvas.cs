@@ -87,7 +87,14 @@ namespace WFCAD.Model {
             this.Graphics.Clear(this.CanvasColor);
             foreach (IShape wShape in FShapes) {
                 wShape.ApplyAffine();
-                wShape.Draw(this.Graphics);
+                try {
+                    checked {
+                        wShape.Draw(this.Graphics);
+                    }
+                } catch (OverflowException e) {
+                    // TODO:オーバーフローの原因調査 (とりあえず無視)
+                    Console.WriteLine("オーバーフローしました。");
+                }
             }
             this.Updated?.Invoke();
         }

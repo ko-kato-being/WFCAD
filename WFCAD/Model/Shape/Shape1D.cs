@@ -23,8 +23,8 @@ namespace WFCAD.Model {
             this.EndPoint = wIsLeft ? vEndPoint : vStartPoint;
 
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(this.StartPoint, FramePointLocationKindEnum.Start, this.EndPoint, 1, 1),
-                new FramePoint(this.EndPoint, FramePointLocationKindEnum.End, this.StartPoint, 1, 1),
+                new FramePoint(this.StartPoint, FramePointLocationKindEnum.Start, this.EndPoint),
+                new FramePoint(this.EndPoint, FramePointLocationKindEnum.End, this.StartPoint),
             };
         }
 

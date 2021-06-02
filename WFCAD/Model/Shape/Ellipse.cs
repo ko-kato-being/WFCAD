@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -13,13 +14,9 @@ namespace WFCAD.Model {
         /// 初期化します
         /// </summary>
         public override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
-            this.MainPath.Reset();
-            this.SubPath.Reset();
             var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
             this.MainPath.AddEllipse(wRectangle);
             this.SubPath.AddRectangle(wRectangle);
-            this.MainPath.Transform(this.Matrix);
-            this.SubPath.Transform(this.Matrix);
         }
 
         /// <summary>

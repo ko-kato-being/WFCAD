@@ -6,18 +6,18 @@ namespace WFCAD.Model {
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private readonly int FXDirection;
-        private readonly int FYDirection;
+        private readonly bool FScalingX = true;
+        private readonly bool FScalingY = true;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, PointF vOppositePoint, int vXDirection, int vYDirection) {
+        public FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, PointF vOppositePoint, bool vScalingX = true, bool vScalingY = true) {
             this.MainPoint = vPoint;
             this.LocationKind = vLocationKind;
             this.OppositePoint = vOppositePoint;
-            FXDirection = vXDirection;
-            FYDirection = vYDirection;
+            FScalingX = vScalingX;
+            FScalingY = vScalingY;
             this.InitializePath();
         }
 
@@ -65,7 +65,7 @@ namespace WFCAD.Model {
 
         private void InitializePath() {
             this.Path.Reset();
-            const int C_Radius = 5; // 円の半径
+            const int C_Radius = 6; // 円の半径
             var wTopLeft = new PointF(this.MainPoint.X - C_Radius, this.MainPoint.Y - C_Radius);
             this.Path.AddEllipse(wTopLeft.X, wTopLeft.Y, C_Radius * 2, C_Radius * 2);
         }
@@ -74,7 +74,38 @@ namespace WFCAD.Model {
         /// 描画します。
         /// </summary>
         public void Draw(Graphics vGraphics, Pen vPen) {
-            using (var wBrush = new SolidBrush(Color.White)) {
+            Color wColor = Color.White;
+            
+            #region デバッグ用
+            switch (this.LocationKind) {
+                case FramePointLocationKindEnum.TopLeft:
+                    wColor = Color.Red;
+                    break;
+                case FramePointLocationKindEnum.Top:
+                    wColor = Color.Orange;
+                    break;
+                case FramePointLocationKindEnum.TopRight:
+                    wColor = Color.Yellow;
+                    break;
+                case FramePointLocationKindEnum.Right:
+                    wColor = Color.GreenYellow;
+                    break;
+                case FramePointLocationKindEnum.BottomRight:
+                    wColor = Color.Green;
+                    break;
+                case FramePointLocationKindEnum.Bottom:
+                    wColor = Color.LightSkyBlue;
+                    break;
+                case FramePointLocationKindEnum.BottomLeft:
+                    wColor = Color.Blue;
+                    break;
+                case FramePointLocationKindEnum.Left:
+                    wColor = Color.Purple;
+                    break;
+            }
+            #endregion デバッグ用
+
+            using (var wBrush = new SolidBrush(wColor)) {
                 vGraphics.FillPath(wBrush, this.Path);
                 vGraphics.DrawPath(vPen, this.Path);
             }
@@ -102,10 +133,8 @@ namespace WFCAD.Model {
         /// 拡大時の倍率を取得します。
         /// </summary>
         public (float, float) GetScale(PointF vStartPoint, PointF vEndPoint) {
-            float wScaleX = (vEndPoint.X - this.OppositePoint.X) / (vStartPoint.X - this.OppositePoint.X) * FXDirection;
-            float wScaleY = (vEndPoint.Y - this.OppositePoint.Y) / (vStartPoint.Y - this.OppositePoint.Y) * FYDirection;
-            if (wScaleX == 0) wScaleX = 1;
-            if (wScaleY == 0) wScaleY = 1;
+            float wScaleX = FScalingX ? (vEndPoint.X - this.OppositePoint.X) / (vStartPoint.X - this.OppositePoint.X) : 1;
+            float wScaleY = FScalingY ? (vEndPoint.Y - this.OppositePoint.Y) / (vStartPoint.Y - this.OppositePoint.Y) : 1;
             return (wScaleX, wScaleY);
         }
 
