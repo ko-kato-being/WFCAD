@@ -6,29 +6,21 @@ namespace WFCAD.Model {
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private readonly bool FScalingX = true;
-        private readonly bool FScalingY = true;
+        private PointF[] FPoints;
+        private readonly bool FScalingX;
+        private readonly bool FScalingY;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, PointF vOppositePoint, bool vScalingX = true, bool vScalingY = true) {
-            this.MainPoint = vPoint;
+            FPoints = new PointF[2] {
+                vPoint,
+                vOppositePoint
+            };
             this.LocationKind = vLocationKind;
-            this.OppositePoint = vOppositePoint;
             FScalingX = vScalingX;
             FScalingY = vScalingY;
-            this.InitializePath();
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        private FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, PointF vOppositePoint, bool vIsSelected) {
-            this.MainPoint = vPoint;
-            this.LocationKind = vLocationKind;
-            this.OppositePoint = vOppositePoint;
-            this.IsSelected = vIsSelected;
             this.InitializePath();
         }
 
@@ -42,12 +34,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 座標
         /// </summary>
-        public PointF MainPoint { get; private set; }
+        public PointF MainPoint => FPoints[0];
 
         /// <summary>
         /// 基準点
         /// </summary>
-        public PointF OppositePoint { get; private set; }
+        public PointF OppositePoint => FPoints[1];
 
         /// <summary>
         /// 位置種類
@@ -120,12 +112,7 @@ namespace WFCAD.Model {
         /// 指定した変換行列をすべての点に適用します
         /// </summary>
         public void TransformPoints(Matrix vMatrix) {
-            var wAllPoints = new PointF[2];
-            wAllPoints[0] = this.MainPoint;
-            wAllPoints[1] = this.OppositePoint;
-            vMatrix.TransformPoints(wAllPoints);
-            this.MainPoint = wAllPoints[0];
-            this.OppositePoint = wAllPoints[1];
+            vMatrix.TransformPoints(FPoints);
             this.InitializePath();
         }
 
@@ -138,10 +125,7 @@ namespace WFCAD.Model {
             return (wScaleX, wScaleY);
         }
 
-        /// <summary>
-        /// 複製します
-        /// </summary>
-        public IFramePoint DeepClone() => new FramePoint(this.MainPoint, this.LocationKind, this.OppositePoint, this.IsSelected);
+        public IFramePoint DeepClone() => throw new System.NotImplementedException();
 
         #endregion メソッド
 
