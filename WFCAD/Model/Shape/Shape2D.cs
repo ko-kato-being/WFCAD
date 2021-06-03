@@ -55,10 +55,15 @@ namespace WFCAD.Model {
         /// 点を設定します
         /// </summary>
         protected override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
-            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
-            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
+            PointF wCenterPoint = vStartPoint;
+            if (vStartPoint == vEndPoint) {
+            } else {
+                float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
+                float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
+                wCenterPoint = new PointF(wCenterX, wCenterY);
+            }
             FPoints = new PointF[1] {
-                new PointF(wCenterX, wCenterY)
+                wCenterPoint,
             };
         }
 

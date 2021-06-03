@@ -94,7 +94,8 @@ namespace WFCAD.View {
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-            if (FMouseDownPoint == e.Location) return;
+            if (Math.Abs(e.Location.X - FMouseDownPoint.X) < 3) return;
+            if (Math.Abs(e.Location.Y - FMouseDownPoint.Y) < 3) return;
 
             if (this.SelectedButton == null) {
                 if (FCanvas.IsFramePointSelected) {

@@ -175,7 +175,6 @@ namespace WFCAD.Model {
             wLeftTop.CurrentLocationKind = FramePointLocationKindEnum.LeftTop;
         }
 
-
         /// <summary>
         /// 指定した座標が図形内に存在するか
         /// </summary>
