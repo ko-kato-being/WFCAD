@@ -38,7 +38,6 @@ namespace WFCAD.View {
             FCanvas = new Canvas(FPictureBox.Image, FPictureBox.BackColor);
             FCanvas.Updated += this.CanvasRefresh;
 
-
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColorIcon(Color.Black, FColor);
             FGroupButtons = new List<ToolStripButton> {
@@ -58,6 +57,8 @@ namespace WFCAD.View {
 
         #region イベントハンドラ
 
+        #region 機能ボタン
+
         private void InitializeShapeButton(ToolStripButton vButton, Action<PointF, PointF, Color> vCreateShape) {
             vButton.Tag = vCreateShape;
             vButton.Click += (sender, e) => {
@@ -65,7 +66,16 @@ namespace WFCAD.View {
             };
         }
 
-        #region 機能ボタン
+        private void FButtonColor_Click(object sender, EventArgs e) {
+            using (var wColorDialog = new ColorDialog()) {
+                wColorDialog.Color = FColor;
+                wColorDialog.AllowFullOpen = false;
+                if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
+
+                this.SetColorIcon(FColor, wColorDialog.Color);
+                FColor = wColorDialog.Color;
+            }
+        }
 
         private void FButtonUndo_Click(object sender, EventArgs e) { }
         private void FButtonRedo_Click(object sender, EventArgs e) { }
@@ -124,22 +134,7 @@ namespace WFCAD.View {
 
         #endregion マウス操作
 
-        private void FButtonColor_Click(object sender, EventArgs e) {
-            using (var wColorDialog = new ColorDialog()) {
-                wColorDialog.Color = FColor;
-                wColorDialog.AllowFullOpen = false;
-                if (wColorDialog.ShowDialog(this) != DialogResult.OK) return;
-
-                this.SetColorIcon(FColor, wColorDialog.Color);
-                FColor = wColorDialog.Color;
-            }
-        }
-
-        private void CanvasForm_Resize(object sender, EventArgs e) {
-            FPictureBox.Image.Dispose();
-            FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
-            FCanvas.UpdateGraphics(FPictureBox.Image);
-        }
+        #region キー入力
 
         private void CanvasForm_KeyDown(object sender, KeyEventArgs e) {
             if ((MouseButtons & MouseButtons.Left) == MouseButtons.Left) return;
@@ -170,6 +165,14 @@ namespace WFCAD.View {
                         break;
                 }
             }
+        }
+
+        #endregion キー入力
+
+        private void CanvasForm_Resize(object sender, EventArgs e) {
+            FPictureBox.Image.Dispose();
+            FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
+            FCanvas.UpdateGraphics(FPictureBox.Image);
         }
 
         #endregion イベントハンドラ
