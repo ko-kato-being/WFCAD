@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Windows.Forms;
-using WFCAD.Controller;
 using WFCAD.Model;
 
 namespace WFCAD.View {
@@ -17,13 +17,15 @@ namespace WFCAD.View {
         private readonly Canvas FCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
-        private Point FMouseDownPoint;
-        private Point FMouseUpPoint;
-        private Point FMouseCurrentPoint;
-        private CommandHistory FCommandHistory;
-        private Func<Command> FCurrentCommand;
+        private PointF FMouseDownPoint;
 
         #endregion フィールド
+
+        #region プロパティ
+
+        private ToolStripButton SelectedButton => FGroupButtons.SingleOrDefault(x => x.Checked);
+
+        #endregion プロパティ
 
         #region コンストラクタ
 
@@ -35,11 +37,7 @@ namespace WFCAD.View {
             FPictureBox.Image = new Bitmap(FPictureBox.Width, FPictureBox.Height);
             FCanvas = new Canvas(FPictureBox.Image, FPictureBox.BackColor);
             FCanvas.Updated += this.CanvasRefresh;
-            FCommandHistory = new CommandHistory();
 
-            this.InitializeShapeButton(FButtonRectangle, (PointF vStartPoint, PointF vEndPoint, Color vColor) => new Model.Rectangle(vStartPoint, vEndPoint, vColor));
-            this.InitializeShapeButton(FButtonEllipse, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
-            this.InitializeShapeButton(FButtonLine, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
 
             // 色の設定ボタンのImageには黒一色の画像を使用しています。
             this.SetColorIcon(Color.Black, FColor);
@@ -49,6 +47,10 @@ namespace WFCAD.View {
                 FButtonLine,
             };
 
+            this.InitializeShapeButton(FButtonRectangle, (PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Model.Rectangle(vStartPoint, vEndPoint, vColor)));
+            this.InitializeShapeButton(FButtonEllipse, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
+            this.InitializeShapeButton(FButtonLine, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
+
             FPictureBox.MouseWheel += this.FPictureBox_MouseWheel;
         }
 
@@ -56,21 +58,15 @@ namespace WFCAD.View {
 
         #region イベントハンドラ
 
-        private void InitializeShapeButton(ToolStripButton vButton, Func<PointF, PointF, Color, IShape> vCreateShape) {
+        private void InitializeShapeButton(ToolStripButton vButton, Action<PointF, PointF, Color> vCreateShape) {
+            vButton.Tag = vCreateShape;
             vButton.Click += (sender, e) => {
-                this.SetGroupButtonsChecked(sender as ToolStripButton);
-                FCurrentCommand = () => {
-                    return new Command(() => {
-                        if (FMouseDownPoint == FMouseUpPoint) return;
-                        FCanvas.Add(vCreateShape(FMouseDownPoint, FMouseUpPoint, FColor));
-                    }, () => {
-                    });
-                };
+                this.SetGroupButtonsChecked(vButton);
             };
         }
 
-        private void FButtonUndo_Click(object sender, EventArgs e) => FCommandHistory.Undo();
-        private void FButtonRedo_Click(object sender, EventArgs e) => FCommandHistory.Redo();
+        private void FButtonUndo_Click(object sender, EventArgs e) { }
+        private void FButtonRedo_Click(object sender, EventArgs e) { }
         private void FButtonClone_Click(object sender, EventArgs e) { }
         private void FButtonRotate_Click(object sender, EventArgs e) { }
         private void FButtonForeground_Click(object sender, EventArgs e) { }
@@ -81,49 +77,31 @@ namespace WFCAD.View {
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
             FMouseDownPoint = e.Location;
-            if (FCurrentCommand == null) {
-                FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
-                if (FCanvas.IsFramePointSelected) {
-                    FCurrentCommand = () => {
-                        Point wStartPoint = FMouseDownPoint;
-                        Point wEndPoint = FMouseUpPoint;
-                        return new Command(() => {
-                            FCanvas.Select(e.Location, true);
-                            FCanvas.Zoom(wStartPoint, wEndPoint);
-                        }, () => {
-                            var wSize = new Size(wEndPoint.X - wStartPoint.X, wEndPoint.Y - wStartPoint.Y);
-                            FCanvas.Select(e.Location + wSize, true);
-                            FCanvas.Zoom(wEndPoint, wStartPoint);
-                        });
-                    };
-                } else {
-                    FCurrentCommand = () => {
-                        Point wStartPoint = FMouseDownPoint;
-                        Point wEndPoint = FMouseUpPoint;
-                        return new Command(() => {
-                            FCanvas.Move(wStartPoint, wEndPoint);
-                        }, () => {
-                            FCanvas.Move(wEndPoint, wStartPoint);
-                        });
-                    };
-                }
-            }
+            if (this.SelectedButton != null) return;
+
+            // 動作が設定されていない場合は選択を行う
+            FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-            if (FCurrentCommand == null) return;
+            if (FMouseDownPoint == e.Location) return;
 
-            FMouseUpPoint = e.Location;
-            FCommandHistory.Record(FCurrentCommand.Invoke());
-            FCurrentCommand = null;
-            this.SetGroupButtonsChecked(null);
+            if (this.SelectedButton == null) {
+                if (FCanvas.IsFramePointSelected) {
+                    FCanvas.Zoom(FMouseDownPoint, e.Location);
+                } else {
+                    FCanvas.Move(FMouseDownPoint, e.Location);
+                }
+            } else {
+                ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, e.Location, FColor);
+                this.SetGroupButtonsChecked(null);
+            }
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             FStatusLabelMouse.Text = $"Mouse : {e.Location}";
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-            FMouseCurrentPoint = e.Location;
         }
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
             if ((ModifierKeys & Keys.Control) != Keys.Control) return;
