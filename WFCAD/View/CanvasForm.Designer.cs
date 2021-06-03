@@ -310,6 +310,7 @@
             this.Controls.Add(this.FToolStrip1);
             this.KeyPreview = true;
             this.Name = "CanvasForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WFCAD";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CanvasForm_KeyDown);
             this.Resize += new System.EventHandler(this.CanvasForm_Resize);
