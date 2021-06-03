@@ -28,6 +28,7 @@ namespace WFCAD.Model {
         #region フィールド
 
         private Graphics FGraphics;
+        private Color FCanvasColor;
         private List<IShape> FShapes = new List<IShape>();
 
 
@@ -41,7 +42,7 @@ namespace WFCAD.Model {
         public Canvas(Image vImage, Color vCanvasColor) {
             FGraphics = Graphics.FromImage(vImage);
             FGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-            this.CanvasColor = vCanvasColor;
+            FCanvasColor = vCanvasColor;
         }
 
         #endregion コンストラクタ
@@ -49,9 +50,9 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
-        /// キャンバスの色
+        /// プレビュー中かどうか
         /// </summary>
-        public Color CanvasColor { get; set; }
+        public bool IsPreviewing { get; set; }
 
         /// <summary>
         /// 枠点が選択されているか
@@ -76,7 +77,7 @@ namespace WFCAD.Model {
         /// 描画します
         /// </summary>
         public void Draw() {
-            FGraphics.Clear(this.CanvasColor);
+            FGraphics.Clear(FCanvasColor);
             foreach (IShape wShape in FShapes) {
                 wShape.ApplyAffine();
                 try {
@@ -142,13 +143,13 @@ namespace WFCAD.Model {
 
             // 全図形の枠点選択状態を初期化
             SetFramePointIsSelected(null, (vShape) => true);
-            IsFramePointSelected = false;
+            this.IsFramePointSelected = false;
 
             foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
                 IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
                 if (wFramePoint == null) continue;
                 SetFramePointIsSelected(wFramePoint.CurrentLocationKind, (vShape) => vShape.IsSelected && vShape.Dimensionality == wShape.Dimensionality);
-                IsFramePointSelected = true;
+                this.IsFramePointSelected = true;
                 return true;
             }
             return false;

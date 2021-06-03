@@ -65,14 +65,20 @@ namespace WFCAD.View {
             };
         }
 
+        #region 機能ボタン
+
         private void FButtonUndo_Click(object sender, EventArgs e) { }
         private void FButtonRedo_Click(object sender, EventArgs e) { }
         private void FButtonClone_Click(object sender, EventArgs e) { }
-        private void FButtonRotate_Click(object sender, EventArgs e) { }
+        private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
         private void FButtonForeground_Click(object sender, EventArgs e) { }
         private void FButtonBackground_Click(object sender, EventArgs e) { }
         private void FButtonRemove_Click(object sender, EventArgs e) { }
         private void FButtonReset_Click(object sender, EventArgs e) { }
+
+        #endregion 機能ボタン
+
+        #region マウス操作
 
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
@@ -82,6 +88,8 @@ namespace WFCAD.View {
             if (this.SelectedButton == null) {
                 FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
             }
+
+            FCanvas.IsPreviewing = true;
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
@@ -98,17 +106,22 @@ namespace WFCAD.View {
                 ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, e.Location, FColor);
                 this.SetGroupButtonsChecked(null);
             }
+
+            FCanvas.IsPreviewing = false;
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             FStatusLabelMouse.Text = $"Mouse : {e.Location}";
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
         }
+
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
             if ((ModifierKeys & Keys.Control) != Keys.Control) return;
             float wAngle = e.Delta > 0 ? 10F : -10f;
             FCanvas.Rotate(wAngle);
         }
+
+        #endregion マウス操作
 
         private void FButtonColor_Click(object sender, EventArgs e) {
             using (var wColorDialog = new ColorDialog()) {
