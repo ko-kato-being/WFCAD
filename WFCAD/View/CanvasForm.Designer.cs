@@ -229,6 +229,7 @@
             this.FButtonRectangle.Size = new System.Drawing.Size(36, 51);
             this.FButtonRectangle.Text = "矩形";
             this.FButtonRectangle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonRectangle.Click += new System.EventHandler(this.FButtonShape_Click);
             // 
             // FButtonEllipse
             // 
@@ -238,6 +239,7 @@
             this.FButtonEllipse.Size = new System.Drawing.Size(36, 51);
             this.FButtonEllipse.Text = "円";
             this.FButtonEllipse.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonEllipse.Click += new System.EventHandler(this.FButtonShape_Click);
             // 
             // FButtonLine
             // 
@@ -247,6 +249,7 @@
             this.FButtonLine.Size = new System.Drawing.Size(36, 51);
             this.FButtonLine.Text = "線";
             this.FButtonLine.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FButtonLine.Click += new System.EventHandler(this.FButtonShape_Click);
             // 
             // toolStripSeparator1
             // 
@@ -276,6 +279,7 @@
             this.FPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseDown);
             this.FPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseMove);
             this.FPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseUp);
+            this.FPictureBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.FPictureBox_MouseWheel);
             // 
             // FStatusStrip
             // 

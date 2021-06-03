@@ -46,11 +46,9 @@ namespace WFCAD.View {
                 FButtonLine,
             };
 
-            this.InitializeShapeButton(FButtonRectangle, (PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Model.Rectangle(vStartPoint, vEndPoint, vColor)));
-            this.InitializeShapeButton(FButtonEllipse, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
-            this.InitializeShapeButton(FButtonLine, (PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
-
-            FPictureBox.MouseWheel += this.FPictureBox_MouseWheel;
+            FButtonRectangle.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Model.Rectangle(vStartPoint, vEndPoint, vColor)));
+            FButtonEllipse.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
+            FButtonLine.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
         }
 
         #endregion コンストラクタ
@@ -59,12 +57,7 @@ namespace WFCAD.View {
 
         #region 機能ボタン
 
-        private void InitializeShapeButton(ToolStripButton vButton, Action<PointF, PointF, Color> vCreateShape) {
-            vButton.Tag = vCreateShape;
-            vButton.Click += (sender, e) => {
-                this.SetGroupButtonsChecked(vButton);
-            };
-        }
+        private void FButtonShape_Click(object sender, EventArgs e) => this.SetGroupButtonsChecked((ToolStripButton)sender);
 
         private void FButtonColor_Click(object sender, EventArgs e) {
             using (var wColorDialog = new ColorDialog()) {
