@@ -40,14 +40,14 @@ namespace WFCAD.Model {
 
             // 枠点と基準点の設定
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(wTopLeft, FramePointLocationKindEnum.TopLeft, wBottomRight),
-                new FramePoint(wTop, FramePointLocationKindEnum.Top, wBottom, vScalingX:false),
-                new FramePoint(wTopRight, FramePointLocationKindEnum.TopRight, wBottomLeft),
-                new FramePoint(wLeft, FramePointLocationKindEnum.Left, wRight, vScalingY:false),
-                new FramePoint(wRight, FramePointLocationKindEnum.Right, wLeft, vScalingY:false),
-                new FramePoint(wBottomLeft, FramePointLocationKindEnum.BottomLeft, wTopRight),
-                new FramePoint(wBottom, FramePointLocationKindEnum.Bottom, wTop, vScalingX:false),
-                new FramePoint(wBottomRight, FramePointLocationKindEnum.BottomRight, wTopLeft),
+                new FramePoint(wTopLeft, FramePointLocationKindEnum.Top, wBottomRight),
+                new FramePoint(wTop, FramePointLocationKindEnum.TopRight, wBottom, vScalingX:false),
+                new FramePoint(wTopRight, FramePointLocationKindEnum.Right, wBottomLeft),
+                new FramePoint(wRight, FramePointLocationKindEnum.RightBottom, wLeft, vScalingY:false),
+                new FramePoint(wBottomRight, FramePointLocationKindEnum.Bottom, wTopLeft),
+                new FramePoint(wBottom, FramePointLocationKindEnum.BottomLeft, wTop, vScalingX:false),
+                new FramePoint(wBottomLeft, FramePointLocationKindEnum.Left, wTopRight),
+                new FramePoint(wLeft, FramePointLocationKindEnum.LeftTop, wRight, vScalingY:false),
             };
         }
 

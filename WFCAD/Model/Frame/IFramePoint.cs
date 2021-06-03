@@ -30,6 +30,11 @@ namespace WFCAD.Model {
         FramePointLocationKindEnum LocationKind { get; }
 
         /// <summary>
+        /// 現在の位置種類
+        /// </summary>
+        FramePointLocationKindEnum? CurrentLocationKind { get; set; }
+
+        /// <summary>
         /// 選択されているか
         /// </summary>
         bool IsSelected { get; set; }

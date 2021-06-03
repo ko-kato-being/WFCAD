@@ -19,6 +19,7 @@ namespace WFCAD.Model {
                 vOppositePoint
             };
             this.LocationKind = vLocationKind;
+            this.CurrentLocationKind = vLocationKind;
             FScalingX = vScalingX;
             FScalingY = vScalingY;
             this.InitializePath();
@@ -47,6 +48,11 @@ namespace WFCAD.Model {
         public FramePointLocationKindEnum LocationKind { get; }
 
         /// <summary>
+        /// 現在の位置種類
+        /// </summary>
+        public FramePointLocationKindEnum? CurrentLocationKind { get; set; }
+
+        /// <summary>
         /// 選択されているか
         /// </summary>
         public bool IsSelected { get; set; }
@@ -70,28 +76,28 @@ namespace WFCAD.Model {
 
             #region デバッグ用
             switch (this.LocationKind) {
-                case FramePointLocationKindEnum.TopLeft:
+                case FramePointLocationKindEnum.Top:
                     wColor = Color.Red;
                     break;
-                case FramePointLocationKindEnum.Top:
+                case FramePointLocationKindEnum.TopRight:
                     wColor = Color.Orange;
                     break;
-                case FramePointLocationKindEnum.TopRight:
+                case FramePointLocationKindEnum.Right:
                     wColor = Color.Yellow;
                     break;
-                case FramePointLocationKindEnum.Right:
+                case FramePointLocationKindEnum.RightBottom:
                     wColor = Color.GreenYellow;
                     break;
-                case FramePointLocationKindEnum.BottomRight:
+                case FramePointLocationKindEnum.Bottom:
                     wColor = Color.Green;
                     break;
-                case FramePointLocationKindEnum.Bottom:
+                case FramePointLocationKindEnum.BottomLeft:
                     wColor = Color.LightSkyBlue;
                     break;
-                case FramePointLocationKindEnum.BottomLeft:
+                case FramePointLocationKindEnum.Left:
                     wColor = Color.Blue;
                     break;
-                case FramePointLocationKindEnum.Left:
+                case FramePointLocationKindEnum.LeftTop:
                     wColor = Color.Purple;
                     break;
             }

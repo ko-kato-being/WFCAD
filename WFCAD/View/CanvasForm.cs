@@ -61,6 +61,7 @@ namespace WFCAD.View {
                 this.SetGroupButtonsChecked(sender as ToolStripButton);
                 FCurrentCommand = () => {
                     return new Command(() => {
+                        if (FMouseDownPoint == FMouseUpPoint) return;
                         FCanvas.Add(vCreateShape(FMouseDownPoint, FMouseUpPoint, FColor));
                     }, () => {
                     });

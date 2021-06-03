@@ -135,7 +135,7 @@ namespace WFCAD.Model {
             void SetFramePointIsSelected(FramePointLocationKindEnum? vTargetKind, Func<IShape, bool> vFilter) {
                 foreach (IShape wShape in FShapes.Where(vFilter)) {
                     foreach (IFramePoint wFramePoint in wShape.FramePoints) {
-                        wFramePoint.IsSelected = wFramePoint.LocationKind == vTargetKind;
+                        wFramePoint.IsSelected = wFramePoint.CurrentLocationKind == vTargetKind;
                     }
                 }
             }
@@ -147,7 +147,7 @@ namespace WFCAD.Model {
             foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
                 IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
                 if (wFramePoint == null) continue;
-                SetFramePointIsSelected(wFramePoint.LocationKind, (vShape) => vShape.IsSelected && vShape.Dimensionality == wShape.Dimensionality);
+                SetFramePointIsSelected(wFramePoint.CurrentLocationKind, (vShape) => vShape.IsSelected && vShape.Dimensionality == wShape.Dimensionality);
                 IsFramePointSelected = true;
                 return true;
             }
