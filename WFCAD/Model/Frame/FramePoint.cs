@@ -121,10 +121,13 @@ namespace WFCAD.Model {
         /// 拡大縮小します
         /// </summary>
         public void Zoom(Matrix vMatrix, PointF vStartPoint, PointF vEndPoint, PointF vCenterPoint, float vCurrentAngle) {
+            // 相対座標に変換する
+            PointF wNewEndPoint = (vStartPoint == this.MainPoint) ? vEndPoint : new PointF(vEndPoint.X + (this.MainPoint.X - vStartPoint.X), vEndPoint.Y + (this.MainPoint.Y - vStartPoint.Y));
+
             // 角度がついていると正しく座標計算ができないので一旦角度を無くす
             var wInvertedPoints = new PointF[3] {
-                vStartPoint,
-                vEndPoint,
+                this.MainPoint,
+                wNewEndPoint,
                 this.OppositePoint
             };
 
