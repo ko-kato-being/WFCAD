@@ -159,7 +159,9 @@ namespace WFCAD.Model {
         /// 選択を解除します
         /// </summary>
         public void Unselect() {
-            FShapes.ForEach(x => x.IsSelected = false);
+            foreach (IShape wShape in FShapes) {
+                wShape.IsSelected = false;
+            }
             this.Draw();
         }
 
@@ -191,7 +193,7 @@ namespace WFCAD.Model {
             if (vStartPoint == vEndPoint) return;
 
             foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Zoom(vStartPoint, vEndPoint);
+                wShape.Zoom(vStartPoint, vEndPoint, this.IsPreviewing);
             }
             this.Draw();
         }

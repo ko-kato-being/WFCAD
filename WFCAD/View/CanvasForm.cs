@@ -17,7 +17,8 @@ namespace WFCAD.View {
         private readonly Canvas FCanvas;
         private readonly List<ToolStripButton> FGroupButtons;
         private Color FColor = Color.Orange;
-        private PointF FMouseDownPoint;
+        private Point FMouseDownPoint;
+        private Point FPrevMouseMovePoint;
 
         #endregion フィールド
 
@@ -93,6 +94,7 @@ namespace WFCAD.View {
             }
 
             FCanvas.IsPreviewing = true;
+            FPrevMouseMovePoint = e.Location;
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
@@ -117,6 +119,15 @@ namespace WFCAD.View {
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             FStatusLabelMouse.Text = $"Mouse : {e.Location}";
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+            if (this.SelectedButton == null) {
+                if (FCanvas.IsFramePointSelected) {
+                    FCanvas.Zoom(FPrevMouseMovePoint, e.Location);
+                } else {
+                    FCanvas.Move(FPrevMouseMovePoint, e.Location);
+                }
+            } else {
+            }
+            FPrevMouseMovePoint = e.Location;
         }
 
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {

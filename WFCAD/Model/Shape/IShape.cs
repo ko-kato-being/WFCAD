@@ -77,7 +77,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void Zoom(PointF vStartPoint, PointF vEndPoint);
+        void Zoom(PointF vStartPoint, PointF vEndPoint, bool vIsPreview = false);
 
         /// <summary>
         /// 回転します

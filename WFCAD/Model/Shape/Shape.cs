@@ -124,13 +124,13 @@ namespace WFCAD.Model {
         /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(PointF vStartPoint, PointF vEndPoint) {
+        public void Zoom(PointF vStartPoint, PointF vEndPoint, bool vIsPreview = false) {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
             wFramePoint.Zoom(this.Matrix, vStartPoint, vEndPoint, this.CenterPoint, FCurrentAngle);
-            wFramePoint.IsSelected = false;
             this.SetLocation();
+            if (!vIsPreview) wFramePoint.IsSelected = false;
         }
 
         /// <summary>
