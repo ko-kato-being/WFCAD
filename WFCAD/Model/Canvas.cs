@@ -184,6 +184,7 @@ namespace WFCAD.Model {
                 wShape.IsSelected = true;
                 wShape.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Bottom).IsSelected = true;
                 FPreviewShapes.Add(wShape);
+                this.IsFramePointSelected = true;
             } else {
                 FShapes.Add(vShape);
             }

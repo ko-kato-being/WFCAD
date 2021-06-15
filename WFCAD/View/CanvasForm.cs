@@ -173,6 +173,7 @@ namespace WFCAD.View {
                         FButtonRemove.PerformClick();
                         break;
                     case Keys.Escape:
+                        FCanvas.Unselect();
                         break;
                 }
             }
