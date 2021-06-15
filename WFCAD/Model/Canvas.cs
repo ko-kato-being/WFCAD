@@ -179,7 +179,14 @@ namespace WFCAD.Model {
         /// 追加します
         /// </summary>
         public void Add(IShape vShape) {
-            FShapes.Add(vShape);
+            if (this.IsPreviewing) {
+                IShape wShape = vShape.DeepClone();
+                wShape.IsSelected = true;
+                wShape.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Bottom).IsSelected = true;
+                FPreviewShapes.Add(wShape);
+            } else {
+                FShapes.Add(vShape);
+            }
             this.Draw();
         }
 

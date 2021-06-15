@@ -87,14 +87,18 @@ namespace WFCAD.View {
         private void FPictureBox_MouseDown(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
             FMouseDownPoint = e.Location;
+            FPrevMouseMovePoint = e.Location;
 
             // 動作が設定されていない場合は選択を行う
             if (this.SelectedButton == null) {
-                FCanvas.Select(e.Location, (ModifierKeys & Keys.Control) == Keys.Control);
+                FCanvas.Select(FMouseDownPoint, (ModifierKeys & Keys.Control) == Keys.Control);
             }
 
             FCanvas.IsPreviewing = true;
-            FPrevMouseMovePoint = e.Location;
+
+            if (this.SelectedButton != null) {
+                ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, FMouseDownPoint + new Size(1, 1), FColor);
+            }
         }
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
@@ -120,13 +124,12 @@ namespace WFCAD.View {
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
             FStatusLabelMouse.Text = $"Mouse : {e.Location}";
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
-            if (this.SelectedButton == null) {
-                if (FCanvas.IsFramePointSelected) {
-                    FCanvas.Zoom(FPrevMouseMovePoint, e.Location);
-                } else {
-                    FCanvas.Move(FPrevMouseMovePoint, e.Location);
-                }
+            if (!FCanvas.IsPreviewing) return;
+
+            if (FCanvas.IsFramePointSelected) {
+                FCanvas.Zoom(FPrevMouseMovePoint, e.Location);
             } else {
+                FCanvas.Move(FPrevMouseMovePoint, e.Location);
             }
             FPrevMouseMovePoint = e.Location;
         }
