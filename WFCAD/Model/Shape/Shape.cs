@@ -208,6 +208,7 @@ namespace WFCAD.Model {
             wClone.IsSelected = this.IsSelected;
             wClone.Color = this.Color;
             wClone.FramePoints = this.FramePoints.Select(x => x.DeepClone()).ToList();
+            wClone.CurrentAngle = this.CurrentAngle;
             return wClone;
         }
 
