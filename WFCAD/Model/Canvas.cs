@@ -28,8 +28,9 @@ namespace WFCAD.Model {
         #region フィールド
 
         private Graphics FGraphics;
-        private Color FCanvasColor;
+        private readonly Color FCanvasColor;
         private List<IShape> FShapes = new List<IShape>();
+        private List<IShape> FPreviewShapes;
 
 
         #endregion フィールド
@@ -52,7 +53,16 @@ namespace WFCAD.Model {
         /// <summary>
         /// プレビュー中かどうか
         /// </summary>
-        public bool IsPreviewing { get; set; }
+        public bool IsPreviewing {
+            get => FPreviewShapes != null;
+            set {
+                if (value) {
+                    FPreviewShapes = FShapes.Select(x => x.DeepClone()).ToList();
+                } else {
+                    FPreviewShapes = null;
+                }
+            }
+        }
 
         /// <summary>
         /// 枠点が選択されているか
@@ -78,13 +88,13 @@ namespace WFCAD.Model {
         /// </summary>
         public void Draw() {
             FGraphics.Clear(FCanvasColor);
-            foreach (IShape wShape in FShapes) {
+            foreach (IShape wShape in FPreviewShapes ?? FShapes) {
                 wShape.ApplyAffine();
                 try {
                     checked {
                         wShape.Draw(FGraphics);
                     }
-                } catch (OverflowException e) {
+                } catch (OverflowException) {
                     // TODO:オーバーフローの原因調査 (とりあえず無視)
                     Console.WriteLine("オーバーフローしました。");
                 }
@@ -180,7 +190,7 @@ namespace WFCAD.Model {
             var wSize = new SizeF(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
             if (wSize.IsEmpty) return;
 
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+            foreach (IShape wShape in (FPreviewShapes ?? FShapes).Where(x => x.IsSelected)) {
                 wShape.Move(wSize);
             }
             this.Draw();
@@ -192,7 +202,7 @@ namespace WFCAD.Model {
         public void Zoom(PointF vStartPoint, PointF vEndPoint) {
             if (vStartPoint == vEndPoint) return;
 
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+            foreach (IShape wShape in (FPreviewShapes ?? FShapes).Where(x => x.IsSelected)) {
                 wShape.Zoom(vStartPoint, vEndPoint, this.IsPreviewing);
             }
             this.Draw();

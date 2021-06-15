@@ -99,6 +99,8 @@ namespace WFCAD.View {
 
         private void FPictureBox_MouseUp(object sender, MouseEventArgs e) {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
+            FCanvas.IsPreviewing = false;
+
             if (Math.Abs(e.Location.X - FMouseDownPoint.X) < 3) return;
             if (Math.Abs(e.Location.Y - FMouseDownPoint.Y) < 3) return;
 
@@ -113,7 +115,6 @@ namespace WFCAD.View {
                 this.SetGroupButtonsChecked(null);
             }
 
-            FCanvas.IsPreviewing = false;
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {

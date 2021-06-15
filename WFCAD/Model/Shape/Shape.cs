@@ -204,7 +204,7 @@ namespace WFCAD.Model {
             wClone.Points = this.Points.ToArray();
             wClone.IsSelected = this.IsSelected;
             wClone.Color = this.Color;
-            wClone.FramePoints = this.FramePoints.Select(x => x.DeepClone());
+            wClone.FramePoints = this.FramePoints.Select(x => x.DeepClone()).ToList();
             return wClone;
         }
 
