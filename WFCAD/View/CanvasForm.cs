@@ -58,7 +58,10 @@ namespace WFCAD.View {
 
         #region 機能ボタン
 
-        private void FButtonShape_Click(object sender, EventArgs e) => this.SetGroupButtonsChecked((ToolStripButton)sender);
+        private void FButtonShape_Click(object sender, EventArgs e) {
+            this.SetGroupButtonsChecked((ToolStripButton)sender);
+            FCanvas.Unselect();
+        }
 
         private void FButtonColor_Click(object sender, EventArgs e) {
             using (var wColorDialog = new ColorDialog()) {
