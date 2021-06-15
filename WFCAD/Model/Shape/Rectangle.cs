@@ -11,6 +11,11 @@ namespace WFCAD.Model {
         /// </summary>
         public Rectangle(PointF vStartPoint, PointF vEndPoint, Color vColor) : base(vStartPoint, vEndPoint, vColor) { }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        private Rectangle() { }
+
         #region　メソッド
 
         /// <summary>
@@ -34,6 +39,11 @@ namespace WFCAD.Model {
             if (!this.IsSelected) return;
             this.DrawFrame(vGraphics);
         }
+
+        /// <summary>
+        /// 自身のインスタンスを返します
+        /// </summary>
+        protected override Shape DeepCloneCore() => new Rectangle();
 
         #endregion　メソッド
 

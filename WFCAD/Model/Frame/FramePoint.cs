@@ -1,51 +1,59 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace WFCAD.Model {
     /// <summary>
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
-        private readonly PointF[] FPoints;
-        private readonly bool FScalingX;
-        private readonly bool FScalingY;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public FramePoint(PointF vPoint, FramePointLocationKindEnum vLocationKind, PointF vOppositePoint, bool vScalingX = true, bool vScalingY = true) {
-            FPoints = new PointF[2] {
+            this.Points = new PointF[2] {
                 vPoint,
                 vOppositePoint
             };
             this.LocationKind = vLocationKind;
             this.CurrentLocationKind = vLocationKind;
-            FScalingX = vScalingX;
-            FScalingY = vScalingY;
+            this.ScalingX = vScalingX;
+            this.ScalingY = vScalingY;
             this.InitializePath();
         }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        private FramePoint() { }
 
         #region プロパティ
 
         /// <summary>
         /// パス
         /// </summary>
-        public GraphicsPath Path { get; } = new GraphicsPath();
+        public GraphicsPath Path { get; private set; } = new GraphicsPath();
+
+        /// <summary>
+        /// 座標リスト
+        /// </summary>
+        public PointF[] Points { get; private set; }
 
         /// <summary>
         /// 座標
         /// </summary>
-        public PointF MainPoint => FPoints[0];
+        public PointF MainPoint => this.Points[0];
 
         /// <summary>
         /// 対極の座標
         /// </summary>
-        public PointF OppositePoint => FPoints[1];
+        public PointF OppositePoint => this.Points[1];
 
         /// <summary>
         /// 位置種類
         /// </summary>
-        public FramePointLocationKindEnum LocationKind { get; }
+        public FramePointLocationKindEnum LocationKind { get; private set; }
 
         /// <summary>
         /// 現在の位置種類
@@ -56,6 +64,16 @@ namespace WFCAD.Model {
         /// 選択されているか
         /// </summary>
         public bool IsSelected { get; set; }
+
+        /// <summary>
+        /// X方向の倍率
+        /// </summary>
+        public bool ScalingX { get; private set; }
+
+        /// <summary>
+        /// Y方向の倍率
+        /// </summary>
+        public bool ScalingY { get; private set; }
 
         #endregion プロパティ
 
@@ -119,7 +137,7 @@ namespace WFCAD.Model {
         /// </summary>
         public void ApplyAffine(Matrix vMatrix) {
             this.Path.Transform(vMatrix);
-            vMatrix.TransformPoints(FPoints);
+            vMatrix.TransformPoints(this.Points);
             this.InitializePath();
         }
 
@@ -140,11 +158,26 @@ namespace WFCAD.Model {
             vMatrix.RotateAt(vCurrentAngle * -1, vCenterPoint, MatrixOrder.Append); // 角度を0度にする
             vMatrix.TransformPoints(wInvertedPoints); // 使用する座標すべてに反転行列を適用する
 
-            float wScaleX = FScalingX ? (wInvertedPoints[1].X - wInvertedPoints[2].X) / (wInvertedPoints[0].X - wInvertedPoints[2].X) : 1;
-            float wScaleY = FScalingY ? (wInvertedPoints[1].Y - wInvertedPoints[2].Y) / (wInvertedPoints[0].Y - wInvertedPoints[2].Y) : 1;
+            float wScaleX = this.ScalingX ? (wInvertedPoints[1].X - wInvertedPoints[2].X) / (wInvertedPoints[0].X - wInvertedPoints[2].X) : 1;
+            float wScaleY = this.ScalingY ? (wInvertedPoints[1].Y - wInvertedPoints[2].Y) / (wInvertedPoints[0].Y - wInvertedPoints[2].Y) : 1;
 
-            vMatrix.ScaleAt(wScaleX, wScaleY, wInvertedPoints[2]); 
+            vMatrix.ScaleAt(wScaleX, wScaleY, wInvertedPoints[2]);
             vMatrix.RotateAt(vCurrentAngle, vCenterPoint, MatrixOrder.Append); // 角度を元に戻す
+        }
+
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        public IFramePoint DeepClone() {
+            var wClone = new FramePoint();
+            wClone.Path = (GraphicsPath)this.Path.Clone();
+            wClone.Points = this.Points.ToArray();
+            wClone.LocationKind = this.LocationKind;
+            wClone.CurrentLocationKind = this.CurrentLocationKind;
+            wClone.IsSelected = this.IsSelected;
+            wClone.ScalingX = this.ScalingX;
+            wClone.ScalingY = this.ScalingY;
+            return wClone;
         }
 
         #endregion メソッド

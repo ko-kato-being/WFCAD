@@ -8,8 +8,6 @@ namespace WFCAD.Model {
     /// 図形クラス
     /// </summary>
     public abstract class Shape : IShape {
-        private float FCurrentAngle;
-        protected PointF[] FPoints;
 
         #region 定数
 
@@ -30,6 +28,11 @@ namespace WFCAD.Model {
             this.Color = vColor;
         }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        protected Shape() { }
+
         #endregion コンストラクタ
 
         #region プロパティ
@@ -37,17 +40,17 @@ namespace WFCAD.Model {
         /// <summary>
         /// メインパス
         /// </summary>
-        public GraphicsPath MainPath { get; } = new GraphicsPath();
+        public GraphicsPath MainPath { get; private set; } = new GraphicsPath();
 
         /// <summary>
         /// サブパス
         /// </summary>
-        public GraphicsPath SubPath { get; } = new GraphicsPath();
+        public GraphicsPath SubPath { get; private set; } = new GraphicsPath();
 
         /// <summary>
         /// 変換行列
         /// </summary>
-        public Matrix Matrix { get; set; } = new Matrix();
+        public Matrix Matrix { get; private set; } = new Matrix();
 
         /// <summary>
         /// 次元数
@@ -55,9 +58,14 @@ namespace WFCAD.Model {
         public abstract int Dimensionality { get; }
 
         /// <summary>
+        /// 座標リスト
+        /// </summary>
+        public PointF[] Points { get; protected set; }
+
+        /// <summary>
         /// 中心点
         /// </summary>
-        public PointF CenterPoint => FPoints[0];
+        public PointF CenterPoint => this.Points[0];
 
         /// <summary>
         /// 選択されているか
@@ -72,7 +80,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠点リスト
         /// </summary>
-        public IEnumerable<IFramePoint> FramePoints { get; set; }
+        public IEnumerable<IFramePoint> FramePoints { get; protected set; }
+
+        /// <summary>
+        /// 現在の角度
+        /// </summary>
+        public float CurrentAngle { get; private set; }
 
         #endregion プロパティ
 
@@ -109,7 +122,7 @@ namespace WFCAD.Model {
         public void ApplyAffine() {
             this.MainPath.Transform(this.Matrix);
             this.SubPath.Transform(this.Matrix);
-            this.Matrix.TransformPoints(FPoints);
+            this.Matrix.TransformPoints(this.Points);
             foreach (IFramePoint wPoint in this.FramePoints) {
                 wPoint.ApplyAffine(this.Matrix);
             }
@@ -128,7 +141,7 @@ namespace WFCAD.Model {
             IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
             if (wFramePoint == null) return;
 
-            wFramePoint.Zoom(this.Matrix, vStartPoint, vEndPoint, this.CenterPoint, FCurrentAngle);
+            wFramePoint.Zoom(this.Matrix, vStartPoint, vEndPoint, this.CenterPoint, this.CurrentAngle);
             this.SetLocation();
             if (!vIsPreview) wFramePoint.IsSelected = false;
         }
@@ -137,7 +150,7 @@ namespace WFCAD.Model {
         /// 回転します
         /// </summary>
         public void Rotate(float vAngle) {
-            FCurrentAngle += vAngle;
+            this.CurrentAngle += vAngle;
             this.Matrix.RotateAt(vAngle, this.CenterPoint, MatrixOrder.Append);
             this.SetLocation();
         }
@@ -179,6 +192,26 @@ namespace WFCAD.Model {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public abstract bool IsHit(PointF vCoordinate);
+
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        public IShape DeepClone() {
+            Shape wClone = this.DeepCloneCore();
+            wClone.MainPath = (GraphicsPath)this.MainPath.Clone();
+            wClone.SubPath = (GraphicsPath)this.SubPath.Clone();
+            wClone.Matrix = this.Matrix.Clone();
+            wClone.Points = this.Points.ToArray();
+            wClone.IsSelected = this.IsSelected;
+            wClone.Color = this.Color;
+            wClone.FramePoints = this.FramePoints.Select(x => x.DeepClone());
+            return wClone;
+        }
+
+        /// <summary>
+        /// 派生クラスごとのインスタンスを返します
+        /// </summary>
+        protected abstract Shape DeepCloneCore();
 
         #endregion メソッド
     }

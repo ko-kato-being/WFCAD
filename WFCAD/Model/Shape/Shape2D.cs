@@ -15,6 +15,11 @@ namespace WFCAD.Model {
         public Shape2D(PointF vStartPoint, PointF vEndPoint, Color vColor) : base(vStartPoint, vEndPoint, vColor) { }
 
         /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        protected Shape2D() { }
+
+        /// <summary>
         /// 次元数
         /// </summary>
         public override int Dimensionality => 2;
@@ -62,7 +67,7 @@ namespace WFCAD.Model {
                 float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
                 wCenterPoint = new PointF(wCenterX, wCenterY);
             }
-            FPoints = new PointF[1] {
+            this.Points = new PointF[1] {
                 wCenterPoint,
             };
         }

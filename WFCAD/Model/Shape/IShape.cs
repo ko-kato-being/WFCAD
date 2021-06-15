@@ -11,29 +11,9 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
-        /// メインパス
-        /// </summary>
-        GraphicsPath MainPath { get; }
-
-        /// <summary>
-        /// サブパス
-        /// </summary>
-        GraphicsPath SubPath { get; }
-
-        /// <summary>
-        /// 変換行列
-        /// </summary>
-        Matrix Matrix { get; set; }
-
-        /// <summary>
         /// 次元数
         /// </summary>
         int Dimensionality { get; }
-
-        /// <summary>
-        /// 中心点
-        /// </summary>
-        PointF CenterPoint { get; }
 
         /// <summary>
         /// 選択されているか
@@ -88,6 +68,11 @@ namespace WFCAD.Model {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         bool IsHit(PointF vCoordinate);
+
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        IShape DeepClone();
 
         #endregion メソッド
 

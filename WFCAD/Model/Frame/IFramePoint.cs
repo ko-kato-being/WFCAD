@@ -10,24 +10,9 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
-        /// パス
-        /// </summary>
-        GraphicsPath Path { get; }
-
-        /// <summary>
         /// 座標
         /// </summary>
         PointF MainPoint { get; }
-
-        /// <summary>
-        /// 基準点
-        /// </summary>
-        PointF OppositePoint { get; }
-
-        /// <summary>
-        /// 位置種類
-        /// </summary>
-        FramePointLocationKindEnum LocationKind { get; }
 
         /// <summary>
         /// 現在の位置種類
@@ -62,6 +47,11 @@ namespace WFCAD.Model {
         /// 拡大時の倍率を取得します。
         /// </summary>
         void Zoom(Matrix vMatrix, PointF vStartPoint, PointF vEndPoint, PointF vCenterPoint, float vCurrentAngle);
+
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        IFramePoint DeepClone();
 
         #endregion メソッド
 
