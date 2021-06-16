@@ -109,7 +109,16 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        public abstract void Draw(Graphics vGraphics, bool vIsDrawFrame);
+        public void Draw(Graphics vGraphics, bool vIsDrawFrame) {
+            this.ApplyAffine();
+            using (var wBrush = new SolidBrush(this.Color))
+            using (var wPen = new Pen(C_BorderColor, 2f)) {
+                vGraphics.FillPath(wBrush, this.MainPath);
+                vGraphics.DrawPath(wPen, this.MainPath);
+            }
+            if (!this.IsSelected || !vIsDrawFrame) return;
+            this.DrawFrame(vGraphics);
+        }
 
         /// <summary>
         /// 枠を描画します

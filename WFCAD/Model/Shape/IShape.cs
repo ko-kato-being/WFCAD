@@ -40,11 +40,6 @@ namespace WFCAD.Model {
         void Draw(Graphics vGraphics, bool vIsDrawFrame);
 
         /// <summary>
-        /// アフィン変換を適用します
-        /// </summary>
-        void ApplyAffine();
-
-        /// <summary>
         /// 移動します
         /// </summary>
         void Move(SizeF vSize);

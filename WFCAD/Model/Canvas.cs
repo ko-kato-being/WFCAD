@@ -89,7 +89,6 @@ namespace WFCAD.Model {
         public void Draw() {
             FGraphics.Clear(FCanvasColor);
             foreach (IShape wShape in FPreviewShapes ?? FShapes) {
-                wShape.ApplyAffine();
                 try {
                     checked {
                         wShape.Draw(FGraphics, !this.IsPreviewing);
