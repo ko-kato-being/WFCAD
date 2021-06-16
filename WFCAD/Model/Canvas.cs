@@ -192,6 +192,17 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
+        /// 削除します
+        /// </summary>
+        public void Remove() {
+            for (int i = FShapes.Count - 1; i >= 0; i--) {
+                if (!FShapes[i].IsSelected) continue;
+                FShapes.RemoveAt(i);
+            }
+            this.Draw();
+        }
+
+        /// <summary>
         /// 移動します
         /// </summary>
         public void Move(PointF vStartPoint, PointF vEndPoint) {

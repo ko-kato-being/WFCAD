@@ -80,7 +80,7 @@ namespace WFCAD.View {
         private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
         private void FButtonForeground_Click(object sender, EventArgs e) { }
         private void FButtonBackground_Click(object sender, EventArgs e) { }
-        private void FButtonRemove_Click(object sender, EventArgs e) { }
+        private void FButtonRemove_Click(object sender, EventArgs e) => FCanvas.Remove();
         private void FButtonReset_Click(object sender, EventArgs e) { }
 
         #endregion 機能ボタン
@@ -100,7 +100,9 @@ namespace WFCAD.View {
             FCanvas.IsPreviewing = true;
 
             if (this.SelectedButton != null) {
-                ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, FMouseDownPoint + new Size(1, 1), FColor);
+                // サイズが0の図形を作成することはできないので、最小のオフセットを加算する
+                var wOffset = new Size(1, 1);
+                ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, FMouseDownPoint + wOffset, FColor);
             }
         }
 
