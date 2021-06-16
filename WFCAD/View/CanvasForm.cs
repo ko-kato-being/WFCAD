@@ -155,6 +155,7 @@ namespace WFCAD.View {
             if (e.Control) {
                 switch (e.KeyCode) {
                     case Keys.A:
+                        FCanvas.SelectAll();
                         break;
                     case Keys.C:
                         break;

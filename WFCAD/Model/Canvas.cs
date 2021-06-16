@@ -176,6 +176,16 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
+        /// 全選択します
+        /// </summary>
+        public void SelectAll() {
+            foreach (IShape wShape in FShapes) {
+                wShape.IsSelected = true;
+            }
+            this.Draw();
+        }
+
+        /// <summary>
         /// 追加します
         /// </summary>
         public void Add(IShape vShape) {
