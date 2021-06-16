@@ -95,6 +95,7 @@
     <Compile Include="Model\Canvas.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />
+    <Compile Include="Model\Shape\Ellipse.cs" />
     <Compile Include="Model\Shape\Shape2D.cs" />
     <Compile Include="Test\Model\CanvasTest.cs" />
     <Compile Include="Utilities.cs" />

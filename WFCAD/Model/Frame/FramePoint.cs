@@ -93,32 +93,32 @@ namespace WFCAD.Model {
             Color wColor = Color.White;
 
             #region デバッグ用
-            switch (this.LocationKind) {
-                case FramePointLocationKindEnum.Top:
-                    wColor = Color.Red;
-                    break;
-                case FramePointLocationKindEnum.TopRight:
-                    wColor = Color.Orange;
-                    break;
-                case FramePointLocationKindEnum.Right:
-                    wColor = Color.Yellow;
-                    break;
-                case FramePointLocationKindEnum.RightBottom:
-                    wColor = Color.GreenYellow;
-                    break;
-                case FramePointLocationKindEnum.Bottom:
-                    wColor = Color.Green;
-                    break;
-                case FramePointLocationKindEnum.BottomLeft:
-                    wColor = Color.LightSkyBlue;
-                    break;
-                case FramePointLocationKindEnum.Left:
-                    wColor = Color.Blue;
-                    break;
-                case FramePointLocationKindEnum.LeftTop:
-                    wColor = Color.Purple;
-                    break;
-            }
+            //switch (this.LocationKind) {
+            //    case FramePointLocationKindEnum.Top:
+            //        wColor = Color.Red;
+            //        break;
+            //    case FramePointLocationKindEnum.TopRight:
+            //        wColor = Color.Orange;
+            //        break;
+            //    case FramePointLocationKindEnum.Right:
+            //        wColor = Color.Yellow;
+            //        break;
+            //    case FramePointLocationKindEnum.RightBottom:
+            //        wColor = Color.GreenYellow;
+            //        break;
+            //    case FramePointLocationKindEnum.Bottom:
+            //        wColor = Color.Green;
+            //        break;
+            //    case FramePointLocationKindEnum.BottomLeft:
+            //        wColor = Color.LightSkyBlue;
+            //        break;
+            //    case FramePointLocationKindEnum.Left:
+            //        wColor = Color.Blue;
+            //        break;
+            //    case FramePointLocationKindEnum.LeftTop:
+            //        wColor = Color.Purple;
+            //        break;
+            //}
             #endregion デバッグ用
 
             using (var wBrush = new SolidBrush(wColor)) {

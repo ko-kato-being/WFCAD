@@ -33,7 +33,6 @@ namespace WFCAD.Model {
         private List<IShape> FPreviewShapes;
         private List<IShape> FCopyShapes;
 
-
         #endregion フィールド
 
         #region コンストラクタ
@@ -93,7 +92,7 @@ namespace WFCAD.Model {
                 wShape.ApplyAffine();
                 try {
                     checked {
-                        wShape.Draw(FGraphics);
+                        wShape.Draw(FGraphics, !this.IsPreviewing);
                     }
                 } catch (OverflowException) {
                     // TODO:オーバーフローの原因調査 (とりあえず無視)
@@ -190,9 +189,9 @@ namespace WFCAD.Model {
         /// 追加します
         /// </summary>
         public void Add(IShape vShape) {
+            vShape.IsSelected = true;
             if (this.IsPreviewing) {
                 IShape wShape = vShape.DeepClone();
-                wShape.IsSelected = true;
                 wShape.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Bottom).IsSelected = true;
                 FPreviewShapes.Add(wShape);
                 this.IsFramePointSelected = true;

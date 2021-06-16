@@ -109,12 +109,12 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        public abstract void Draw(Graphics vGraphics);
+        public abstract void Draw(Graphics vGraphics, bool vIsDrawFrame);
 
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        public abstract void DrawFrame(Graphics vGraphics);
+        protected abstract void DrawFrame(Graphics vGraphics);
 
         /// <summary>
         /// アフィン変換を適用します

@@ -48,7 +48,7 @@ namespace WFCAD.View {
             };
 
             FButtonRectangle.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Model.Rectangle(vStartPoint, vEndPoint, vColor)));
-            FButtonEllipse.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
+            FButtonEllipse.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Ellipse(vStartPoint, vEndPoint, vColor)));
             FButtonLine.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
         }
 

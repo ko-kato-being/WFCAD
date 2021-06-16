@@ -37,12 +37,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 描画します
         /// </summary>
-        void Draw(Graphics vGraphics);
-
-        /// <summary>
-        /// 枠を描画します
-        /// </summary>
-        void DrawFrame(Graphics vGraphics);
+        void Draw(Graphics vGraphics, bool vIsDrawFrame);
 
         /// <summary>
         /// アフィン変換を適用します

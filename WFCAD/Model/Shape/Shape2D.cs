@@ -75,7 +75,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠を描画します
         /// </summary>
-        public override void DrawFrame(Graphics vGraphics) {
+        protected override void DrawFrame(Graphics vGraphics) {
             using (var wPen = new Pen(C_FrameColor)) {
                 vGraphics.DrawPath(wPen, this.SubPath);
                 foreach (IFramePoint wFramePoint in this.FramePoints) {
