@@ -123,7 +123,6 @@ namespace WFCAD.View {
                 ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, e.Location, FColor);
                 this.SetGroupButtonsChecked(null);
             }
-
         }
 
         private void FPictureBox_MouseMove(object sender, MouseEventArgs e) {
