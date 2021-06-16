@@ -31,6 +31,7 @@ namespace WFCAD.Model {
         private readonly Color FCanvasColor;
         private List<IShape> FShapes = new List<IShape>();
         private List<IShape> FPreviewShapes;
+        private List<IShape> FCopyShapes;
 
 
         #endregion フィールド
@@ -217,6 +218,62 @@ namespace WFCAD.Model {
         /// </summary>
         public void Reset() {
             FShapes.Clear();
+            this.Draw();
+        }
+
+        /// <summary>
+        /// コピーします
+        /// </summary>
+        public void Copy(bool vIsCut) {
+            var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
+            if (wSelectedShapes.Count == 0) return;
+
+            FCopyShapes = new List<IShape>();
+            foreach (IShape wShape in wSelectedShapes) {
+                if (vIsCut) FShapes.Remove(wShape);
+                IShape wCopy = wShape.DeepClone();
+
+                // 選択状態にしておく
+                wCopy.IsSelected = true;
+
+                wCopy.Move(C_DefaultMovingSize);
+                FCopyShapes.Add(wCopy);
+            }
+            if (vIsCut) this.Draw();
+        }
+
+        /// <summary>
+        /// 貼り付けます
+        /// </summary>
+        public void Paste() {
+            foreach (IShape wShape in FShapes) {
+                wShape.IsSelected = false;
+            }
+            FShapes.AddRange(FCopyShapes.Select(x => x.DeepClone()));
+
+            // 貼り付け位置を更新しておく
+            foreach (IShape wShape in FCopyShapes) {
+                wShape.Move(C_DefaultMovingSize);
+            }
+            this.Draw();
+        }
+
+        /// <summary>
+        /// 複製します
+        /// </summary>
+        public void Clone() {
+            var wClonedShapes = new List<IShape>();
+            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
+                IShape wClone = wShape.DeepClone();
+
+                // 選択状態をスイッチします
+                wShape.IsSelected = false;
+                wClone.IsSelected = true;
+
+                wClone.Move(C_DefaultMovingSize);
+                wClonedShapes.Add(wClone);
+            }
+            FShapes.AddRange(wClonedShapes);
             this.Draw();
         }
 

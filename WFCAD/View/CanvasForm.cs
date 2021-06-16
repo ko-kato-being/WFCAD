@@ -76,7 +76,7 @@ namespace WFCAD.View {
 
         private void FButtonUndo_Click(object sender, EventArgs e) { }
         private void FButtonRedo_Click(object sender, EventArgs e) { }
-        private void FButtonClone_Click(object sender, EventArgs e) { }
+        private void FButtonClone_Click(object sender, EventArgs e) => FCanvas.Clone();
         private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
         private void FButtonForeground_Click(object sender, EventArgs e) { }
         private void FButtonBackground_Click(object sender, EventArgs e) { }
@@ -157,10 +157,13 @@ namespace WFCAD.View {
                         FCanvas.SelectAll();
                         break;
                     case Keys.C:
+                        FCanvas.Copy(false);
                         break;
                     case Keys.V:
+                        FCanvas.Paste();
                         break;
                     case Keys.X:
+                        FCanvas.Copy(true);
                         break;
                     case Keys.Y:
                         FButtonRedo.PerformClick();
