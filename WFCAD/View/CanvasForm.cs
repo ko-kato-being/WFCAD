@@ -81,7 +81,7 @@ namespace WFCAD.View {
         private void FButtonForeground_Click(object sender, EventArgs e) { }
         private void FButtonBackground_Click(object sender, EventArgs e) { }
         private void FButtonRemove_Click(object sender, EventArgs e) => FCanvas.Remove();
-        private void FButtonReset_Click(object sender, EventArgs e) { }
+        private void FButtonReset_Click(object sender, EventArgs e) => FCanvas.Reset();
 
         #endregion 機能ボタン
 

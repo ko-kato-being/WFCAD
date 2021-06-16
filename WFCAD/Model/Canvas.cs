@@ -203,6 +203,14 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
+        /// リセットします
+        /// </summary>
+        public void Reset() {
+            FShapes.Clear();
+            this.Draw();
+        }
+
+        /// <summary>
         /// 移動します
         /// </summary>
         public void Move(PointF vStartPoint, PointF vEndPoint) {
