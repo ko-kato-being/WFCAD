@@ -2,16 +2,13 @@
 using WFCAD.Model;
 
 namespace WFCAD.Controller {
-    public abstract class AddShapeCommand : IAddShapeCommand {
-        protected readonly Canvas FCanvas;
+    public abstract class AddShapeCommand : Command, IAddShapeCommand {
         protected Point FStartPoint;
         protected Point FEndPoint;
         protected Color FColor;
         protected IShape FShape;
 
-        public AddShapeCommand(Canvas vCanvas) => FCanvas = vCanvas;
-        public abstract void Execute();
-        public abstract void Undo();
+        public AddShapeCommand(Canvas vCanvas) : base(vCanvas) { }
         public void SetParams(Point vStartPoint, Point vEndPoint, Color vColor) {
             FStartPoint = vStartPoint;
             FEndPoint = vEndPoint;

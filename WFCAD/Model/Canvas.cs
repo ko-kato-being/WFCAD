@@ -67,7 +67,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠点が選択されているか
         /// </summary>
-        public bool IsFramePointSelected { get; private set; }
+        public bool IsFramePointSelected => (FPreviewShapes ?? FShapes).Any(x => x.IsSelected && x.FramePoints.Any(y => y.IsSelected));
 
         #endregion プロパティ
 
@@ -152,13 +152,11 @@ namespace WFCAD.Model {
 
             // 全図形の枠点選択状態を初期化
             SetFramePointIsSelected(null, (vShape) => true);
-            this.IsFramePointSelected = false;
 
             foreach (IShape wShape in Enumerable.Reverse(FShapes.Where(x => x.IsSelected))) {
                 IFramePoint wFramePoint = wShape.FramePoints.FirstOrDefault(x => x.IsHit(vCoordinate));
                 if (wFramePoint == null) continue;
                 SetFramePointIsSelected(wFramePoint.CurrentLocationKind, (vShape) => vShape.IsSelected && vShape.Dimensionality == wShape.Dimensionality);
-                this.IsFramePointSelected = true;
                 return true;
             }
             return false;
@@ -193,7 +191,6 @@ namespace WFCAD.Model {
                 IShape wShape = vShape.DeepClone();
                 wShape.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Bottom).IsSelected = true;
                 FPreviewShapes.Add(wShape);
-                this.IsFramePointSelected = true;
             } else {
                 FShapes.Add(vShape);
             }
