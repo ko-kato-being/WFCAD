@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
+using WFCAD.Controller;
 using WFCAD.Model;
 
 namespace WFCAD.View {
@@ -47,9 +48,9 @@ namespace WFCAD.View {
                 FButtonLine,
             };
 
-            FButtonRectangle.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Model.Rectangle(vStartPoint, vEndPoint, vColor)));
-            FButtonEllipse.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => FCanvas.Add(new Ellipse(vStartPoint, vEndPoint, vColor)));
-            FButtonLine.Tag = (Action<PointF, PointF, Color>)((PointF vStartPoint, PointF vEndPoint, Color vColor) => throw new NotImplementedException());
+            FButtonRectangle.Tag = new AddRectangleCommand(FCanvas);
+            FButtonEllipse.Tag = null;
+            FButtonLine.Tag = null;
         }
 
         #endregion コンストラクタ
@@ -102,7 +103,9 @@ namespace WFCAD.View {
             if (this.SelectedButton != null) {
                 // サイズが0の図形を作成することはできないので、最小のオフセットを加算する
                 var wOffset = new Size(1, 1);
-                ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, FMouseDownPoint + wOffset, FColor);
+                var wAddCommand = (IAddShapeCommand)this.SelectedButton.Tag; // TODO:clone
+                wAddCommand.SetParams(FMouseDownPoint, FMouseDownPoint + wOffset, FColor);
+                wAddCommand.Execute();
             }
         }
 
@@ -120,7 +123,9 @@ namespace WFCAD.View {
                     FCanvas.Move(FMouseDownPoint, e.Location);
                 }
             } else {
-                ((Action<PointF, PointF, Color>)this.SelectedButton.Tag).Invoke(FMouseDownPoint, e.Location, FColor);
+                var wAddCommand = (IAddShapeCommand)this.SelectedButton.Tag; // TODO:clone
+                wAddCommand.SetParams(FMouseDownPoint, e.Location, FColor);
+                wAddCommand.Execute();
                 this.SetGroupButtonsChecked(null);
             }
         }

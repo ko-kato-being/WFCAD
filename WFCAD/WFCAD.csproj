@@ -91,6 +91,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\IAddShapeCommand.cs" />
+    <Compile Include="Controller\AddRectangleCommand.cs" />
+    <Compile Include="Controller\Command.cs" />
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Canvas.cs" />
     <Compile Include="Model\Frame\FramePoint.cs" />
@@ -176,9 +179,7 @@
   <ItemGroup>
     <None Include="Resources\色.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
