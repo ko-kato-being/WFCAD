@@ -49,7 +49,7 @@ namespace WFCAD.View {
             };
 
             FButtonRectangle.Tag = new AddRectangleCommand(FCanvas);
-            FButtonEllipse.Tag = null;
+            FButtonEllipse.Tag = new AddEllipseCommand(FCanvas);
             FButtonLine.Tag = null;
         }
 
@@ -103,7 +103,7 @@ namespace WFCAD.View {
             if (this.SelectedButton != null) {
                 // サイズが0の図形を作成することはできないので、最小のオフセットを加算する
                 var wOffset = new Size(1, 1);
-                var wAddCommand = (IAddShapeCommand)this.SelectedButton.Tag; // TODO:clone
+                var wAddCommand = (IAddShapeCommand)this.SelectedButton.Tag;
                 wAddCommand.SetParams(FMouseDownPoint, FMouseDownPoint + wOffset, FColor);
                 wAddCommand.Execute();
             }
@@ -123,7 +123,7 @@ namespace WFCAD.View {
                     FCanvas.Move(FMouseDownPoint, e.Location);
                 }
             } else {
-                var wAddCommand = (IAddShapeCommand)this.SelectedButton.Tag; // TODO:clone
+                IAddShapeCommand wAddCommand = ((IAddShapeCommand)this.SelectedButton.Tag).Clone();
                 wAddCommand.SetParams(FMouseDownPoint, e.Location, FColor);
                 wAddCommand.Execute();
                 this.SetGroupButtonsChecked(null);
