@@ -84,7 +84,7 @@ namespace WFCAD.View {
         private void FButtonForeground_Click(object sender, EventArgs e) => FCommandHistory.Record(new ForegroundCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
         private void FButtonBackground_Click(object sender, EventArgs e) => FCommandHistory.Record(new BackgroundCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
         private void FButtonRemove_Click(object sender, EventArgs e) => FCommandHistory.Record(new RemoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
-        private void FButtonReset_Click(object sender, EventArgs e) => FCanvas.Reset();
+        private void FButtonReset_Click(object sender, EventArgs e) => FCommandHistory.Record(new ResetCommand(FCanvas));
 
         #endregion 機能ボタン
 

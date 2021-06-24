@@ -53,7 +53,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 図形リスト
         /// </summary>
-        public IList<IShape> Shapes => FPreviewShapes ?? FShapes;
+        public List<IShape> Shapes => FPreviewShapes ?? FShapes;
 
         /// <summary>
         /// プレビュー中かどうか
@@ -182,14 +182,6 @@ namespace WFCAD.Model {
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = true;
             }
-            this.Draw();
-        }
-
-        /// <summary>
-        /// リセットします
-        /// </summary>
-        public void Reset() {
-            FShapes.Clear();
             this.Draw();
         }
 
