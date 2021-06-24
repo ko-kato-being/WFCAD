@@ -250,22 +250,6 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
-        /// 最前面に移動します
-        /// </summary>
-        public void MoveToFront() {
-            FShapes = FShapes.OrderBy(x => x.IsSelected).ToList();
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 最背面に移動します
-        /// </summary>
-        public void MoveToBack() {
-            FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
-            this.Draw();
-        }
-
-        /// <summary>
         /// 回転させます
         /// </summary>
         public void Rotate(float vAngle) {
