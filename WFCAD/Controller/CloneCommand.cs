@@ -11,7 +11,6 @@ namespace WFCAD.Controller {
             FBaseShapes = FCanvas.Shapes.Where(x => x.IsSelected).ToList();
             FShapes = FBaseShapes.Select(x => x.DeepClone()).ToList();
             foreach (IShape wShape in FShapes) {
-                wShape.IsSelected = true;
                 wShape.Move(new SizeF(10, 10));
             }
         }

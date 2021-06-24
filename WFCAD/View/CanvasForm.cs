@@ -164,13 +164,16 @@ namespace WFCAD.View {
                         FCanvas.SelectAll();
                         break;
                     case Keys.C:
-                        FCanvas.Copy(false);
+                        if (!FCanvas.Shapes.Any(x => x.IsSelected)) return;
+                        new CopyCommand(FCanvas).Execute();
                         break;
                     case Keys.V:
-                        FCanvas.Paste();
+                        if (!FCanvas.Clipboad.Any()) return;
+                        FCommandHistory.Record(new PasteCommand(FCanvas));
                         break;
                     case Keys.X:
-                        FCanvas.Copy(true);
+                        if (!FCanvas.Shapes.Any(x => x.IsSelected)) return;
+                        FCommandHistory.Record(new CutCommand(FCanvas));
                         break;
                     case Keys.Y:
                         FButtonRedo.PerformClick();

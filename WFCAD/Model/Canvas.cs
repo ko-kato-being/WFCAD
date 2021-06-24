@@ -10,12 +10,6 @@ namespace WFCAD.Model {
     /// </summary>
     public class Canvas {
 
-        #region 定数
-
-        private static readonly Size C_DefaultMovingSize = new Size(10, 10);
-
-        #endregion 定数
-
         #region イベント
 
         /// <summary>
@@ -31,7 +25,6 @@ namespace WFCAD.Model {
         private readonly Color FCanvasColor;
         private List<IShape> FShapes = new List<IShape>();
         private List<IShape> FPreviewShapes;
-        private List<IShape> FCopyShapes;
 
         #endregion フィールド
 
@@ -54,6 +47,11 @@ namespace WFCAD.Model {
         /// 図形リスト
         /// </summary>
         public List<IShape> Shapes => FPreviewShapes ?? FShapes;
+
+        /// <summary>
+        /// クリップボード
+        /// </summary>
+        public List<IShape> Clipboad { get; set; }
 
         /// <summary>
         /// プレビュー中かどうか
@@ -181,43 +179,6 @@ namespace WFCAD.Model {
         public void SelectAll() {
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = true;
-            }
-            this.Draw();
-        }
-
-        /// <summary>
-        /// コピーします
-        /// </summary>
-        public void Copy(bool vIsCut) {
-            var wSelectedShapes = FShapes.Where(x => x.IsSelected).ToList();
-            if (wSelectedShapes.Count == 0) return;
-
-            FCopyShapes = new List<IShape>();
-            foreach (IShape wShape in wSelectedShapes) {
-                if (vIsCut) FShapes.Remove(wShape);
-                IShape wCopy = wShape.DeepClone();
-
-                // 選択状態にしておく
-                wCopy.IsSelected = true;
-
-                wCopy.Move(C_DefaultMovingSize);
-                FCopyShapes.Add(wCopy);
-            }
-            if (vIsCut) this.Draw();
-        }
-
-        /// <summary>
-        /// 貼り付けます
-        /// </summary>
-        public void Paste() {
-            foreach (IShape wShape in FShapes) {
-                wShape.IsSelected = false;
-            }
-            FShapes.AddRange(FCopyShapes.Select(x => x.DeepClone()));
-
-            // 貼り付け位置を更新しておく
-            foreach (IShape wShape in FCopyShapes) {
-                wShape.Move(C_DefaultMovingSize);
             }
             this.Draw();
         }
