@@ -5,8 +5,8 @@ using WFCAD.Model;
 
 namespace WFCAD.Controller {
     public class CloneCommand : Command {
-        protected readonly List<IShape> FBaseShapes;
-        protected readonly List<IShape> FShapes;
+        private readonly List<IShape> FBaseShapes;
+        private readonly List<IShape> FShapes;
         public CloneCommand(Canvas vCanvas) : base(vCanvas) {
             FBaseShapes = FCanvas.Shapes.Where(x => x.IsSelected).ToList();
             FShapes = FBaseShapes.Select(x => x.DeepClone()).ToList();
