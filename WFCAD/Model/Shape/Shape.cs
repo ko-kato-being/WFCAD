@@ -73,6 +73,11 @@ namespace WFCAD.Model {
         public bool IsSelected { get; set; }
 
         /// <summary>
+        /// 枠点が選択されているか
+        /// </summary>
+        public bool IsFramePointSelected => this.FramePoints.Any(x => x.IsSelected);
+
+        /// <summary>
         /// 表示色
         /// </summary>
         public Color Color { get; set; }
@@ -144,18 +149,18 @@ namespace WFCAD.Model {
         public void Move(SizeF vSize) => this.Matrix.Translate(vSize.Width, vSize.Height, MatrixOrder.Append);
 
         /// <summary>
+        /// 移動します
+        /// </summary>
+        public void Move(PointF vStartPoint, PointF vEndPoint) => this.Matrix.Translate(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y, MatrixOrder.Append);
+
+        /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        public void Zoom(PointF vStartPoint, PointF vEndPoint, bool vIsPreview = false) {
-            IFramePoint wFramePoint = this.FramePoints.SingleOrDefault(x => x.IsSelected);
-            if (wFramePoint == null) return;
-
-            wFramePoint.Zoom(this.Matrix, vStartPoint, vEndPoint, this.CenterPoint, this.CurrentAngle);
+        public void Zoom(IFramePoint vFramePoint, PointF vStartPoint, PointF vEndPoint, bool vIsPreview = false) {
+            vFramePoint.Zoom(this.Matrix, vStartPoint, vEndPoint, this.CenterPoint, this.CurrentAngle);
 
             if (vIsPreview) return;
-
             this.SetLocation();
-            wFramePoint.IsSelected = false;
         }
 
         /// <summary>
@@ -217,6 +222,9 @@ namespace WFCAD.Model {
             wClone.IsSelected = this.IsSelected;
             wClone.Color = this.Color;
             wClone.FramePoints = this.FramePoints.Select(x => x.DeepClone()).ToList();
+            foreach (IFramePoint wFrame in wClone.FramePoints) {
+                wFrame.Selected += () => wClone.IsSelected = true;
+            }
             wClone.CurrentAngle = this.CurrentAngle;
             return wClone;
         }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model {
@@ -6,6 +7,11 @@ namespace WFCAD.Model {
     /// 枠の点を表すインターフェース
     /// </summary>
     public interface IFramePoint {
+
+        /// <summary>
+        /// 選択イベント
+        /// </summary>
+        event Action Selected;
 
         #region プロパティ
 

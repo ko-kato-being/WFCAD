@@ -9,7 +9,7 @@ namespace WFCAD.Controller {
         protected IShape FShape;
 
         public AddShapeCommand(Canvas vCanvas) : base(vCanvas) { }
-        public void SetParams(Point vStartPoint, Point vEndPoint, Color vColor) {
+        public virtual void SetParams(Point vStartPoint, Point vEndPoint, Color vColor) {
             FStartPoint = vStartPoint;
             FEndPoint = vEndPoint;
             FColor = vColor;

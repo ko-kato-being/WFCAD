@@ -20,6 +20,7 @@ namespace WFCAD.View {
         private Color FColor = Color.Orange;
         private Point FMouseDownPoint;
         private Point FPrevMouseMovePoint;
+        private ICommand FCommand; // TODO:確認用なので後で消す
 
         #endregion フィールド
 
@@ -75,8 +76,8 @@ namespace WFCAD.View {
             }
         }
 
-        private void FButtonUndo_Click(object sender, EventArgs e) { }
-        private void FButtonRedo_Click(object sender, EventArgs e) { }
+        private void FButtonUndo_Click(object sender, EventArgs e) => FCommand.Undo();
+        private void FButtonRedo_Click(object sender, EventArgs e) => FCommand.Execute();
         private void FButtonClone_Click(object sender, EventArgs e) => FCanvas.Clone();
         private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
         private void FButtonForeground_Click(object sender, EventArgs e) => FCanvas.MoveToFront();
@@ -117,11 +118,12 @@ namespace WFCAD.View {
             if (Math.Abs(e.Location.Y - FMouseDownPoint.Y) < 3) return;
 
             if (this.SelectedButton == null) {
-                if (FCanvas.IsFramePointSelected) {
-                    FCanvas.Zoom(FMouseDownPoint, e.Location);
+                if (FCanvas.Shapes.Any(x => x.IsFramePointSelected)) {
+                    FCommand = new ZoomCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsFramePointSelected), FMouseDownPoint, e.Location);
                 } else {
-                    FCanvas.Move(FMouseDownPoint, e.Location);
+                    FCommand = new MoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected), FMouseDownPoint, e.Location);
                 }
+                FCommand.Execute();
             } else {
                 IAddShapeCommand wAddCommand = ((IAddShapeCommand)this.SelectedButton.Tag).Clone();
                 wAddCommand.SetParams(FMouseDownPoint, e.Location, FColor);
@@ -135,11 +137,13 @@ namespace WFCAD.View {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
             if (!FCanvas.IsPreviewing) return;
 
-            if (FCanvas.IsFramePointSelected) {
-                FCanvas.Zoom(FPrevMouseMovePoint, e.Location);
+            PreviewCommand wCommand;
+            if (FCanvas.Shapes.Any(x => x.IsFramePointSelected)) {
+                wCommand = new ZoomCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsFramePointSelected), FPrevMouseMovePoint, e.Location);
             } else {
-                FCanvas.Move(FPrevMouseMovePoint, e.Location);
+                wCommand = new MoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected), FPrevMouseMovePoint, e.Location);
             }
+            wCommand.Execute();
             FPrevMouseMovePoint = e.Location;
         }
 

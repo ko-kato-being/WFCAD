@@ -51,6 +51,11 @@ namespace WFCAD.Model {
         #region プロパティ
 
         /// <summary>
+        /// 図形リスト
+        /// </summary>
+        public IEnumerable<IShape> Shapes => FPreviewShapes ?? FShapes;
+
+        /// <summary>
         /// プレビュー中かどうか
         /// </summary>
         public bool IsPreviewing {
@@ -63,11 +68,6 @@ namespace WFCAD.Model {
                 }
             }
         }
-
-        /// <summary>
-        /// 枠点が選択されているか
-        /// </summary>
-        public bool IsFramePointSelected => (FPreviewShapes ?? FShapes).Any(x => x.IsSelected && x.FramePoints.Any(y => y.IsSelected));
 
         #endregion プロパティ
 
@@ -168,6 +168,9 @@ namespace WFCAD.Model {
         public void Unselect() {
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = false;
+                foreach (IFramePoint wFrame in wShape.FramePoints) {
+                    wFrame.IsSelected = false;
+                }
             }
             this.Draw();
         }
@@ -285,31 +288,6 @@ namespace WFCAD.Model {
         /// </summary>
         public void MoveToBack() {
             FShapes = FShapes.OrderByDescending(x => x.IsSelected).ToList();
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 移動します
-        /// </summary>
-        public void Move(PointF vStartPoint, PointF vEndPoint) {
-            var wSize = new SizeF(vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
-            if (wSize.IsEmpty) return;
-
-            foreach (IShape wShape in (FPreviewShapes ?? FShapes).Where(x => x.IsSelected)) {
-                wShape.Move(wSize);
-            }
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 拡大・縮小します
-        /// </summary>
-        public void Zoom(PointF vStartPoint, PointF vEndPoint) {
-            if (vStartPoint == vEndPoint) return;
-
-            foreach (IShape wShape in (FPreviewShapes ?? FShapes).Where(x => x.IsSelected)) {
-                wShape.Zoom(vStartPoint, vEndPoint, this.IsPreviewing);
-            }
             this.Draw();
         }
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -19,6 +18,11 @@ namespace WFCAD.Model {
         /// 選択されているか
         /// </summary>
         bool IsSelected { get; set; }
+
+        /// <summary>
+        /// 枠点が選択されているか
+        /// </summary>
+        bool IsFramePointSelected { get; }
 
         /// <summary>
         /// 表示色
@@ -45,9 +49,14 @@ namespace WFCAD.Model {
         void Move(SizeF vSize);
 
         /// <summary>
+        /// 移動します
+        /// </summary>
+        void Move(PointF vStartPoint, PointF vEndPoint);
+
+        /// <summary>
         /// 拡大・縮小します
         /// </summary>
-        void Zoom(PointF vStartPoint, PointF vEndPoint, bool vIsPreview = false);
+        void Zoom(IFramePoint vFramePoint, PointF vStartPoint, PointF vEndPoint, bool vIsPreview = false);
 
         /// <summary>
         /// 回転します

@@ -54,6 +54,9 @@ namespace WFCAD.Model {
                 new FramePoint(wBottomLeft, FramePointLocationKindEnum.Left, wTopRight),
                 new FramePoint(wLeft, FramePointLocationKindEnum.LeftTop, wRight, vScalingY:false),
             };
+            foreach (IFramePoint wFrame in this.FramePoints) {
+                wFrame.Selected += () => this.IsSelected = true;
+            }
         }
 
         /// <summary>

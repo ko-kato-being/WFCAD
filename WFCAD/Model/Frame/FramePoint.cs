@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 
@@ -7,6 +8,11 @@ namespace WFCAD.Model {
     /// 枠の点クラス
     /// </summary>
     public class FramePoint : IFramePoint {
+
+        /// <summary>
+        /// 選択イベント
+        /// </summary>
+        public event Action Selected;
 
         /// <summary>
         /// コンストラクタ
@@ -63,7 +69,16 @@ namespace WFCAD.Model {
         /// <summary>
         /// 選択されているか
         /// </summary>
-        public bool IsSelected { get; set; }
+        public bool IsSelected {
+            get => FIsSelected;
+            set {
+                if (value == FIsSelected) return;
+                FIsSelected = value;
+                if (!value) return;
+                this.Selected?.Invoke();
+            }
+        }
+        private bool FIsSelected;
 
         /// <summary>
         /// X方向の倍率
