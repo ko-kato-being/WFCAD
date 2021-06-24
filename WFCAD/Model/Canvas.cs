@@ -53,7 +53,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// 図形リスト
         /// </summary>
-        public IEnumerable<IShape> Shapes => FPreviewShapes ?? FShapes;
+        public IList<IShape> Shapes => FPreviewShapes ?? FShapes;
 
         /// <summary>
         /// プレビュー中かどうか
@@ -181,32 +181,6 @@ namespace WFCAD.Model {
         public void SelectAll() {
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = true;
-            }
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 追加します
-        /// </summary>
-        public void Add(IShape vShape) {
-            vShape.IsSelected = true;
-            if (this.IsPreviewing) {
-                IShape wShape = vShape.DeepClone();
-                wShape.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Bottom).IsSelected = true;
-                FPreviewShapes.Add(wShape);
-            } else {
-                FShapes.Add(vShape);
-            }
-            this.Draw();
-        }
-
-        /// <summary>
-        /// 削除します
-        /// </summary>
-        public void Remove() {
-            for (int i = FShapes.Count - 1; i >= 0; i--) {
-                if (!FShapes[i].IsSelected) continue;
-                FShapes.RemoveAt(i);
             }
             this.Draw();
         }

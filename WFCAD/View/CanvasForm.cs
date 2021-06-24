@@ -82,7 +82,10 @@ namespace WFCAD.View {
         private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
         private void FButtonForeground_Click(object sender, EventArgs e) => FCanvas.MoveToFront();
         private void FButtonBackground_Click(object sender, EventArgs e) => FCanvas.MoveToBack();
-        private void FButtonRemove_Click(object sender, EventArgs e) => FCanvas.Remove();
+        private void FButtonRemove_Click(object sender, EventArgs e) {
+            FCommand = new RemoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected));
+            FCommand.Execute();
+        }
         private void FButtonReset_Click(object sender, EventArgs e) => FCanvas.Reset();
 
         #endregion 機能ボタン
@@ -128,6 +131,7 @@ namespace WFCAD.View {
                 IAddShapeCommand wAddCommand = ((IAddShapeCommand)this.SelectedButton.Tag).Clone();
                 wAddCommand.SetParams(FMouseDownPoint, e.Location, FColor);
                 wAddCommand.Execute();
+                FCommand = wAddCommand;
                 this.SetGroupButtonsChecked(null);
             }
         }

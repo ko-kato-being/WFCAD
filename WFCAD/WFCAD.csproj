@@ -99,6 +99,7 @@
     <Compile Include="Controller\ICommand.cs" />
     <Compile Include="Controller\PreviewCommand.cs" />
     <Compile Include="Controller\MoveCommand.cs" />
+    <Compile Include="Controller\RemoveCommand.cs" />
     <Compile Include="Controller\ZoomCommand.cs" />
     <Compile Include="Model\Define.cs" />
     <Compile Include="Model\Canvas.cs" />
