@@ -223,25 +223,6 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
-        /// 複製します
-        /// </summary>
-        public void Clone() {
-            var wClonedShapes = new List<IShape>();
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                IShape wClone = wShape.DeepClone();
-
-                // 選択状態をスイッチします
-                wShape.IsSelected = false;
-                wClone.IsSelected = true;
-
-                wClone.Move(C_DefaultMovingSize);
-                wClonedShapes.Add(wClone);
-            }
-            FShapes.AddRange(wClonedShapes);
-            this.Draw();
-        }
-
-        /// <summary>
         /// 回転させます
         /// </summary>
         public void Rotate(float vAngle) {

@@ -94,6 +94,7 @@
     <Compile Include="Controller\AddEllipseCommand.cs" />
     <Compile Include="Controller\AddShapeCommand.cs" />
     <Compile Include="Controller\BackgroundCommand.cs" />
+    <Compile Include="Controller\CloneCommand.cs" />
     <Compile Include="Controller\Command.cs" />
     <Compile Include="Controller\CommandHistory.cs" />
     <Compile Include="Controller\CommandState.cs" />

@@ -79,7 +79,7 @@ namespace WFCAD.View {
 
         private void FButtonUndo_Click(object sender, EventArgs e) => FCommandHistory.Undo();
         private void FButtonRedo_Click(object sender, EventArgs e) => FCommandHistory.Redo();
-        private void FButtonClone_Click(object sender, EventArgs e) => FCanvas.Clone();
+        private void FButtonClone_Click(object sender, EventArgs e) => FCommandHistory.Record(new CloneCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
         private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
         private void FButtonForeground_Click(object sender, EventArgs e) => FCommandHistory.Record(new ForegroundCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
         private void FButtonBackground_Click(object sender, EventArgs e) => FCommandHistory.Record(new BackgroundCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
