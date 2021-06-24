@@ -98,12 +98,10 @@
     <Compile Include="Controller\Command.cs" />
     <Compile Include="Controller\CommandHistory.cs" />
     <Compile Include="Controller\CommandState.cs" />
-    <Compile Include="Controller\EditCommand.cs" />
     <Compile Include="Controller\ForegroundCommand.cs" />
     <Compile Include="Controller\IAddShapeCommand.cs" />
     <Compile Include="Controller\AddRectangleCommand.cs" />
     <Compile Include="Controller\ICommand.cs" />
-    <Compile Include="Controller\PreviewCommand.cs" />
     <Compile Include="Controller\MoveCommand.cs" />
     <Compile Include="Controller\RemoveCommand.cs" />
     <Compile Include="Controller\ResetCommand.cs" />

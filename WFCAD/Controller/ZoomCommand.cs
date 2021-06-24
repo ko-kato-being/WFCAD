@@ -4,11 +4,17 @@ using System.Linq;
 using WFCAD.Model;
 
 namespace WFCAD.Controller {
-    public class ZoomCommand : PreviewCommand {
+    public class ZoomCommand : Command {
+        private readonly List<IShape> FShapes;
+        private readonly Point FStartPoint;
+        private readonly Point FEndPoint;
         private readonly List<(IFramePoint FramePoint, IShape Parent)> FFramePoints;
-        public ZoomCommand(Canvas vCanvas, IEnumerable<IShape> vShapes, Point vStartPoint, Point vEndPoint)
-            : base(vCanvas, vShapes, vStartPoint, vEndPoint)
-            => FFramePoints = FShapes.Select(x => (x.FramePoints.Single(y => y.IsSelected), x)).ToList();
+        public ZoomCommand(Canvas vCanvas, IEnumerable<IShape> vShapes, Point vStartPoint, Point vEndPoint) : base(vCanvas) {
+            FShapes = vShapes.ToList();
+            FStartPoint = vStartPoint;
+            FEndPoint = vEndPoint;
+            FFramePoints = FShapes.Select(x => (x.FramePoints.Single(y => y.IsSelected), x)).ToList();
+        }
         public override void Execute() {
             foreach ((IFramePoint wFramePoint, IShape wParent) in FFramePoints) {
                 wFramePoint.IsSelected = true;

@@ -7,9 +7,9 @@ namespace WFCAD.Controller {
     public class CloneCommand : Command {
         protected readonly List<IShape> FBaseShapes;
         protected readonly List<IShape> FShapes;
-        public CloneCommand(Canvas vCanvas, IEnumerable<IShape> vShapes) : base(vCanvas) {
-            FBaseShapes = vShapes.ToList();
-            FShapes = vShapes.Select(x => x.DeepClone()).ToList();
+        public CloneCommand(Canvas vCanvas) : base(vCanvas) {
+            FBaseShapes = FCanvas.Shapes.Where(x => x.IsSelected).ToList();
+            FShapes = FBaseShapes.Select(x => x.DeepClone()).ToList();
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = true;
                 wShape.Move(new SizeF(10, 10));

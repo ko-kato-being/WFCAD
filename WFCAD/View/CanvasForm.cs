@@ -79,11 +79,11 @@ namespace WFCAD.View {
 
         private void FButtonUndo_Click(object sender, EventArgs e) => FCommandHistory.Undo();
         private void FButtonRedo_Click(object sender, EventArgs e) => FCommandHistory.Redo();
-        private void FButtonClone_Click(object sender, EventArgs e) => FCommandHistory.Record(new CloneCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
+        private void FButtonClone_Click(object sender, EventArgs e) => FCommandHistory.Record(new CloneCommand(FCanvas));
         private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
-        private void FButtonForeground_Click(object sender, EventArgs e) => FCommandHistory.Record(new ForegroundCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
-        private void FButtonBackground_Click(object sender, EventArgs e) => FCommandHistory.Record(new BackgroundCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
-        private void FButtonRemove_Click(object sender, EventArgs e) => FCommandHistory.Record(new RemoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected)));
+        private void FButtonForeground_Click(object sender, EventArgs e) => FCommandHistory.Record(new ForegroundCommand(FCanvas));
+        private void FButtonBackground_Click(object sender, EventArgs e) => FCommandHistory.Record(new BackgroundCommand(FCanvas));
+        private void FButtonRemove_Click(object sender, EventArgs e) => FCommandHistory.Record(new RemoveCommand(FCanvas));
         private void FButtonReset_Click(object sender, EventArgs e) => FCommandHistory.Record(new ResetCommand(FCanvas));
 
         #endregion 機能ボタン
