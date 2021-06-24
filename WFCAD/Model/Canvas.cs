@@ -222,16 +222,6 @@ namespace WFCAD.Model {
             this.Draw();
         }
 
-        /// <summary>
-        /// 回転させます
-        /// </summary>
-        public void Rotate(float vAngle) {
-            foreach (IShape wShape in FShapes.Where(x => x.IsSelected)) {
-                wShape.Rotate(vAngle);
-            }
-            this.Draw();
-        }
-
         #endregion メソッド
 
     }

@@ -9,8 +9,8 @@ namespace WFCAD.Controller {
         private readonly Point FStartPoint;
         private readonly Point FEndPoint;
         private readonly List<(IFramePoint FramePoint, IShape Parent)> FFramePoints;
-        public ZoomCommand(Canvas vCanvas, IEnumerable<IShape> vShapes, Point vStartPoint, Point vEndPoint) : base(vCanvas) {
-            FShapes = vShapes.ToList();
+        public ZoomCommand(Canvas vCanvas, Point vStartPoint, Point vEndPoint) : base(vCanvas) {
+            FShapes = FCanvas.Shapes.Where(x => x.IsFramePointSelected).ToList();
             FStartPoint = vStartPoint;
             FEndPoint = vEndPoint;
             FFramePoints = FShapes.Select(x => (x.FramePoints.Single(y => y.IsSelected), x)).ToList();
@@ -29,6 +29,5 @@ namespace WFCAD.Controller {
             }
             FCanvas.Draw();
         }
-
     }
 }

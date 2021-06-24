@@ -80,7 +80,7 @@ namespace WFCAD.View {
         private void FButtonUndo_Click(object sender, EventArgs e) => FCommandHistory.Undo();
         private void FButtonRedo_Click(object sender, EventArgs e) => FCommandHistory.Redo();
         private void FButtonClone_Click(object sender, EventArgs e) => FCommandHistory.Record(new CloneCommand(FCanvas));
-        private void FButtonRotate_Click(object sender, EventArgs e) => FCanvas.Rotate(30);
+        private void FButtonRotate_Click(object sender, EventArgs e) => FCommandHistory.Record(new RotateCommand(FCanvas, 30));
         private void FButtonForeground_Click(object sender, EventArgs e) => FCommandHistory.Record(new ForegroundCommand(FCanvas));
         private void FButtonBackground_Click(object sender, EventArgs e) => FCommandHistory.Record(new BackgroundCommand(FCanvas));
         private void FButtonRemove_Click(object sender, EventArgs e) => FCommandHistory.Record(new RemoveCommand(FCanvas));
@@ -120,9 +120,9 @@ namespace WFCAD.View {
 
             if (this.SelectedButton == null) {
                 if (FCanvas.Shapes.Any(x => x.IsFramePointSelected)) {
-                    FCommandHistory.Record(new ZoomCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsFramePointSelected), FMouseDownPoint, e.Location));
+                    FCommandHistory.Record(new ZoomCommand(FCanvas, FMouseDownPoint, e.Location));
                 } else {
-                    FCommandHistory.Record(new MoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected), FMouseDownPoint, e.Location));
+                    FCommandHistory.Record(new MoveCommand(FCanvas, FMouseDownPoint, e.Location));
                 }
             } else {
                 IAddShapeCommand wAddCommand = ((IAddShapeCommand)this.SelectedButton.Tag).Clone();
@@ -138,9 +138,9 @@ namespace WFCAD.View {
             if (!FCanvas.IsPreviewing) return;
 
             if (FCanvas.Shapes.Any(x => x.IsFramePointSelected)) {
-                new ZoomCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsFramePointSelected), FPrevMouseMovePoint, e.Location).Execute();
+                new ZoomCommand(FCanvas, FPrevMouseMovePoint, e.Location).Execute();
             } else {
-                new MoveCommand(FCanvas, FCanvas.Shapes.Where(x => x.IsSelected), FPrevMouseMovePoint, e.Location).Execute();
+                new MoveCommand(FCanvas, FPrevMouseMovePoint, e.Location).Execute();
             }
             FPrevMouseMovePoint = e.Location;
         }
@@ -148,7 +148,7 @@ namespace WFCAD.View {
         private void FPictureBox_MouseWheel(object sender, MouseEventArgs e) {
             if ((ModifierKeys & Keys.Control) != Keys.Control) return;
             float wAngle = e.Delta > 0 ? 10F : -10f;
-            FCanvas.Rotate(wAngle);
+            FCommandHistory.Record(new RotateCommand(FCanvas, wAngle));
         }
 
         #endregion マウス操作

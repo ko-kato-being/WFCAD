@@ -1,29 +1,26 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using WFCAD.Model;
 
 namespace WFCAD.Controller {
-    public class MoveCommand : Command {
+    public class RotateCommand : Command {
         private readonly List<IShape> FShapes;
-        private readonly Point FStartPoint;
-        private readonly Point FEndPoint;
-        public MoveCommand(Canvas vCanvas, Point vStartPoint, Point vEndPoint) : base(vCanvas) {
+        private readonly float FAngle;
+        public RotateCommand(Canvas vCanvas, float vAngle) : base(vCanvas) {
             FShapes = FCanvas.Shapes.Where(x => x.IsSelected).ToList();
-            FStartPoint = vStartPoint;
-            FEndPoint = vEndPoint;
+            FAngle = vAngle;
         }
         public override void Execute() {
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = true;
-                wShape.Move(FStartPoint, FEndPoint);
+                wShape.Rotate(FAngle);
             }
             FCanvas.Draw();
         }
         public override void Undo() {
             foreach (IShape wShape in FShapes) {
                 wShape.IsSelected = true;
-                wShape.Move(FEndPoint, FStartPoint);
+                wShape.Rotate(FAngle * -1);
             }
             FCanvas.Draw();
         }
