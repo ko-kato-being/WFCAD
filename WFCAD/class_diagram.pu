@@ -1,17 +1,26 @@
 @startuml WFCAD
 title WFCAD
 package View{
-    Interface ICanvasView
     class CanvasForm
-    ICanvasView  <|..  CanvasForm
 }
 Package Controller{
-    Interface ICanvasController
-    class CanvasController
-    ICanvasController  <|..  CanvasController
+    class CommandHistory
+    Interface ICommand
+    interface IAddShapeCommand
+    abstract class Command
+    class AddShapeCommand
+    class MoveCommand
+    class ZoomCommand
+    class RotateCommand
+    CommandHistory o-- ICommand
+    ICommand <|.. Command
+    Command  <|.. AddShapeCommand
+    IAddShapeCommand <|.. AddShapeCommand
+    Command  <|.. MoveCommand
+    Command  <|.. ZoomCommand
+    Command  <|.. RotateCommand
 }
 Package Model{
-    interface ICanvas
     class Canvas
     interface IShape
     abstract class Shape
@@ -22,11 +31,6 @@ Package Model{
     class Rectangle
     Interface IFramePoint
     class FramePoint
-    interface ISnapshot
-    class Snapshot
-    interface ISnapshots
-    class Snapshots
-    ICanvas  <|..  Canvas
     IShape  <|..  Shape
     Shape <|-- Shape1D
     Shape <|-- Shape2D
@@ -34,18 +38,10 @@ Package Model{
     Shape2D <|-- Ellipse
     Shape2D <|-- Rectangle
     IFramePoint <|.. FramePoint
-    ISnapshot <|.. Snapshot
-    ISnapshots <|.. Snapshots
     Canvas --> IShape
-    ISnapshot --o Snapshots
-    Snapshot --> ICanvas
     IShape --> IFramePoint
 
 }
-CanvasForm ..> ICanvasController
-CanvasForm --> Shape
-CanvasController ..> ICanvas
-CanvasController ..> ICanvasView
-CanvasController ..> ISnapshots
+CanvasForm --> Canvas
 
 @enduml
