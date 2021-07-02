@@ -12,10 +12,11 @@ namespace WFCAD.Controller {
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CommandHistory() {
-            FStates.Add(new CommandState());
-        }
+        public CommandHistory() => FStates.Add(new CommandState());
 
+        /// <summary>
+        /// 現在の状態
+        /// </summary>
         public CommandState CurrentState {
             get {
                 if (!FStates.Any()) return null;
@@ -31,34 +32,38 @@ namespace WFCAD.Controller {
             vCommand.Execute();
             var wNewState = new CommandState();
             wNewState.PrevCommand = vCommand;
-            this.AddNewState(wNewState);
+
+            // 現在の状態より後ろの状態を破棄します
+            if (this.CurrentState.NextState != null) {
+                int wIndex = FStates.IndexOf(this.CurrentState.NextState);
+                FStates.RemoveRange(wIndex, FStates.Count - wIndex);
+            }
+
+            this.CurrentState.NextState = wNewState;
+            this.CurrentState.NextCommand = wNewState.PrevCommand;
+            wNewState.PrevState = this.CurrentState;
+            FStates.Add(wNewState);
+            FCurrentStateIndex = FStates.IndexOf(wNewState);
         }
+
+        /// <summary>
+        /// 前のコマンドを実行します
+        /// </summary>
         public void Undo() {
             if (this.CurrentState?.PrevState == null) return;
             if (this.CurrentState?.PrevCommand == null) return;
             this.CurrentState.PrevCommand.Undo();
             FCurrentStateIndex = FStates.IndexOf(this.CurrentState.PrevState);
         }
+
+        /// <summary>
+        /// 次のコマンドを実行します
+        /// </summary>
         public void Redo() {
             if (this.CurrentState?.NextState == null) return;
             if (this.CurrentState?.NextCommand == null) return;
             this.CurrentState.NextCommand.Execute();
             FCurrentStateIndex = FStates.IndexOf(this.CurrentState.NextState);
-        }
-
-        private void AddNewState(CommandState vNewState) {
-            EliminateStates(this.CurrentState.NextState);
-
-            this.CurrentState.NextState = vNewState;
-            this.CurrentState.NextCommand = vNewState.PrevCommand;
-            vNewState.PrevState = this.CurrentState;
-            FStates.Add(vNewState);
-            FCurrentStateIndex = FStates.IndexOf(vNewState);
-        }
-        private void EliminateStates(CommandState vTarget) {
-            if (vTarget == null) return;
-            int wIndex = FStates.IndexOf(vTarget);
-            FStates.RemoveRange(wIndex, FStates.Count - wIndex);
         }
     }
 }
