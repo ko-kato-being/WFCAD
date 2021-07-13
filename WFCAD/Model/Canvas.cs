@@ -63,6 +63,7 @@ namespace WFCAD.Model {
                     FPreviewShapes = FShapes.Select(x => x.DeepClone()).ToList();
                 } else {
                     FPreviewShapes = null;
+                    this.Draw();
                 }
             }
         }

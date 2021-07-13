@@ -115,9 +115,6 @@ namespace WFCAD.View {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left) return;
             FCanvas.IsPreviewing = false;
 
-            if (Math.Abs(e.Location.X - FMouseDownPoint.X) < 3) return;
-            if (Math.Abs(e.Location.Y - FMouseDownPoint.Y) < 3) return;
-
             if (this.SelectedButton == null) {
                 if (FCanvas.Shapes.Any(x => x.IsFramePointSelected)) {
                     FCommandHistory.Record(new ZoomCommand(FCanvas, FMouseDownPoint, e.Location));
@@ -125,6 +122,11 @@ namespace WFCAD.View {
                     FCommandHistory.Record(new MoveCommand(FCanvas, FMouseDownPoint, e.Location));
                 }
             } else {
+                // 極小の図形は追加しない
+                if (Math.Abs(e.Location.X - FMouseDownPoint.X) < 10) return;
+                if (Math.Abs(e.Location.Y - FMouseDownPoint.Y) < 10) return;
+
+                // 履歴管理する際に同じインスタンスのコマンドが存在しないようにCloneを記録する
                 IAddShapeCommand wAddCommand = ((IAddShapeCommand)this.SelectedButton.Tag).Clone();
                 wAddCommand.SetParams(FMouseDownPoint, e.Location, FColor);
                 FCommandHistory.Record(wAddCommand);
