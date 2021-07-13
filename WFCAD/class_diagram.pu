@@ -14,11 +14,22 @@ Package Controller{
     class RotateCommand
     CommandHistory o-- ICommand
     ICommand <|.. Command
+    ICommand <|.. IAddShapeCommand
     Command  <|.. AddShapeCommand
     IAddShapeCommand <|.. AddShapeCommand
     Command  <|.. MoveCommand
     Command  <|.. ZoomCommand
     Command  <|.. RotateCommand
+    ' Command  <|.. RemoveCommand
+    ' Command  <|.. ResetCommand
+    ' Command  <|.. CopyCommand
+    ' Command  <|.. CutCommand
+    ' Command  <|.. PasteCommand
+    ' Command  <|.. CloneCommand
+    ' Command  <|.. ForegroundCommand
+    ' Command  <|.. BackgroundCommand
+    AddShapeCommand <|.. AddRectangleCommand
+    AddShapeCommand <|.. AddEllipseCommand
 }
 Package Model{
     class Canvas
@@ -43,5 +54,6 @@ Package Model{
 
 }
 CanvasForm --> Canvas
+CanvasForm --> CommandHistory
 
 @enduml
