@@ -68,8 +68,14 @@ namespace WFCAD.Model {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public override bool IsHit(PointF vCoordinate) {
-            // TODO:選択できない
-            return this.SubPath.IsVisible(vCoordinate.X, vCoordinate.Y);
+            // 三角不等式を使用して判定しています。
+            PointF wStartPoint = this.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Start).MainPoint;
+            PointF wEndPoint = this.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.End).MainPoint;
+            double wAC = Utilities.GetDistance(wStartPoint, vCoordinate);
+            double wCB = Utilities.GetDistance(vCoordinate, wEndPoint);
+            double wAB = Utilities.GetDistance(wStartPoint, wEndPoint);
+            // 誤差以内の値なら線分上にあるとする。
+            return (wAC + wCB - wAB < 0.1d);
         }
 
 
