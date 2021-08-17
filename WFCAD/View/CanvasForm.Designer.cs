@@ -48,7 +48,6 @@
             this.FPictureBox = new System.Windows.Forms.PictureBox();
             this.FStatusStrip = new System.Windows.Forms.StatusStrip();
             this.FStatusLabelMouse = new System.Windows.Forms.ToolStripStatusLabel();
-            this.FStatusLabelDebug = new System.Windows.Forms.ToolStripStatusLabel();
             this.FToolStrip2.SuspendLayout();
             this.FToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FPictureBox)).BeginInit();
@@ -284,8 +283,7 @@
             // FStatusStrip
             // 
             this.FStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FStatusLabelMouse,
-            this.FStatusLabelDebug});
+            this.FStatusLabelMouse});
             this.FStatusStrip.Location = new System.Drawing.Point(0, 461);
             this.FStatusStrip.Name = "FStatusStrip";
             this.FStatusStrip.Size = new System.Drawing.Size(558, 22);
@@ -296,12 +294,6 @@
             this.FStatusLabelMouse.Name = "FStatusLabelMouse";
             this.FStatusLabelMouse.Size = new System.Drawing.Size(105, 17);
             this.FStatusLabelMouse.Text = "Mouse : {X=0,Y=0}";
-            // 
-            // FStatusLabelDebug
-            // 
-            this.FStatusLabelDebug.Name = "FStatusLabelDebug";
-            this.FStatusLabelDebug.Size = new System.Drawing.Size(67, 17);
-            this.FStatusLabelDebug.Text = "デバッグ情報";
             // 
             // CanvasForm
             // 
@@ -357,6 +349,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.StatusStrip FStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel FStatusLabelMouse;
-        private System.Windows.Forms.ToolStripStatusLabel FStatusLabelDebug;
     }
 }
