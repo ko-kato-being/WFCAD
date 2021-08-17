@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -22,9 +23,11 @@ namespace WFCAD.Model {
         /// コンストラクタ
         /// </summary>
         public Shape(PointF vStartPoint, PointF vEndPoint, Color vColor) {
-            this.InitializePath(vStartPoint, vEndPoint);
-            this.CreateFrame(vStartPoint, vEndPoint);
-            this.SetPoints(vStartPoint, vEndPoint);
+            this.SetBothEndsPoint(vStartPoint, vEndPoint);
+            this.InitializePath();
+            // 中心点はパスを初期化した後で設定する必要がある
+            this.SetCenterPoint();
+            this.CreateFrame();
             this.Color = vColor;
         }
 
@@ -65,7 +68,17 @@ namespace WFCAD.Model {
         /// <summary>
         /// 中心点
         /// </summary>
-        public PointF CenterPoint => this.Points[0];
+        public PointF StartPoint => this.Points[0];
+
+        /// <summary>
+        /// 中心点
+        /// </summary>
+        public PointF EndPoint => this.Points[1];
+
+        /// <summary>
+        /// 中心点
+        /// </summary>
+        public PointF CenterPoint => this.Points[2];
 
         /// <summary>
         /// 選択されているか
@@ -99,31 +112,37 @@ namespace WFCAD.Model {
         /// <summary>
         /// パスを初期化します
         /// </summary>
-        protected abstract void InitializePath(PointF vStartPoint, PointF vEndPoint);
+        protected abstract void InitializePath();
 
         /// <summary>
         /// 枠を生成します
         /// </summary>
-        protected abstract void CreateFrame(PointF vStartPoint, PointF vEndPoint);
+        protected abstract void CreateFrame();
 
         /// <summary>
-        /// 点を設定します
+        /// 端点を設定します
         /// </summary>
-        protected abstract void SetPoints(PointF vStartPoint, PointF vEndPoint);
+        protected abstract void SetBothEndsPoint(PointF vStartPoint, PointF vEndPoint);
+
+        /// <summary>
+        /// 中心点を設定します
+        /// </summary>
+        protected abstract void SetCenterPoint();
 
         /// <summary>
         /// 描画します
         /// </summary>
         public void Draw(Graphics vGraphics, bool vIsDrawFrame) {
             this.ApplyAffine();
-            using (var wBrush = new SolidBrush(this.Color))
-            using (var wPen = new Pen(C_BorderColor, 2f)) {
-                vGraphics.FillPath(wBrush, this.MainPath);
-                vGraphics.DrawPath(wPen, this.MainPath);
-            }
+            this.DrawCore(vGraphics);
             if (!this.IsSelected || !vIsDrawFrame) return;
             this.DrawFrame(vGraphics);
         }
+
+        /// <summary>
+        /// 描画のコア処理
+        /// </summary>
+        protected abstract void DrawCore(Graphics vGraphics);
 
         /// <summary>
         /// 枠を描画します

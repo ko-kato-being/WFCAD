@@ -21,10 +21,7 @@ namespace WFCAD.Model {
         /// <summary>
         /// パスを初期化します
         /// </summary>
-        protected override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
-            this.MainPath.AddLine(vStartPoint, vEndPoint);
-            this.SubPath.AddLine(vStartPoint, vEndPoint);
-        }
+        protected override void InitializePath() => this.MainPath.AddLine(this.StartPoint, this.EndPoint);
 
         /// <summary>
         /// 自身のインスタンスを返します

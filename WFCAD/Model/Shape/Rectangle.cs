@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace WFCAD.Model {
     /// <summary>
@@ -21,8 +22,8 @@ namespace WFCAD.Model {
         /// <summary>
         /// パスを初期化します
         /// </summary>
-        protected override void InitializePath(PointF vStartPoint, PointF vEndPoint) {
-            var wRectangle = new RectangleF(vStartPoint.X, vStartPoint.Y, vEndPoint.X - vStartPoint.X, vEndPoint.Y - vStartPoint.Y);
+        protected override void InitializePath() {
+            var wRectangle = new RectangleF(this.StartPoint.X, this.StartPoint.Y, this.EndPoint.X - this.StartPoint.X, this.EndPoint.Y - this.StartPoint.Y);
             this.MainPath.AddRectangle(wRectangle);
             this.SubPath.AddRectangle(wRectangle);
         }

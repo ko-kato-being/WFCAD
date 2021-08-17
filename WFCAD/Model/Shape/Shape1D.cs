@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -27,16 +26,11 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠を生成します
         /// </summary>
-        protected override void CreateFrame(PointF vStartPoint, PointF vEndPoint) {
-            // 引数で受け取った始点と終点を対角線とする矩形に対して、
-            // 左上の点と右下の点を始点と終点に設定します。
-            var wStartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
-            var wEndPoint = new PointF(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
-
+        protected override void CreateFrame() {
             // 枠点と基準点の設定
             this.FramePoints = new List<IFramePoint> {
-                new FramePoint(wStartPoint, FramePointLocationKindEnum.Start, wEndPoint),
-                new FramePoint(wEndPoint, FramePointLocationKindEnum.End, wStartPoint)
+                new FramePoint(this.StartPoint, FramePointLocationKindEnum.Start, this.EndPoint),
+                new FramePoint(this.EndPoint, FramePointLocationKindEnum.End, this.StartPoint)
             };
             foreach (IFramePoint wFrame in this.FramePoints) {
                 wFrame.Selected += () => this.IsSelected = true;
@@ -44,13 +38,29 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
-        /// 点を設定します
+        /// 端点を設定します
         /// </summary>
-        protected override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
-            // 中心点を設定しておく
-            this.Points = new PointF[1] {
-                new PointF((vStartPoint.X + vEndPoint.X) / 2f, (vStartPoint.Y + vEndPoint.Y) / 2f),
+        protected override void SetBothEndsPoint(PointF vStartPoint, PointF vEndPoint) {
+            this.Points = new PointF[3] {
+                vStartPoint,
+                vEndPoint,
+                PointF.Empty, // 中心点は後で設定する
             };
+        }
+
+        /// <summary>
+        /// 中心点を設定します
+        /// </summary>
+        protected override void SetCenterPoint()
+            => this.Points[2] = new PointF((this.StartPoint.X + this.EndPoint.X) / 2f, (this.StartPoint.Y + this.EndPoint.Y) / 2f);
+
+        /// <summary>
+        /// 描画のコア処理
+        /// </summary>
+        protected override void DrawCore(Graphics vGraphics) {
+            using (var wPen = new Pen(this.Color, 3f)) {
+                vGraphics.DrawPath(wPen, this.MainPath);
+            }
         }
 
         /// <summary>

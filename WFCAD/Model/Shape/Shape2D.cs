@@ -27,21 +27,16 @@ namespace WFCAD.Model {
         /// <summary>
         /// 枠を生成します
         /// </summary>
-        protected override void CreateFrame(PointF vStartPoint, PointF vEndPoint) {
-            // 引数で受け取った始点と終点を対角線とする矩形に対して、
-            // 左上の点と右下の点を始点と終点に設定します。
-            var wStartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
-            var wEndPoint = new PointF(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
-
+        protected override void CreateFrame() {
             // 枠点の座標
-            var wTopLeft = wStartPoint;
-            var wTop = new PointF(wStartPoint.X + (wEndPoint.X - wStartPoint.X) / 2, wStartPoint.Y);
-            var wTopRight = new PointF(wEndPoint.X, wStartPoint.Y);
-            var wLeft = new PointF(wStartPoint.X, wStartPoint.Y + (wEndPoint.Y - wStartPoint.Y) / 2);
-            var wRight = new PointF(wEndPoint.X, wStartPoint.Y + (wEndPoint.Y - wStartPoint.Y) / 2);
-            var wBottomLeft = new PointF(wStartPoint.X, wEndPoint.Y);
-            var wBottom = new PointF(wStartPoint.X + (wEndPoint.X - wStartPoint.X) / 2, wEndPoint.Y);
-            var wBottomRight = wEndPoint;
+            var wTopLeft = this.StartPoint;
+            var wTop = new PointF(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.StartPoint.Y);
+            var wTopRight = new PointF(this.EndPoint.X, this.StartPoint.Y);
+            var wLeft = new PointF(this.StartPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
+            var wRight = new PointF(this.EndPoint.X, this.StartPoint.Y + (this.EndPoint.Y - this.StartPoint.Y) / 2);
+            var wBottomLeft = new PointF(this.StartPoint.X, this.EndPoint.Y);
+            var wBottom = new PointF(this.StartPoint.X + (this.EndPoint.X - this.StartPoint.X) / 2, this.EndPoint.Y);
+            var wBottomRight = this.EndPoint;
 
             // 枠点と基準点の設定
             this.FramePoints = new List<IFramePoint> {
@@ -60,15 +55,38 @@ namespace WFCAD.Model {
         }
 
         /// <summary>
-        /// 点を設定します
+        /// 端点を設定します
         /// </summary>
-        protected override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
-            // 中心点を設定しておく
+        protected override void SetBothEndsPoint(PointF vStartPoint, PointF vEndPoint) {
+            // 引数で受け取った始点と終点を対角線とする矩形に対して、
+            // 左上の点と右下の点を始点と終点に設定します。
+            var wStartPoint = new PointF(Math.Min(vStartPoint.X, vEndPoint.X), Math.Min(vStartPoint.Y, vEndPoint.Y));
+            var wEndPoint = new PointF(Math.Max(vStartPoint.X, vEndPoint.X), Math.Max(vStartPoint.Y, vEndPoint.Y));
+            this.Points = new PointF[3] {
+                wStartPoint,
+                wEndPoint,
+                PointF.Empty, // 中心点は後で設定する
+            };
+        }
+
+        /// <summary>
+        /// 中心点を設定します
+        /// </summary>
+        protected override void SetCenterPoint() {
             float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
             float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
-            this.Points = new PointF[1] {
-                new PointF(wCenterX, wCenterY),
-            };
+            this.Points[2] = new PointF(wCenterX, wCenterY);
+        }
+
+        /// <summary>
+        /// 描画のコア処理
+        /// </summary>
+        protected override void DrawCore(Graphics vGraphics) {
+            using (var wBrush = new SolidBrush(this.Color))
+            using (var wPen = new Pen(C_BorderColor, 2f)) {
+                vGraphics.FillPath(wBrush, this.MainPath);
+                vGraphics.DrawPath(wPen, this.MainPath);
+            }
         }
 
         /// <summary>
