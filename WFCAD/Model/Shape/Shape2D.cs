@@ -63,15 +63,11 @@ namespace WFCAD.Model {
         /// 点を設定します
         /// </summary>
         protected override void SetPoints(PointF vStartPoint, PointF vEndPoint) {
-            PointF wCenterPoint = vStartPoint;
-            if (vStartPoint == vEndPoint) {
-            } else {
-                float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
-                float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
-                wCenterPoint = new PointF(wCenterX, wCenterY);
-            }
+            // 中心点を設定しておく
+            float wCenterX = this.SubPath.PathPoints.Select(x => x.X).Sum() / 4f;
+            float wCenterY = this.SubPath.PathPoints.Select(x => x.Y).Sum() / 4f;
             this.Points = new PointF[1] {
-                wCenterPoint,
+                new PointF(wCenterX, wCenterY),
             };
         }
 
@@ -91,5 +87,38 @@ namespace WFCAD.Model {
         /// 指定した座標が図形内に存在するか
         /// </summary>
         public override bool IsHit(PointF vCoordinate) => this.MainPath.IsVisible(vCoordinate.X, vCoordinate.Y);
+
+        /// <summary>
+        /// 現在の位置種類を設定します
+        /// </summary>
+        protected override void SetLocation() {
+            foreach (IFramePoint wFramPoint in this.FramePoints) {
+                wFramPoint.CurrentLocationKind = null;
+            }
+            // float型で計算すると小数点以下の誤差でずれてしまうことがあるのでint型で比較する
+
+            // 頂点は自身の座標を元に判定
+            // ただし、複数存在する時があるので別方向の座標で確認する
+            IFramePoint wTop = this.FramePoints.OrderBy(x => (int)x.MainPoint.Y).ThenBy(x => (int)x.MainPoint.X).First();
+            IFramePoint wRight = this.FramePoints.OrderByDescending(x => (int)x.MainPoint.X).ThenBy(x => (int)x.MainPoint.Y).First();
+            IFramePoint wBottom = this.FramePoints.OrderByDescending(x => (int)x.MainPoint.Y).ThenByDescending(x => (int)x.MainPoint.X).First();
+            IFramePoint wLeft = this.FramePoints.OrderBy(x => (int)x.MainPoint.X).ThenByDescending(x => (int)x.MainPoint.Y).First();
+            wTop.CurrentLocationKind = FramePointLocationKindEnum.Top;
+            wRight.CurrentLocationKind = FramePointLocationKindEnum.Right;
+            wBottom.CurrentLocationKind = FramePointLocationKindEnum.Bottom;
+            wLeft.CurrentLocationKind = FramePointLocationKindEnum.Left;
+
+            // 中点は中心点との位置を比較してどの象限にいるかを判定
+            int wCenterX = (int)this.CenterPoint.X;
+            int wCenterY = (int)this.CenterPoint.Y;
+            IFramePoint wTopRight = this.FramePoints.Where(x => !x.CurrentLocationKind.HasValue && (int)x.MainPoint.X > wCenterX && (int)x.MainPoint.Y <= wCenterY).Single();
+            IFramePoint wRightBottom = this.FramePoints.Where(x => !x.CurrentLocationKind.HasValue && (int)x.MainPoint.X >= wCenterX && (int)x.MainPoint.Y > wCenterY).Single();
+            IFramePoint wBottomLeft = this.FramePoints.Where(x => !x.CurrentLocationKind.HasValue && (int)x.MainPoint.X < wCenterX && (int)x.MainPoint.Y >= wCenterY).Single();
+            IFramePoint wLeftTop = this.FramePoints.Where(x => !x.CurrentLocationKind.HasValue && (int)x.MainPoint.X <= wCenterX && (int)x.MainPoint.Y < wCenterY).Single();
+            wTopRight.CurrentLocationKind = FramePointLocationKindEnum.TopRight;
+            wRightBottom.CurrentLocationKind = FramePointLocationKindEnum.RightBottom;
+            wBottomLeft.CurrentLocationKind = FramePointLocationKindEnum.BottomLeft;
+            wLeftTop.CurrentLocationKind = FramePointLocationKindEnum.LeftTop;
+        }
     }
 }

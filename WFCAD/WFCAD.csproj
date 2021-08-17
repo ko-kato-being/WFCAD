@@ -92,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Command\AddEllipseCommand.cs" />
+    <Compile Include="Controller\Command\AddLineCommand.cs" />
+    <Compile Include="Controller\Command\AddShape1DCommand.cs" />
+    <Compile Include="Controller\Command\AddShape2DCommand.cs" />
     <Compile Include="Controller\Command\AddShapeCommand.cs" />
     <Compile Include="Controller\Command\BackgroundCommand.cs" />
     <Compile Include="Controller\Command\CloneCommand.cs" />
@@ -115,6 +118,8 @@
     <Compile Include="Model\Frame\FramePoint.cs" />
     <Compile Include="Model\Frame\IFramePoint.cs" />
     <Compile Include="Model\Shape\Ellipse.cs" />
+    <Compile Include="Model\Shape\Line.cs" />
+    <Compile Include="Model\Shape\Shape1D.cs" />
     <Compile Include="Model\Shape\Shape2D.cs" />
     <Compile Include="Test\Model\CanvasTest.cs" />
     <Compile Include="Utilities.cs" />

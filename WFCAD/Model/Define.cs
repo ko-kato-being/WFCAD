@@ -3,6 +3,8 @@
     /// 枠点の位置種類
     /// </summary>
     public enum FramePointLocationKindEnum {
+        Start,       // 始点
+        End,         // 終点
         Top,         // 上
         TopRight,    // 上と右の間
         Right,       // 右

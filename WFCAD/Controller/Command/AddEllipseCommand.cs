@@ -2,7 +2,7 @@
 using WFCAD.Model;
 
 namespace WFCAD.Controller {
-    public class AddEllipseCommand : AddShapeCommand {
+    public class AddEllipseCommand : AddShape2DCommand {
         public AddEllipseCommand(Canvas vCanvas) : base(vCanvas) { }
         public override void SetParams(Point vStartPoint, Point vEndPoint, Color vColor) {
             base.SetParams(vStartPoint, vEndPoint, vColor);

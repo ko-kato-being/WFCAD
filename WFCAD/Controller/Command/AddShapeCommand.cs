@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using WFCAD.Model;
 
@@ -20,7 +22,7 @@ namespace WFCAD.Controller {
             IShape wShape;
             if (FCanvas.IsPreviewing) {
                 wShape = FShape.DeepClone();
-                wShape.FramePoints.Single(x => x.CurrentLocationKind == FramePointLocationKindEnum.Bottom).IsSelected = true;
+                this.SelectDefaultFramePoint(wShape.FramePoints);
             } else {
                 wShape = FShape;
             }
@@ -31,6 +33,8 @@ namespace WFCAD.Controller {
             FCanvas.Shapes.Remove(FShape);
             FCanvas.Draw();
         }
+
+        protected abstract void SelectDefaultFramePoint(IEnumerable<IFramePoint> vFramePoints);
         public abstract IAddShapeCommand Clone();
     }
 }

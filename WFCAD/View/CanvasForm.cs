@@ -52,7 +52,7 @@ namespace WFCAD.View {
 
             FButtonRectangle.Tag = new AddRectangleCommand(FCanvas);
             FButtonEllipse.Tag = new AddEllipseCommand(FCanvas);
-            FButtonLine.Tag = null;
+            FButtonLine.Tag = new AddLineCommand(FCanvas);
         }
 
         #endregion コンストラクタ
